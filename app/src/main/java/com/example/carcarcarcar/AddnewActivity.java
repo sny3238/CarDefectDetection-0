@@ -66,6 +66,9 @@ public class AddnewActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void onCameraButtonClicked(View v) {
+        Intent intent2 = new Intent(AddnewActivity.this, CameraActivity.class);
+        startActivity(intent2);
+
 
     }
 }
