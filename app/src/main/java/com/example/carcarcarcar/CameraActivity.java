@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.RectF;
@@ -46,6 +48,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -61,14 +64,21 @@ import java.util.List;
 
 public class CameraActivity extends Activity {
     Button cameraButton;
+    Button flashButton;
+    Boolean mFlashOn = false;
     LayoutInflater frameInflater = null;
-    List<Integer> listXmlId;
+    List<Integer> listXmlId = Arrays.asList( // list of xml
+            R.layout.frontal1,
+            R.layout.frontal2,
+            R.layout.profile1,
+            R.layout.profile2,
+            R.layout.back1,
+            R.layout.back2,
+            R.layout.profile3,
+            R.layout.profile4);
     ArrayList<String> permissions = new ArrayList<String>();
-
-
-    private RecyclerAdapter adapter = new RecyclerAdapter();
-
-
+    int index = 0;
+    static ArrayList<String> savedImgList = new ArrayList<String>();
 
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -88,7 +98,7 @@ public class CameraActivity extends Activity {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-            // TextureListeneeer 에서 surfaceTexture를 사용가능한 경우, 카메라 오픈
+            // TextureListener 에서 surfaceTexture를 사용가능한 경우, 카메라 오픈
 
             setupCamera(width, height);
             openCamera();
@@ -114,6 +124,7 @@ public class CameraActivity extends Activity {
 
     private CameraDevice mCameraDevice;
     private CameraDevice.StateCallback mCameraDeviceStateCallback = new CameraDevice.StateCallback() {
+        //카메라 상태 콜백
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onOpened(@NonNull CameraDevice camera) {
@@ -153,7 +164,7 @@ public class CameraActivity extends Activity {
                             afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED){
 //                        unlockFocus();
 //                        Toast.makeText(getApplicationContext(), "Focus Lock Success", Toast.LENGTH_SHORT).show();
-                        captureStillImage();
+                        captureStillImage();//촬영
                     }
                     break;
             }
@@ -185,52 +196,88 @@ public class CameraActivity extends Activity {
     private HandlerThread mBackgroundHandlerThread;
     private Handler mBackgroundHandler;
 
-    private File mImageFolder;
+    public static File mImageFolder;
     private String mImageFileName;
     private ImageReader mImageReader;
+    
+    private Boolean flashAvailable;
+
+    public String saveBitmapToJpeg(Context context, byte[] bytes){
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        File storage = context.getCacheDir();
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String prepend = "IMAGE_" + timestamp + "_";
+        String fileName = prepend+".jpg";
+        File tempFile = new File(storage, fileName);
+
+        try{
+            tempFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.close();
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return tempFile.getAbsolutePath();
+    }
 
     private final ImageReader.OnImageAvailableListener mOnImageAvailableListener =
-            new ImageReader.OnImageAvailableListener() {
+            new ImageReader.OnImageAvailableListener() {//camera session으로부터 데이터를 획득하면 해당 정보를 바이트정보로 가져온 후 파일로 저장
                 @Override
                 public void onImageAvailable(ImageReader reader) {
-                    mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage()));
+                    Image image = reader.acquireNextImage();
+                    ByteBuffer byteBuffer = image.getPlanes()[0].getBuffer();
+                    byte[] bytes = new byte[byteBuffer.remaining()];
+                    byteBuffer.get(bytes);
+                    String tempPath = saveBitmapToJpeg(getApplicationContext(), bytes);
+                    Intent saveintent = new Intent(getApplicationContext(), SaveImageActivity.class);
+                    saveintent.setAction("load temp image");
+                    saveintent.putExtra("temppath", tempPath);
+                    saveintent.putExtra("index", index);
+                    image.close();
+                    startActivity(saveintent); // 사진
+
+
+                    //mBackgroundHandler.post(new ImageSaver(image));
                 }
             };
-    private class ImageSaver implements Runnable{
-
-        private final Image mImage;
-
-        private ImageSaver(Image image){
-            mImage = image;
-        }
-
-        @Override
-        public void run() {
-            ByteBuffer byteBuffer = mImage.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[byteBuffer.remaining()];
-            byteBuffer.get(bytes);
-            FileOutputStream fileOutputStream = null;
-
-            try {
-                fileOutputStream = new FileOutputStream(mImageFileName);
-                fileOutputStream.write(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                mImage.close();
-                Intent mediaStoreUpdateIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                mediaStoreUpdateIntent.setData(Uri.fromFile(new File(mImageFileName)));
-                sendBroadcast(mediaStoreUpdateIntent);
-                if(fileOutputStream != null){
-                    try {
-                        fileOutputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
+//    private class ImageSaver implements Runnable{
+//
+//        private final Image mImage;
+//
+//        private ImageSaver(Image image){
+//            mImage = image;
+//        }
+//
+//        @Override
+//        public void run() {
+//            ByteBuffer byteBuffer = mImage.getPlanes()[0].getBuffer();
+//            byte[] bytes = new byte[byteBuffer.remaining()];
+//            byteBuffer.get(bytes);
+//            FileOutputStream fileOutputStream = null;
+//
+//            try {
+//                fileOutputStream = new FileOutputStream(mImageFileName);
+//                fileOutputStream.write(bytes);  //사진 저장
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                mImage.close();
+//                Intent mediaStoreUpdateIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//                mediaStoreUpdateIntent.setData(Uri.fromFile(new File(mImageFileName)));
+//                sendBroadcast(mediaStoreUpdateIntent);
+//                if(fileOutputStream != null){
+//                    try {
+//                        fileOutputStream.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
+//    }
     private String mCameraId;
     private Size mPreviewSize;
 
@@ -249,7 +296,13 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-
+        Intent intent = getIntent();
+        boolean back_flag = intent.getBooleanExtra("back", false);
+        if(back_flag)
+            mFlashOn = false;
+        String imagepath = intent.getStringExtra("temppath");
+        savedImgList.add(imagepath);
+        index = intent.getIntExtra("index", 0);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -259,7 +312,6 @@ public class CameraActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_camera);
         createImageFolder();
-        int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
 
         mTextureView = (TextureView) findViewById(R.id.textureView);
 
@@ -274,70 +326,38 @@ public class CameraActivity extends Activity {
             }
         });
 
-        Recycler_init();
-        getData();
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
+            Toast.makeText(getApplicationContext(), "플래시 기능을 지원하지 않는 기기입니다.", Toast.LENGTH_SHORT).show();
 
-        final View[] viewControl = new View[1];
+        }
 
-        adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+        flashButton = (Button) findViewById(R.id.flash);
+        flashButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onItemClick(View v, int pos) {
-                if(viewControl[0] != null)
-                    viewControl[0].setVisibility(View.GONE);
-                frameInflater = LayoutInflater.from(getBaseContext());
-                viewControl[0] = frameInflater.inflate(listXmlId.get(pos), null);
-                WindowManager.LayoutParams layoutParamsControl
-                        = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
-                        WindowManager.LayoutParams.MATCH_PARENT);
-                addContentView(viewControl[0], layoutParamsControl);
+            public void onClick(View v) {
+                switchFlash();
+
             }
         });
 
+        //Recycler_init();
+        // getData();
+
+        final View[] viewControl = new View[1];
+        if(viewControl[0] != null)
+            viewControl[0].setVisibility(View.GONE);
+        frameInflater = LayoutInflater.from(getBaseContext());
+        viewControl[0] = frameInflater.inflate(listXmlId.get(index), null);
+        WindowManager.LayoutParams layoutParamsControl
+                = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+        addContentView(viewControl[0], layoutParamsControl);
+
+
 
 
     }
-    private void Recycler_init(){
-        // init RecyclerView
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapter();
-        recyclerView.setAdapter(adapter);
 
-    }
-    private void getData(){
-        List<Integer> listResId = Arrays.asList(
-                R.drawable.frontal1,
-                R.drawable.frontal2,
-                R.drawable.back1,
-                R.drawable.back2,
-                R.drawable.profile1,
-                R.drawable.profile2,
-                R.drawable.profile3,
-                R.drawable.profile4
-        );
-        listXmlId = Arrays.asList(
-                R.layout.frontal1,
-                R.layout.frontal2,
-                R.layout.back1,
-                R.layout.back2,
-                R.layout.profile1,
-                R.layout.profile2,
-                R.layout.profile3,
-                R.layout.profile4
-        );
-
-        for (int i=0; i<listResId.size(); i++){
-            Data data_img = new Data();
-            Data data_xml = new Data();
-            data_img.setResId(listResId.get(i));
-            data_xml.setResId(listXmlId.get(i));
-            adapter.addItem(data_img);
-            adapter.addXml(data_xml);
-        }
-
-        adapter.notifyDataSetChanged();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -388,7 +408,7 @@ public class CameraActivity extends Activity {
                         ImageFormat.JPEG,
                         1);
                 mImageReader.setOnImageAvailableListener(mOnImageAvailableListener,
-                        mBackgroundHandler);
+                        mBackgroundHandler);//Images 호출
 
                 mPreviewSize = getPreferredPreviewSize(map.getOutputSizes(SurfaceTexture.class), width, height);
                 mCameraId = cameraId;
@@ -458,6 +478,7 @@ public class CameraActivity extends Activity {
     private void lockFocus(){
         try{
             mState = STATE_WAIT_LOCK;
+            mPreviewCaptureRequestBuilder.set(CaptureRequest.FLASH_MODE, mFlashOn ? CaptureRequest.FLASH_MODE_TORCH : CaptureRequest.FLASH_MODE_OFF);
             mPreviewCaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START);
             mCameraCaptureSession.capture(mPreviewCaptureRequestBuilder.build(),
                     mSessionCaptureCallback, mBackgroundHandler);
@@ -467,12 +488,19 @@ public class CameraActivity extends Activity {
 
     }
 
+    private final Runnable mDelayPreviewRunnable = new Runnable(){
+        @Override
+        public void run() {
+            createCameraPreviewSession();
+        }
+    };
 
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void captureStillImage(){
         try {
+            final Handler delayPreview = new Handler();
             CaptureRequest.Builder captureStillBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureStillBuilder.addTarget(mImageReader.getSurface());
 
@@ -485,14 +513,21 @@ public class CameraActivity extends Activity {
                         @Override
                         public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
                             super.onCaptureStarted(session, request, timestamp, frameNumber);
-                            Toast.makeText(getApplicationContext(), "Image captured", Toast.LENGTH_SHORT).show();
 
-                            try {
-                                createImageFileName();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//
+//                                createImageFileName();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
                         }
+                        @Override
+                        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+                            super.onCaptureCompleted(session, request, result);
+
+
+                        }
+
                     };
             mCameraCaptureSession.capture(
                     captureStillBuilder.build(), captureCallback, null);
@@ -543,7 +578,16 @@ public class CameraActivity extends Activity {
 
                 return;
             }
-
+            for(String id : cameraManager.getCameraIdList()) {
+                CameraCharacteristics c = cameraManager.getCameraCharacteristics(id);
+                flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+                Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
+                if (flashAvailable != null && flashAvailable && lensFacing != null
+                        && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
+                    mCameraId = id;
+                    break;
+                }
+            }
             // 카메라 오픈. StateCallback은 카메라가 제대로 연결되어있는지 확인. 카메라 프리뷰 생성
             cameraManager.openCamera(mCameraId, mCameraDeviceStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e){
@@ -566,7 +610,7 @@ public class CameraActivity extends Activity {
             mPreviewCaptureRequestBuilder.addTarget(previewSurface);
 
             //onConfigured 상태가 확인되면 CameraCaptureSession을 통해 미리보기를 보여줌.
-            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface, mImageReader.getSurface()),
+            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface, mImageReader.getSurface()),//surface로 이루어진 list
                     new CameraCaptureSession.StateCallback() {
                         @Override
                         public void onConfigured(@NonNull CameraCaptureSession session) {
@@ -618,6 +662,29 @@ public class CameraActivity extends Activity {
         File imageFile = File.createTempFile(prepend, ".jpg", mImageFolder);
         mImageFileName = imageFile.getAbsolutePath();
         return imageFile;
+    }
+
+    private void switchFlash(){
+
+        try{
+            if(mFlashOn){
+                Toast.makeText(getApplicationContext(), "flash off", Toast.LENGTH_SHORT).show();
+                mFlashOn = false;
+                mPreviewCaptureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureResult.FLASH_MODE_OFF);
+                mCameraCaptureSession.setRepeatingRequest(mPreviewCaptureRequestBuilder.build(), null, mBackgroundHandler);
+
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "flash on", Toast.LENGTH_SHORT).show();
+                mFlashOn = true;
+                mPreviewCaptureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+                mCameraCaptureSession.setRepeatingRequest(mPreviewCaptureRequestBuilder.build(), null, mBackgroundHandler);
+
+            }
+        } catch(CameraAccessException e){
+            e.printStackTrace();
+        }
+
     }
 
 

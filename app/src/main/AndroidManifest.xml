@@ -18,8 +18,11 @@
         <activity android:name=".AddnewActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".CameraActivity" />
+        <activity android:name=".CameraActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".LaunchActivity" />
+        <activity android:name=".SaveImageActivity"
+            android:screenOrientation="landscape"/>
 
 
         <activity

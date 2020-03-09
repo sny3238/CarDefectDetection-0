@@ -9,39 +9,18 @@
     tools:context=".CameraActivity">
 
 
-    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+    <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="92dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/flash"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/textureView"
-        app:layout_constraintRight_toRightOf="parent"
-        />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
-
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/textureView"
-        app:layout_constraintRight_toRightOf="parent"
-
-        app:layout_constraintStart_toEndOf="@+id/textureView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextureView
         android:id="@+id/textureView"
@@ -52,5 +31,16 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/flash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flash"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/textureView"
+        app:layout_constraintRight_toRightOf="@+id/button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
