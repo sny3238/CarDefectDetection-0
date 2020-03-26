@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".returninfo">
+    tools:context=".PastHistoryActivity">
+
 
     <TextView
         android:id="@+id/textView4"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
-        android:text="상세 이용 내역"
+        android:text="지난 이용 내역"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +24,7 @@
         android:layout_height="84dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:text="날짜 : 2019년 2월 3일\n사용시간 : 3시간\n기종 : 티볼리\n번호 12가1234  "
+        android:text="날짜 : 2019년 1월 5일\n사용시간 : 3시간\n기종 : SM3\n번호 52가1234  "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -33,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="200dp"
-        android:layout_marginBottom="100dp"
         android:fillViewport="true"
         android:gravity="center"
         android:orientation="vertical"
@@ -90,6 +90,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/profile1_pic" />
+
             <TextView
                 android:id="@+id/textview_profile2"
                 android:layout_width="match_parent"
@@ -104,6 +105,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/profile2_pic" />
+
             <TextView
                 android:id="@+id/textview_profile3"
                 android:layout_width="match_parent"
@@ -118,6 +120,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/profile3_pic" />
+
             <TextView
                 android:id="@+id/textview_profile4"
                 android:layout_width="match_parent"
@@ -134,11 +137,11 @@
                 android:src="@drawable/profile4_pic" />
 
             <TextView
-            android:id="@+id/textview_back1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="후면 상단"
-            android:textSize="30sp" />
+                android:id="@+id/textview_back1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="후면 상단"
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/imageview_back1"
@@ -147,6 +150,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/back1_pic" />
+
             <TextView
                 android:id="@+id/textview_back2"
                 android:layout_width="match_parent"
@@ -165,18 +169,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-
-    <Button
-        android:id="@+id/returnpicBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:onClick="onCameraButtonClicked"
-        android:text="사진찍고 \n 차량 반납하기"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

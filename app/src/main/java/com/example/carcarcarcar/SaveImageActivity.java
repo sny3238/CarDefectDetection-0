@@ -15,16 +15,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.core.content.FileProvider;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class SaveImageActivity extends Activity {
     ImageView imageView;
@@ -100,10 +95,11 @@ public class SaveImageActivity extends Activity {
                     }
                 }
                 if (index == 8) {
-                    cameraintent = new Intent(getApplicationContext(), HistoryActivity.class);
+                    cameraintent = new Intent(getApplicationContext(), returninfo.class);
                     cameraintent.putExtra("savedImgList", savedImgList);
                     //받을때 ArrayList<String> data = intent.getSerializableExtra("savedImgList");
                     startActivity(cameraintent);
+
 
                 } else {
                     cameraintent = new Intent(getApplicationContext(), CameraActivity.class);
@@ -134,4 +130,5 @@ public class SaveImageActivity extends Activity {
         back_intent.putExtra("back", true);
         startActivity(back_intent);
     }
+
 }

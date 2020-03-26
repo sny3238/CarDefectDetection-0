@@ -1,16 +1,10 @@
 package com.example.carcarcarcar;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HistoryActivity extends AppCompatActivity  {
 
@@ -40,6 +34,12 @@ public class HistoryActivity extends AppCompatActivity  {
     public void onreturnButtonClicked(View v) {
         Intent intent = new Intent(this, returninfo.class);
         startActivity(intent);
+    }
+    public void onCameraButtonClicked(View v) {
+        Intent intent2 = new Intent(HistoryActivity.this, CameraActivity.class);
+        startActivity(intent2);
+
+
     }
 
 
