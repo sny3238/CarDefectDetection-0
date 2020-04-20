@@ -24,6 +24,9 @@ import com.example.carcarcarcar.R;
 
 public class LoginActivity extends AppCompatActivity {
 
+    String passwd;
+    String userid;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,23 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
-        TextWatcher afterTextChangedListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
+        userid = usernameEditText.getText().toString(); //userid에 입력받은 아이디 저장
+        passwd = passwordEditText.getText().toString(); //password에 입력받은 비밀번호 저장
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 //퍼미션
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //퍼미션 상태 확인
             if (!hasPermissions(PERMISSIONS)) {
@@ -74,12 +65,13 @@ public class LoginActivity extends AppCompatActivity {
                 //퍼미션 허가 안되어있다면 사용자에게 요청
                 requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
             }else{
-               Intent mainIntent = new Intent(LoginActivity.this, LoginActivity.class);
-               startActivity(mainIntent);
-               finish();
+
             }
         }
+
     }
+
+
 
 
     static final int PERMISSIONS_REQUEST_CODE = 1000;
@@ -123,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                         showDialogForPermission("앱을 실행하려면 접근권한을 허용하셔야합니다.");
                     else
                     {
-                        Intent mainIntent = new Intent(LoginActivity.this, LoginActivity.class);
+                        Intent mainIntent = new Intent(this, LoginActivity.class);
                         startActivity(mainIntent);
                         finish();
                     }

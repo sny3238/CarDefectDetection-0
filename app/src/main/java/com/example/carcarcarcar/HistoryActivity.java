@@ -39,6 +39,10 @@ public class HistoryActivity extends AppCompatActivity  {
         Intent intent2 = new Intent(HistoryActivity.this, CameraActivity.class);
         startActivity(intent2);
 
+    }
+    public void pasthistoryClicked(View v) {
+        Intent intent3 = new Intent(HistoryActivity.this, PastHistoryActivity.class);
+        startActivity(intent3);
 
     }
 
