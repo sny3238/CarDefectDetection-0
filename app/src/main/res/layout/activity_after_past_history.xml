@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 현재 이용중인 내역의 대여 후 차량 사진을 보여주는 액티비티, 전후사진 비교하는 버튼 누르면 compare activity로-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".returninfo">
+    tools:context=".AfterPastHistory">
 
     <TextView
         android:id="@+id/textView4"
@@ -17,27 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:id="@+id/carnumtextview"
-        android:layout_width="271dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="80dp"
-        android:text="날짜 : 2019년 2월 3일 "
-        app:layout_constraintBottom_toTopOf="@+id/scrollView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carnumtextview" />
-
     <TextView
         android:id="@+id/carnumtextview"
         android:layout_width="269dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:text="차량 번호 : 12가1234  "
+        android:layout_height="84dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="날짜 : 2019년 2월 3일\n사용시간 : 3시간\n기종 : 티볼리\n번호 12가1234  "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -145,11 +135,11 @@
                 android:src="@drawable/profile4_pic" />
 
             <TextView
-            android:id="@+id/textview_back1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="후면 상단"
-            android:textSize="30sp" />
+                android:id="@+id/textview_back1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="후면 상단"
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/imageview_back1"
@@ -179,15 +169,16 @@
 
 
     <Button
-        android:id="@+id/returnpicBtn"
+        android:id="@+id/compareBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:onClick="onCameraButtonClicked"
-        android:text="사진찍고 \n 차량 반납하기"
+        android:onClick="onCompareButtonClicked"
+        android:text="전 후 사진\n비교하기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

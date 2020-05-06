@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 과거 내역과 현재 이용중인 내역 목록을 보여주는 액티비티-->
+<!-- 현재 이용중인 내역은 beforePast activity로, 과거 내역은 compare activity로 이동-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +17,7 @@
 
         android:text="이용 중인 내역"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintBottom_toTopOf="@+id/carnumtextview"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -30,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/carnumtextview"
         android:layout_width="262dp"
         android:layout_height="55dp"
         android:layout_marginStart="24dp"
@@ -57,13 +59,12 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="440dp"
         android:accessibilityHeading="false"
+        android:onClick="completedhistory"
         android:text="2019년 1월 31일 \nK5"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="pasthistoryClicked"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/returnBtn"
@@ -73,9 +74,9 @@
         android:layout_marginBottom="5dp"
         android:onClick="onreturnButtonClicked"
         android:text="반납하기"
-        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintBottom_toBottomOf="@+id/carnumtextview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView9" />
+        app:layout_constraintStart_toEndOf="@+id/carnumtextview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
