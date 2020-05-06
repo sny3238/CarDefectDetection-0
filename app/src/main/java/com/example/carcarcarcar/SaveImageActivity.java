@@ -29,6 +29,9 @@ public class SaveImageActivity extends Activity {
     private File mImageFolder;
     private int index = 0;
     Bitmap bitmap;
+
+    String newPath = "";
+
     static ArrayList<String> savedImgList = new ArrayList<String>();
 
     public void onCreate(final Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class SaveImageActivity extends Activity {
 
         Intent intent = getIntent();
 
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -48,12 +51,14 @@ public class SaveImageActivity extends Activity {
         nextButton = (Button) findViewById(R.id.nextButton);
 
         if (intent.getAction().equals("load temp image")) {
+
             imagepath = intent.getStringExtra("temppath");
             index = intent.getIntExtra("index", 0);
             bitmap = BitmapFactory.decodeFile(imagepath);
             imageView.setImageBitmap(bitmap);
 
         }
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,9 +70,34 @@ public class SaveImageActivity extends Activity {
             public void onClick(View v) {
                 Intent cameraintent;
                 FileOutputStream fileOutputStream = null;
-                String newPath = "";
+
                 File f = new File(imagepath);
-                newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(), f.getName()));
+                String position;
+
+                switch(index){
+
+                    case 0:
+                        position = "front_top";
+                    case 1:
+                        position = "front_front";
+                    case 2:
+                        position = "right_front";
+                    case 3:
+                        position = "right_back";
+                    case 4:
+                        position = "back_top";
+                    case 5:
+                        position = "back_front";
+                    case 6:
+                        position = "left_back";
+                    default:
+                        position = "left_front";
+                }
+
+                String filename = f.getName();
+                String newname = filename.substring(0, filename.lastIndexOf("."))
+                        + position + ".jpg";
+                newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(),newname));
                 File newFile = new File(newPath);
 
 
@@ -87,6 +117,7 @@ public class SaveImageActivity extends Activity {
                     mediaStoreUpdateIntent.setData(Uri.fromFile(newFile));
                     sendBroadcast(mediaStoreUpdateIntent);
                     if (fileOutputStream != null) {
+
                         try {
                             fileOutputStream.close();
                         } catch (IOException e) {
@@ -95,13 +126,14 @@ public class SaveImageActivity extends Activity {
                     }
                 }
                 if (index == 8) {
-                    cameraintent = new Intent(getApplicationContext(), returninfo.class);
+                    cameraintent = new Intent(getApplicationContext(), BeforePastHistory.class);
                     cameraintent.putExtra("savedImgList", savedImgList);
                     //받을때 ArrayList<String> data = intent.getSerializableExtra("savedImgList");
                     startActivity(cameraintent);
 
 
                 } else {
+
                     cameraintent = new Intent(getApplicationContext(), CameraActivity.class);
                     cameraintent.putExtra("file path", f.getAbsolutePath());
                     cameraintent.putExtra("index", index);
