@@ -86,13 +86,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (result) {
                         Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                        //Histpry Activity로 user id uri intent 전달
-                        Intent intent2 = new Intent(LoginActivity.this, HistoryActivity.class);
-                        intent2.putExtra("user_id",userid);
-                        startActivity(intent2);
 
                         //로그인 성공하면 Menu Activity로 전환
                         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                        intent.putExtra("user_id",userid);
                         startActivity(intent);
 
                     } else {
@@ -149,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    //이 아래로는 모두 퍼미션 관련 코드(수정x)
+    //이 아래로는 모두 퍼미션 관련 코드
     static final int PERMISSIONS_REQUEST_CODE = 1000;
     String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 

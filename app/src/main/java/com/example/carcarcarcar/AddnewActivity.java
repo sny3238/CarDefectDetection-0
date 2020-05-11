@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.carcarcarcar.ui.login.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,12 +44,15 @@ public class AddnewActivity extends AppCompatActivity {
     SimpleDateFormat forma = new SimpleDateFormat("yyyy-MM-dd");
 
     String currentdate = forma.format(date); //currentdate에 yyyy-mm-dd 형식으로 날짜 저장
-    private TextView carid;
+    private TextView caridtv;
     private RequestQueue queue;
     private ImageButton camerabtn;
+    private String carid;
 
     private String cartype;
     private Boolean result;
+    private String rentid;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +60,14 @@ public class AddnewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addnew);
 
         getSupportActionBar().hide();
+        Intent getintent = getIntent();
+        userid = getintent.getStringExtra("user_id");
+
 
         final EditText carnumberEditText = findViewById(R.id.carnumber);
         Spinner spinner = (Spinner) findViewById(R.id.carmodel);
-        carid = findViewById(R.id.carnumber);
+        caridtv = findViewById(R.id.carnumber);
+        carid = caridtv.getText().toString();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -88,7 +96,7 @@ public class AddnewActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         String url = "http://localhost:3000/findCar";
 
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsonRequest1 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -110,7 +118,7 @@ public class AddnewActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("car_id", carid.getText().toString());
+                params.put("car_id", carid);
                 return params;
             }
         };
@@ -118,10 +126,48 @@ public class AddnewActivity extends AppCompatActivity {
         camerabtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                queue.add(jsonRequest);
+                queue.add(jsonRequest1);
+
+
+                String url = "http://localhost:3000/startRent";
+
+                final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            result = response.getBoolean("result");
+                            rentid = response.getString("rent_id");
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("car_id", carid);
+                        params.put("user_id", userid);
+                        return params;
+                    }
+                };
 
                 Intent intent = new Intent(AddnewActivity.this, CameraActivity.class);
+                intent.putExtra("user_id",userid);
+                intent.putExtra("car_id",carid);
+                intent.putExtra("rent_id",rentid);
                 startActivity(intent);
+
+
+                queue.add(jsonRequest2);
+
             }
         });
 

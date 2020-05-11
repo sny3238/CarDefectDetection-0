@@ -197,6 +197,8 @@ public class CameraActivity extends Activity {
     
     private Boolean flashAvailable;
 
+    private String userid, rentid,carid;
+
     public String saveBitmapToJpeg(Context context, byte[] bytes){
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         File storage = context.getCacheDir();
@@ -231,6 +233,10 @@ public class CameraActivity extends Activity {
                     saveintent.setAction("load temp image");
                     saveintent.putExtra("temppath", tempPath);
                     saveintent.putExtra("index", index);
+                    saveintent.putExtra("user_id",userid);
+                    saveintent.putExtra("car_id",carid);
+                    saveintent.putExtra("rent_id",rentid);
+
                     image.close();
                     startActivity(saveintent); // 사진
 
@@ -300,6 +306,9 @@ public class CameraActivity extends Activity {
         index = intent.getIntExtra("index", 0);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        userid = getIntent().getStringExtra("user_id");
+        carid = getIntent().getStringExtra("car_id");
+        rentid = getIntent().getStringExtra("rent_id");
 
 
         // 화면 켜진 상태를 유지
@@ -347,7 +356,6 @@ public class CameraActivity extends Activity {
                 = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT);
         addContentView(viewControl[0], layoutParamsControl);
-
 
 
 
