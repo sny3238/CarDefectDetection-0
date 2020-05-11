@@ -3,26 +3,64 @@ package com.example.carcarcarcar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class BeforePastHistory extends AppCompatActivity {
     private File mImageFolder;
+    private String carid,rentid,userid,rentdate,returndate, before_after;
+    private Boolean result;
+
+    private static final String TAG = "MAIN";
+
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_past_history);
         getSupportActionBar().hide();
+
+        Intent getintent = getIntent();
+        userid = getIntent().getStringExtra("user_id");
+        carid = getIntent().getStringExtra("car_id");
+        rentid = getIntent().getStringExtra("rent_id");
+        returndate = getintent.getStringExtra("return_date");
 
         ImageView imageview_frontal1 = findViewById(R.id.imageview_frontal1);
         ImageView imageview_frontal2 = findViewById(R.id.imageview_frontal2);
@@ -32,6 +70,9 @@ public class BeforePastHistory extends AppCompatActivity {
         ImageView imageView_profile4 = findViewById(R.id.imageview_profile4);
         ImageView imageView_back1 = findViewById(R.id.imageview_back1);
         ImageView imageView_back2 = findViewById(R.id.imageview_back2);
+
+        Image[] carPhotos = new Image [7];
+        //이미지 넣기
 
         try { //uri 경로의 이미지 파일을 로드
             String newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath()));
@@ -60,13 +101,58 @@ public class BeforePastHistory extends AppCompatActivity {
             Uri uri8 = Uri.parse("file:///" + Environment.getExternalStorageDirectory() + newPath + "left_front.jpg");
             imageView_back2.setImageURI(uri8);
 
-
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        queue = Volley.newRequestQueue(this);
+        String url = "http://localhost:3000/test_respond";
+        JSONObject body = new JSONObject();
+
+        try {
+            body.put("before_after", before_after);
+            body.put("rent_id",rentid);
+            body.put("car+photos",carPhotos);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    result = response.getBoolean("result");
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        jsonRequest.setTag(TAG);
+
+
+
+
     }
+    /*public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }*/
+
     public void onCameraButtonClicked(View v){
         Intent intent2 = new Intent(this, CameraActivity.class);
         startActivity(intent2);
+
     }
 }

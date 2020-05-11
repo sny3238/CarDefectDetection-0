@@ -12,14 +12,29 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SaveImageActivity extends Activity {
     ImageView imageView;
@@ -32,6 +47,9 @@ public class SaveImageActivity extends Activity {
 
     String newPath = "";
 
+    private RequestQueue queue = Volley.newRequestQueue(this);
+    private Boolean result;
+    private String rentid,userid,carid;
     static ArrayList<String> savedImgList = new ArrayList<String>();
 
     public void onCreate(final Bundle savedInstanceState) {
@@ -39,6 +57,11 @@ public class SaveImageActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
+
+        userid = getIntent().getStringExtra("user_id");
+        carid = getIntent().getStringExtra("car_id");
+        rentid = getIntent().getStringExtra("rent_id");
+
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -126,8 +149,12 @@ public class SaveImageActivity extends Activity {
                     }
                 }
                 if (index == 8) {
+
                     cameraintent = new Intent(getApplicationContext(), BeforePastHistory.class);
                     cameraintent.putExtra("savedImgList", savedImgList);
+                    cameraintent.putExtra("user_id",userid);
+                    cameraintent.putExtra("car_id",carid);
+                    cameraintent.putExtra("rent_id",rentid);
                     //받을때 ArrayList<String> data = intent.getSerializableExtra("savedImgList");
                     startActivity(cameraintent);
 
@@ -138,11 +165,14 @@ public class SaveImageActivity extends Activity {
                     cameraintent.putExtra("file path", f.getAbsolutePath());
                     cameraintent.putExtra("index", index);
 
+
                     startActivity(cameraintent);
                 }
 
             }
         });
+
+
 
     }
 

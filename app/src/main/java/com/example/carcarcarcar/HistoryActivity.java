@@ -40,7 +40,6 @@ public class HistoryActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_history);
         getSupportActionBar().hide();
 
-        //Login Activity에서 user id 받아오는 intent
         Intent intent = getIntent();
         userId = getIntent().getStringExtra("user_id");
 
@@ -106,6 +105,11 @@ public class HistoryActivity extends AppCompatActivity  {
 
     public void onreturnButtonClicked(View v) {
         Intent intent = new Intent(this, BeforePastHistory.class);
+        intent.putExtra("rent_id",rentId);
+        intent.putExtra("return_date",returnDate);
+        intent.putExtra("car_id",carId);
+        intent.putExtra("rent_date",rentDate);
+        //intent.putExtra("new_defects",newDefects);
         startActivity(intent);
     }
     public void onCameraButtonClicked(View v) {
@@ -114,13 +118,18 @@ public class HistoryActivity extends AppCompatActivity  {
 
     }
     public void pasthistoryClicked(View v) {
-        Intent intent3 = new Intent(HistoryActivity.this, BeforePastHistory.class);
+        Intent intent3 = new Intent(HistoryActivity.this, AfterPastHistory.class);
+        intent3.putExtra("rent_id",rentId);
+        intent3.putExtra("return_date",returnDate);
+        intent3.putExtra("car_id",carId);
+        intent3.putExtra("rent_date",rentDate);
         startActivity(intent3);
 
     }
     public void completedhistory(View v) {
-        Intent intent = new Intent(this, CompareActivity.class);
-        startActivity(intent);
+        Intent intent4 = new Intent(this, CompareActivity.class);
+        intent4.putExtra("rent_id",rentId);
+        startActivity(intent4);
     }
 
 
