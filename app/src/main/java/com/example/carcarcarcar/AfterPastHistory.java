@@ -21,16 +21,14 @@ import java.util.Map;
 
 public class AfterPastHistory extends AppCompatActivity {
 
-
     private RequestQueue queue;
 
     private String rentid,beforeafter;
 
     private Boolean result;
     private String label,part;
-    private Number topx, topy, btmx, btmy;
+    private Integer topx, topy, btmx, btmy;
     private JSONObject predictions,defects;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +38,9 @@ public class AfterPastHistory extends AppCompatActivity {
 
         Intent getintent = getIntent();
         rentid=getintent.getStringExtra("rent_id");
-        beforeafter = getintent.getStringExtra("before_after"); //
-
+        beforeafter = getintent.getStringExtra("before_after"); //beforeafter 받아오기
     }
+
     public void onCompareButtonClicked(View v){
         String url = "http://localhost:3000/yolo";
 
