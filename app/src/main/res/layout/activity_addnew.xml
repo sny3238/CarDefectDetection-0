@@ -90,7 +90,6 @@
         android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
         android:background="#FAFFFFFF"
-        android:onClick="onCameraButtonClicked"
         android:scaleType="fitCenter"
         android:src="@drawable/cameraicon"
         app:layout_constraintBottom_toTopOf="@+id/textView7"

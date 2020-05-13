@@ -5,6 +5,7 @@ import android.graphics.Camera;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -54,11 +55,14 @@ public class AddnewActivity extends AppCompatActivity {
     private String rentid;
     private String userid;
 
+    private int state = 0; // 0: before   1 : after
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addnew);
 
+        camerabtn = findViewById(R.id.camerabutton);
         getSupportActionBar().hide();
         Intent getintent = getIntent();
         userid = getintent.getStringExtra("user_id");
@@ -123,50 +127,56 @@ public class AddnewActivity extends AppCompatActivity {
             }
         };
 
+
         camerabtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                queue.add(jsonRequest1);
-
+//                queue.add(jsonRequest1);
 
                 String url = "http://localhost:3000/startRent";
 
-                final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            result = response.getBoolean("result");
-                            rentid = response.getString("rent_id");
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("car_id", carid);
-                        params.put("user_id", userid);
-                        return params;
-                    }
-                };
+//                final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        try {
+//                            result = response.getBoolean("result");
+//                            rentid = response.getString("rent_id");
+//                        }
+//                        catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                    }
+//                }) {
+//                    @Override
+//                    protected Map<String, String> getParams() throws AuthFailureError {
+//                        Map<String, String> params = new HashMap<String, String>();
+//                        params.put("car_id", carid);
+//                        params.put("user_id", userid);
+//                        return params;
+//                    }
+//                };
 
                 Intent intent = new Intent(AddnewActivity.this, CameraActivity.class);
-                intent.putExtra("user_id",userid);
-                intent.putExtra("car_id",carid);
-                intent.putExtra("rent_id",rentid);
+
+///                 intent.putExtra("user_id",userid);
+////                intent.putExtra("car_id",carid);
+////                intent.putExtra("rent_id",rentid);
+
+                intent.putExtra("user_id","ewha");
+                intent.putExtra("car_id","0000");
+                intent.putExtra("rent_id","1234");
+                intent.putExtra("state", state);
                 startActivity(intent);
 
 
-                queue.add(jsonRequest2);
+//                queue.add(jsonRequest2);
 
             }
         });

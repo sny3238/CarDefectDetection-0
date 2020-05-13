@@ -30,6 +30,8 @@ public class AfterPastHistory extends AppCompatActivity {
     private Integer topx, topy, btmx, btmy;
     private JSONObject predictions,defects;
 
+    private int state = 1;  // 0 : before  1 : after
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,7 @@ public class AfterPastHistory extends AppCompatActivity {
         queue.add(jsonRequest);
 
         Intent intent2 = new Intent(this, CompareActivity.class);
+        intent2.putExtra("state", state);
         startActivity(intent2);
 
 

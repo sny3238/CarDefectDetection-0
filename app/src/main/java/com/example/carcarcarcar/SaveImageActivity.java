@@ -1,19 +1,25 @@
 package com.example.carcarcarcar;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +37,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,23 +51,33 @@ public class SaveImageActivity extends Activity {
     private File mImageFolder;
     private int index = 0;
     Bitmap bitmap;
+    int done=0;
 
     String newPath = "";
 
-    private RequestQueue queue = Volley.newRequestQueue(this);
+//    private RequestQueue queue = Volley.newRequestQueue(this);
     private Boolean result;
     private String rentid,userid,carid;
-    static ArrayList<String> savedImgList = new ArrayList<String>();
+    private int state;  // 0 : before, 1 : after
+
+
+    BackgroundTask task;
+    LoadingDialog loadingDialog;
+    Intent cameraintent;
+
 
     public void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //final LoadingDialog loadingDialog = new LoadingDialog(SaveImageActivity.this);
+
 
         Intent intent = getIntent();
 
         userid = getIntent().getStringExtra("user_id");
         carid = getIntent().getStringExtra("car_id");
         rentid = getIntent().getStringExtra("rent_id");
+        state = getIntent().getIntExtra("state", 0);
 
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -82,6 +99,8 @@ public class SaveImageActivity extends Activity {
 
         }
 
+
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,83 +110,95 @@ public class SaveImageActivity extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraintent;
-                FileOutputStream fileOutputStream = null;
 
-                File f = new File(imagepath);
-                String position;
-
-                switch(index){
-
-                    case 0:
-                        position = "front_top";
-                    case 1:
-                        position = "front_front";
-                    case 2:
-                        position = "right_front";
-                    case 3:
-                        position = "right_back";
-                    case 4:
-                        position = "back_top";
-                    case 5:
-                        position = "back_front";
-                    case 6:
-                        position = "left_back";
-                    default:
-                        position = "left_front";
-                }
-
-                String filename = f.getName();
-                String newname = filename.substring(0, filename.lastIndexOf("."))
-                        + position + ".jpg";
-                newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(),newname));
-                File newFile = new File(newPath);
+//                FileOutputStream fileOutputStream = null;
+//
+//
+//                //File f =  new File(imagepath);
+//                String position;
+//
+//                if(index == 0) position = "ft";
+//                else if(index == 1) position = "ff";
+//                else if(index == 2) position = "rf";
+//                else if(index == 3)position = "rb";
+//                else if(index == 4) position = "bt";
+//                else if(index == 5) position = "bf";
+//                else if(index == 6) position = "lb";
+//                else position = "lf";
+//
+//                String car_state;
+//                if(state == 0)
+//                    car_state = "b";
+//                else
+//                    car_state = "a";
+//
+//                String newname = rentid + "_"+ position + "_" + car_state +  ".png";
+//                newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(),newname));
+//                final File newFile = new File(newPath);
+//                System.out.println("#################" + newPath);
 
 
-                try {//사진 저장
-                    fileOutputStream = new FileOutputStream(newFile);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
-                    Toast.makeText(getApplicationContext(), "사진이 저장되었습니다.", Toast.LENGTH_SHORT).show();
-                    index++; // count the number of pics. All pics should be 8 pictures.
-                    savedImgList.add(newPath);
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
+                task = new BackgroundTask();
+                task.execute(bitmap);
+                Toast.makeText(getApplicationContext(), "사진이 저장되었습니다. " + index, Toast.LENGTH_SHORT).show();
 
-                    Intent mediaStoreUpdateIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    mediaStoreUpdateIntent.setData(Uri.fromFile(newFile));
-                    sendBroadcast(mediaStoreUpdateIntent);
-                    if (fileOutputStream != null) {
-
-                        try {
-                            fileOutputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+                index++; // count the number of pics. All pics should be 8 pictures.
                 if (index == 8) {
-
-                    cameraintent = new Intent(getApplicationContext(), BeforePastHistory.class);
-                    cameraintent.putExtra("savedImgList", savedImgList);
+                    if(state == 0)
+                        cameraintent = new Intent(getApplicationContext(), BeforePastHistory.class);
+                    else
+                        cameraintent = new Intent(getApplicationContext(), AfterPastHistory.class);
                     cameraintent.putExtra("user_id",userid);
                     cameraintent.putExtra("car_id",carid);
                     cameraintent.putExtra("rent_id",rentid);
-                    //받을때 ArrayList<String> data = intent.getSerializableExtra("savedImgList");
-                    startActivity(cameraintent);
+
+
+
+
+
 
 
                 } else {
 
                     cameraintent = new Intent(getApplicationContext(), CameraActivity.class);
-                    cameraintent.putExtra("file path", f.getAbsolutePath());
+                    //cameraintent.putExtra("file path", f.getAbsolutePath());
                     cameraintent.putExtra("index", index);
+                    cameraintent.putExtra("user_id",userid);
+                    cameraintent.putExtra("rent_id",rentid);
+
 
 
                     startActivity(cameraintent);
                 }
+
+//                try {//사진 저장
+//                    fileOutputStream = new FileOutputStream(newFile);
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+//                    Toast.makeText(getApplicationContext(), "사진이 저장되었습니다.", Toast.LENGTH_SHORT).show();
+//                    index++; // count the number of pics. All pics should be 8 pictures.
+//                    fileOutputStream.flush();
+//                    fileOutputStream.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } finally {
+//
+//                    Intent mediaStoreUpdateIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//                    mediaStoreUpdateIntent.setData(Uri.fromFile(newFile));
+//                    sendBroadcast(mediaStoreUpdateIntent);
+//                    if (fileOutputStream != null) {
+//
+//                        try {
+//                            fileOutputStream.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+
+
+
+
+
 
             }
         });
@@ -175,10 +206,111 @@ public class SaveImageActivity extends Activity {
 
 
     }
+    class BackgroundTask extends AsyncTask<Bitmap, Void, Void>{
+
+
+        @Override
+        protected Void doInBackground(Bitmap... bitmaps) {
+            Intent cameraintent;
+            String position;
+
+            if(index == 0) position = "ft";
+            else if(index == 1) position = "ff";
+            else if(index == 2) position = "rf";
+            else if(index == 3)position = "rb";
+            else if(index == 4) position = "bt";
+            else if(index == 5) position = "bf";
+            else if(index == 6) position = "lb";
+            else position = "lf";
+
+            String car_state;
+            if(state == 0)
+                car_state = "b";
+            else
+                car_state = "a";
+
+            String newname = rentid + "_"+ position + "_" + car_state +  ".png";
+            newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(),newname));
+            final File newFile = new File(newPath);
+
+
+
+            FileOutputStream fileOutputStream = null;
+
+            try {//사진 저장
+
+                fileOutputStream = new FileOutputStream(newFile);
+                bitmaps[0].compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+                fileOutputStream.flush();
+                fileOutputStream.close();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+
+                Intent mediaStoreUpdateIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                mediaStoreUpdateIntent.setData(Uri.fromFile(newFile));
+                sendBroadcast(mediaStoreUpdateIntent);
+                System.out.println("#################" + newPath);
+
+                if (fileOutputStream != null) {
+
+                    try {
+                        fileOutputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            return null;
+        }
+        // task초기화단계
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if(index == 7){
+                loadingDialog = new LoadingDialog(SaveImageActivity.this);
+                loadingDialog.startLoadingDialog();
+            }
+
+        }
+        // 해당 task에서 수행되던 작업 종료되었을때
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            if(index==8){
+                loadingDialog.dismissDialog();
+                loadingDialog = null;
+                startActivity(cameraintent);
+            }
+
+        }
+        //UI 관련 작업
+        @Override
+        protected void onProgressUpdate(Void... values) {
+
+
+        }
+
+
+        @Override
+        protected void onCancelled(Void aVoid) {
+            super.onCancelled(aVoid);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
 
     private void createImageFolder() {
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        mImageFolder = new File(imageFile, "Carcarcar");
+        mImageFolder = new File(imageFile, "YOCO");
         if (!mImageFolder.exists()) {
             mImageFolder.mkdirs();
         }
@@ -193,4 +325,6 @@ public class SaveImageActivity extends Activity {
         startActivity(back_intent);
     }
 
+
 }
+
