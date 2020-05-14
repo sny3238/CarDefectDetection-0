@@ -240,7 +240,7 @@ public class SaveImageActivity extends Activity {
             try {//사진 저장
 
                 fileOutputStream = new FileOutputStream(newFile);
-                bitmaps[0].compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+                bitmaps[0].compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                 fileOutputStream.flush();
                 fileOutputStream.close();
 

@@ -224,7 +224,7 @@ public class CameraActivity extends Activity {
         try {
             tempFile.createNewFile();
             FileOutputStream out = new FileOutputStream(tempFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
