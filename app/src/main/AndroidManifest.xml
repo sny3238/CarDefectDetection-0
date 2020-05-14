@@ -23,6 +23,8 @@
         <activity android:name=".AddnewActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".MenuActivity" />
+        <activity android:name=".LoadingActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity
             android:name=".LoadingActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />

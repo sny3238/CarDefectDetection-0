@@ -143,13 +143,16 @@ public class SaveImageActivity extends Activity {
 
                 index++; // count the number of pics. All pics should be 8 pictures.
                 if (index == 8) {
+
                     if  (state == 0)
+
                         cameraintent = new Intent(getApplicationContext(), BeforePastHistory.class);
                     else
                         cameraintent = new Intent(getApplicationContext(), AfterPastHistory.class);
                     cameraintent.putExtra("user_id",userid);
                     cameraintent.putExtra("car_id",carid);
                     cameraintent.putExtra("rent_id",rentid);
+
 
                 } else {
 

@@ -34,7 +34,9 @@ public class BeforePastHistory extends AppCompatActivity {
     private File mImageFolder;
     private String carid,rentid,userid,rentdate;
 
+
     private String state = "b";
+
 
     private String label,part;
     private Integer topx, topy, btmx, btmy;
@@ -116,7 +118,9 @@ public class BeforePastHistory extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
+
         String url = "http://localhost:3000/showResults/yolo";
+
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
