@@ -35,50 +35,51 @@ public class CompareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare);
         getSupportActionBar().hide();
+        System.out.println("########################AAAAAAAAAAAAAa");
 
-        Intent getintent = getIntent();
-
-        //rentid= getintent.getDataString("rent_id");
-
-        String url = "http://localhost:3000/compare";
-
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    result = response.getBoolean("result");
-                    if (result) {
-                        newDefects = response.getJSONObject("new_defects");
-                        part = newDefects.getString("part");
-                        defects = newDefects.getJSONObject("defects");
-                        label = defects.getString("label");
-                        topx = defects.getInt("topx"); //Number
-                        topy = defects.getInt("topy");
-                        btmx = defects.getInt("btmx");
-                        btmy = defects.getInt("btmy");
-                    } else {
-                        return;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("rent_id", rentid);
-                return params;
-            }
-        };
-
-        queue.add(jsonRequest);
-    }
+//        Intent getintent = getIntent();
+//
+//        //rentid= getintent.getDataString("rent_id");
+//
+//        String url = "http://localhost:3000/compare";
+//
+//        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                try {
+//                    result = response.getBoolean("result");
+//                    if (result) {
+//                        newDefects = response.getJSONObject("new_defects");
+//                        part = newDefects.getString("part");
+//                        defects = newDefects.getJSONObject("defects");
+//                        label = defects.getString("label");
+//                        topx = defects.getInt("topx"); //Number
+//                        topy = defects.getInt("topy");
+//                        btmx = defects.getInt("btmx");
+//                        btmy = defects.getInt("btmy");
+//                    } else {
+//                        return;
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("rent_id", rentid);
+//                return params;
+//            }
+//        };
+//
+//        queue.add(jsonRequest);
+       }
 }
