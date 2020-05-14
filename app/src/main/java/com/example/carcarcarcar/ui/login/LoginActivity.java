@@ -40,6 +40,7 @@ import java.util.Map;
 
 import com.example.carcarcarcar.CameraActivity;
 import com.example.carcarcarcar.HistoryActivity;
+import com.example.carcarcarcar.LoadingActivity;
 import com.example.carcarcarcar.MenuActivity;
 import com.example.carcarcarcar.R;
 
@@ -51,9 +52,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private Boolean result;
 
-    private EditText usernameEditText = findViewById(R.id.username);
-    private EditText passwordEditText = findViewById(R.id.password);
-    private Button loginButton = findViewById(R.id.loginBtn);
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+
+
+    private Button loginButton;
 
     private String userid, passwd;
 
@@ -61,9 +64,19 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        usernameEditText = findViewById(R.id.username);
+        passwordEditText = findViewById(R.id.password);
+
+        loginButton = findViewById(R.id.loginBtn);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+
+        // loading activity
+        Intent intent = new Intent(this, LoadingActivity.class);
+        startActivity(intent);
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);

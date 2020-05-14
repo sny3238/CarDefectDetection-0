@@ -12,10 +12,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,10 +28,17 @@ public class AfterPastHistory extends AppCompatActivity {
 
     private String rentid,beforeafter;
 
+    private String state = "a";
+
     private Boolean result;
+
     private String label,part;
     private Integer topx, topy, btmx, btmy;
-    private JSONObject predictions,defects;
+    private JSONArray predictionsJSON,defects;
+
+    ArrayList<predictions> predictionsList = new ArrayList<predictions>();
+    ArrayList<Defects> defectsList = new ArrayList<Defects>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +52,9 @@ public class AfterPastHistory extends AppCompatActivity {
     }
 
     public void onCompareButtonClicked(View v){
-        String url = "http://localhost:3000/yolo";
+        queue = Volley.newRequestQueue(this);
+
+        String url = "http://localhost:3000/showResults/yolo";
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -50,14 +62,37 @@ public class AfterPastHistory extends AppCompatActivity {
                 try {
                     result = response.getBoolean("result");
                     if (result) {
-                        predictions = response.getJSONObject("new_defects");
-                        part = predictions.getString("part");
-                        defects = predictions.getJSONObject("defects");
-                        label = defects.getString("label");
-                        topx = defects.getInt("topx"); //Number
-                        topy = defects.getInt("topy");
-                        btmx = defects.getInt("btmx");
-                        btmy = defects.getInt("btmy");
+
+                        predictionsJSON = response.getJSONArray("predictions");
+
+
+                        for (int i = 0 ; i<predictionsJSON.length();i++){
+
+                            JSONObject predictionsObject = predictionsJSON.getJSONObject(i);
+                            predictions Predictions = new predictions();
+                            Predictions.setPart(predictionsObject.getString("part"));
+
+                            defects = (predictionsObject.getJSONArray("defects"));
+
+                            for (int j = 0;j<defects.length();j++){
+
+                                JSONObject defectsJSONObject = defects.getJSONObject(i);
+
+                                Defects Defects = new Defects();
+
+                                Defects.setBtmy(defectsJSONObject.getString("btmy"));
+                                Defects.setBtmx(defectsJSONObject.getString("btmx"));
+                                Defects.setLabel(defectsJSONObject.getString("label"));
+                                Defects.setTopx(defectsJSONObject.getString("topx"));
+                                Defects.setTopy(defectsJSONObject.getString("topy"));
+
+                                defectsList.add(Defects);
+
+                            }
+                            predictionsList.add(Predictions);
+
+                        }
+
                     } else {
                         return;
                     }
@@ -77,15 +112,15 @@ public class AfterPastHistory extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rent_id", rentid);
-                params.put("before_after",beforeafter);
+                params.put("before_After",state);
                 return params;
             }
         };
 
-
         queue.add(jsonRequest);
 
         Intent intent2 = new Intent(this, CompareActivity.class);
+        intent2.putExtra("state", state);
         startActivity(intent2);
 
 

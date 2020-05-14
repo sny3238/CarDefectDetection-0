@@ -7,4 +7,210 @@
     android:layout_height="match_parent"
     tools:context=".CompareActivity">
 
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:textSize="30sp"
+        android:text="대여 전/후 상태 비교 결과"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:fillViewport="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carnumtextview">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ff -->
+            <TextView
+                android:id="@+id/ff_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="전면 상단"
+                android:textSize="30sp" />
+            <ImageView
+                android:id="@+id/ff_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/ff_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인" />
+
+            <!-- ft -->
+            <TextView
+                android:id="@+id/ft_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="전면"
+                android:textSize="30sp" />
+            <ImageView
+                android:id="@+id/ft_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/ft_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인" />
+
+            <!-- bf -->
+            <TextView
+                android:id="@+id/bf_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="운전자석 앞면"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/bf_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/bf_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인"/>
+
+            <!-- bt -->
+            <TextView
+                android:id="@+id/bt_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="운전자석 뒷면"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/bt_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/bt_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인"/>
+
+            <!-- lf -->
+            <TextView
+                android:id="@+id/lf_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="보조석 뒷면"
+                android:textSize="30sp" />
+            <ImageView
+                android:id="@+id/lf_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/lf_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인" />
+
+            <!-- lb -->
+            <TextView
+                android:id="@+id/lb_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="보조석 앞면"
+                android:textSize="30sp" />
+            <ImageView
+                android:id="@+id/lb_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/lb_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인" />
+
+            <!-- rf -->
+            <TextView
+                android:id="@+id/rf_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="후면 상단"
+                android:textSize="30sp"
+                />
+            <ImageView
+                android:id="@+id/rf_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/rf_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인" />
+
+            <!-- rb -->
+            <TextView
+                android:id="@+id/rb_textview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="후면"
+                android:textSize="30sp" />
+            <ImageView
+                android:id="@+id/rb_imageview_compare"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                />
+            <Button
+                android:id="@+id/rb_button_compare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="상세 내역 확인" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

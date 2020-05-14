@@ -14,13 +14,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.carcarcarcar.ui.login.LoginActivity;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +29,11 @@ public class HistoryActivity extends AppCompatActivity  {
     private RequestQueue queue;
     private Boolean result;
 
-    private String rentId, userId, carId,rentDate,returnDate;
-    private JSONObject history, newDefects;
+    private String currentrentId, userId, carId,rentDate,returnDate, selectedrentId;
+    private JSONArray historyArray, newDefects;
+
+
+    ArrayList<History> historyList = new ArrayList<History>();
 
 
     @Override
@@ -42,6 +44,7 @@ public class HistoryActivity extends AppCompatActivity  {
 
         Intent intent = getIntent();
         userId = getIntent().getStringExtra("user_id");
+        //currentrentId = getIntent().getStringExtra("rent_id");
 
         /*
         Listview list = (ListView) findViewById(R.id.history);
@@ -70,13 +73,21 @@ public class HistoryActivity extends AppCompatActivity  {
                     result = response.getBoolean("result");
                     Toast.makeText(getApplicationContext(), "get response from server", Toast.LENGTH_LONG).show();
                     if (result) {
-                        history = response.getJSONObject("history");
-                        rentId = history.getString("rent_id");
-                        userId = history.getString("user_id");
-                        carId = history.getString("car_id");
-                        rentDate = history.getString("rent_date");
-                        returnDate = history.getString("return_date");
-                        newDefects = history.getJSONObject("new_defects");
+
+                        historyArray = response.getJSONArray("history");
+
+                        //historyList : 사용자에게 보여지는 history 내역 arraylist (jsonarray파싱)
+
+                        for (int i = 0 ; i<historyArray.length();i++){
+
+                            JSONObject historyObject = historyArray.getJSONObject(i);
+                            History history = new History();
+                            history.setCar_id(historyObject.getString("car_id"));
+                            history.setRent_date(historyObject.getString("rent_date"));
+                            history.setRent_id(historyObject.getString("rent_id"));
+                            history.setReturn_date(historyObject.getString("return_date"));
+                            historyList.add(history);
+                        }
 
                     } else {
                         return;
@@ -105,7 +116,7 @@ public class HistoryActivity extends AppCompatActivity  {
 
     public void onreturnButtonClicked(View v) {
         Intent intent = new Intent(this, BeforePastHistory.class);
-        intent.putExtra("rent_id",rentId);
+        intent.putExtra("rent_id",currentrentId);
         intent.putExtra("return_date",returnDate);
         intent.putExtra("car_id",carId);
         intent.putExtra("rent_date",rentDate);
@@ -119,7 +130,7 @@ public class HistoryActivity extends AppCompatActivity  {
     }
     public void pasthistoryClicked(View v) {
         Intent intent3 = new Intent(HistoryActivity.this, AfterPastHistory.class);
-        intent3.putExtra("rent_id",rentId);
+        intent3.putExtra("rent_id",selectedrentId);
         intent3.putExtra("return_date",returnDate);
         intent3.putExtra("car_id",carId);
         intent3.putExtra("rent_date",rentDate);
@@ -128,7 +139,7 @@ public class HistoryActivity extends AppCompatActivity  {
     }
     public void completedhistory(View v) {
         Intent intent4 = new Intent(this, CompareActivity.class);
-        intent4.putExtra("rent_id",rentId);
+        intent4.putExtra("rent_id",selectedrentId);
         startActivity(intent4);
     }
 

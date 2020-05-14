@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="YOCObackground">#1D4999</color>
+    <color name="YOCOgray">#CDCDCD</color>
+
     <color name="black_overlay">#66000000</color>
 </resources>
