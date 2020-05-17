@@ -1,4 +1,4 @@
-package com.example.carcarcarcar.ui.login;
+package com.example.carcarcarcar;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,119 +20,141 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import com.android.volley.toolbox.Volley;
 
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-import com.example.carcarcarcar.CameraActivity;
-import com.example.carcarcarcar.HistoryActivity;
-import com.example.carcarcarcar.LoadingActivity;
-import com.example.carcarcarcar.MenuActivity;
-import com.example.carcarcarcar.R;
-
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
 
+    Config config=new Config();
+
     private RequestQueue queue;
-
     private Boolean result;
-
     private EditText usernameEditText;
     private EditText passwordEditText;
-
-
     private Button loginButton;
-
-    private String userid, passwd;
-
-    String url;
+    private TextView textView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        usernameEditText = findViewById(R.id.username);
-        passwordEditText = findViewById(R.id.password);
-
-        loginButton = findViewById(R.id.loginBtn);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
 
-        // loading activity
+        usernameEditText = findViewById(R.id.username);
+        passwordEditText = findViewById(R.id.password);
+        loginButton = findViewById(R.id.loginBtn);
+        textView=findViewById(R.id.textView);
+        loginButton = findViewById(R.id.loginBtn);
+
+
+        getSupportActionBar().hide();
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
 
-        usernameEditText = findViewById(R.id.username);
-        passwordEditText = findViewById(R.id.password);
-        userid = usernameEditText.getText().toString();
-        passwd =  passwordEditText.getText().toString();
-        final Button loginButton = findViewById(R.id.loginBtn);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-        //서버 연결
         queue = Volley.newRequestQueue(this);
-        url = "http://localhost:3000/login";
-
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    result = response.getBoolean("result");
-                    Toast.makeText(getApplicationContext(), "get response from server", Toast.LENGTH_LONG).show();
-
-
-                    if (result) {
-                        Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-
-                        //로그인 성공하면 Menu Activity로 전환
-                        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                        intent.putExtra("user_id",userid);
-                        startActivity(intent);
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id", userid);
-                params.put("user_password", passwd);
-                Toast.makeText(getApplicationContext(), "send request to server", Toast.LENGTH_LONG).show();
-                return params;
-            }
-        };
-
-        jsonRequest.setTag(TAG);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.v("username", usernameEditText.getText().toString());
+                Log.v("password", passwordEditText.getText().toString());
+                String url = config.getUrl("/login");
+                JSONObject body = new JSONObject();
+
+                try {
+                    body.put("user_id", usernameEditText.getText().toString());
+                    body.put("user_password", passwordEditText.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            result = response.getBoolean("result");
+                            //Toast.makeText(getApplicationContext(), "get response from server", Toast.LENGTH_LONG).show();
+
+
+                            if (result) {
+                                textView.setText("로그인 성공");
+                                config.setUserId(usernameEditText.getText().toString());
+                                Toast.makeText(getApplicationContext(), config.getUserId()+"님 환영합니다", Toast.LENGTH_SHORT).show();
+
+                                //로그인 성공하면 Menu Activity로 전환
+                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                intent.putExtra("user_id",usernameEditText.getText().toString());
+                                startActivity(intent);
+
+                            } else {
+                                textView.setText("로그인 실패, 아이디와 비밀번호를 다시 입력하세요");
+                                //Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        Log.d("RVA", "error:" + error);
+
+                        if (error instanceof TimeoutError) {
+                            Log.e(TAG,"Update Location Request timed out.");
+                        }else if (error instanceof NoConnectionError){
+                            Log.e(TAG,"Update Location no connection.");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.e(TAG,"Auth failure");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG,"Server Error");
+                        } else if (error instanceof NetworkError) {
+                            Log.e(TAG,"Network Error");
+                        } else if (error instanceof ParseError) {
+                            Log.e(TAG,"Parse Error");
+                        }
+                    }
+                });
+                jsonRequest.setRetryPolicy(new RetryPolicy() {
+                                               @Override
+                                               public int getCurrentTimeout() {
+                                                   return 50000;
+                                               }
+
+                                               @Override
+                                               public int getCurrentRetryCount() {
+                                                   return 50000;
+                                               }
+
+                                               @Override
+                                               public void retry(VolleyError error) throws VolleyError {
+                                               }
+                                           }
+                );
+
+                jsonRequest.setTag(TAG);
                 queue.add(jsonRequest);
             }
         });
@@ -150,12 +172,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    //버튼만 누르면 넘어가게 임시로 넣은 코드, 최종버전엔 지우기
-    public void onfakeloginButtonClicked(View v) {
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
     }
 
 
