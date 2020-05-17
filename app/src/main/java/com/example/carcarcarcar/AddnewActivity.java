@@ -1,6 +1,5 @@
 package com.example.carcarcarcar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,24 +9,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import org.json.JSONObject;
-import org.json.JSONException;
 
 
 public class AddnewActivity extends AppCompatActivity {
@@ -91,7 +81,6 @@ public class AddnewActivity extends AppCompatActivity {
                                 caridentifybtn.setVisibility(View.INVISIBLE);
                                 camerabtn.setVisibility(View.VISIBLE);
                                 cameratextview.setVisibility(View.VISIBLE);
-
 
                             }else{
                                 cartypetextview.setText("차량이 존재하지 않거나 대여중입니다.");
