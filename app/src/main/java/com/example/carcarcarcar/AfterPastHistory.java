@@ -40,7 +40,7 @@ public class AfterPastHistory extends AppCompatActivity {
     ArrayList<Defect> defectList = new ArrayList<Defect>();
 
 
-    private int state = 1;  // 0 : before  1 : after
+    //private int state = 1;  // 0 : before  1 : after
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
