@@ -62,6 +62,7 @@ public class AddnewActivity extends AppCompatActivity {
         Intent getintent = getIntent();
         userid = getintent.getStringExtra("user_id");
 
+
         //Spinner spinner = (Spinner) findViewById(R.id.);
 
         caridentifybtn = findViewById(R.id.caridentifybutton);
@@ -119,8 +120,9 @@ public class AddnewActivity extends AppCompatActivity {
                                 //차량 정보 받아옴
                                 cartype = response.getString("car_type");
 
-                                //차량 정보 확인 숨기고 카메라 버튼 visible
+                                //차량 정보 확인 invisible 카메라 버튼 visible
                                 caridentifybtn.setVisibility(View.INVISIBLE);
+
                                 camerabtn.setVisibility(View.VISIBLE);
                                 cameratextview.setVisibility(View.VISIBLE);
                             }

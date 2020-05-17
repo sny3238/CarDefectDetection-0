@@ -15,7 +15,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         Intent getIntent = getIntent();
         Bundle bundle = getIntent().getExtras();

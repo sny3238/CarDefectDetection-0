@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ComparePopup"></activity>
+
+        <activity android:name=".ComparePopup"/>
         <activity android:name=".CompareActivity" />
         <activity android:name=".AfterPastHistory" />
         <activity android:name=".BeforePastHistory" />
@@ -24,10 +26,9 @@
         <activity android:name=".HistoryActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".LoadingActivity"
+
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
-        <activity
-            android:name=".LoadingActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity
             android:name=".CameraActivity"
             android:screenOrientation="landscape" />

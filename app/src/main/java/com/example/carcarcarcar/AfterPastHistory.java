@@ -40,7 +40,7 @@ public class AfterPastHistory extends AppCompatActivity {
     ArrayList<Defect> defectList = new ArrayList<Defect>();
 
 
-    private int state = 1;  // 0 : before  1 : after
+    private int state1 = 1;  // 0 : before  1 : after
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,7 @@ public class AfterPastHistory extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("rent_id", rentid);
-                params.put("before_After",state);
+                params.put("before_After", String.valueOf(state1));
                 return params;
             }
         };
@@ -122,7 +122,7 @@ public class AfterPastHistory extends AppCompatActivity {
         queue.add(jsonRequest);
 
         Intent intent2 = new Intent(this, CompareActivity.class);
-        intent2.putExtra("state", state);
+        intent2.putExtra("state", state1);
         startActivity(intent2);
 
 
