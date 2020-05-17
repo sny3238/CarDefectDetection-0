@@ -33,19 +33,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import com.android.volley.toolbox.Volley;
-
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
-
-    Config config=new Config();
 
     private RequestQueue queue;
     private Boolean result;
@@ -80,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Log.v("username", usernameEditText.getText().toString());
                 Log.v("password", passwordEditText.getText().toString());
-                String url = config.getUrl("/login");
+                String url = Config.getUrl("/login");
                 JSONObject body = new JSONObject();
 
                 try {
@@ -95,13 +88,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             result = response.getBoolean("result");
-                            //Toast.makeText(getApplicationContext(), "get response from server", Toast.LENGTH_LONG).show();
-
 
                             if (result) {
                                 textView.setText("로그인 성공");
-                                config.setUserId(usernameEditText.getText().toString());
-                                Toast.makeText(getApplicationContext(), config.getUserId()+"님 환영합니다", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), usernameEditText.getText().toString()+"님 환영합니다", Toast.LENGTH_SHORT).show();
 
                                 //로그인 성공하면 Menu Activity로 전환
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
