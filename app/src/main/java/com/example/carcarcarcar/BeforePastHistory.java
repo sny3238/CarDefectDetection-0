@@ -1,15 +1,14 @@
 package com.example.carcarcarcar;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 
-import android.net.Uri;
-import android.os.Environment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,7 +44,7 @@ public class BeforePastHistory extends AppCompatActivity {
     private RequestQueue queue;
 
     ArrayList<predictions> predictionsList = new ArrayList<predictions>();
-    ArrayList<Defects> defectsList = new ArrayList<Defects>();
+    ArrayList<Defect> defectList = new ArrayList<Defect>();
 
 
 
@@ -75,7 +74,7 @@ public class BeforePastHistory extends AppCompatActivity {
         ImageView imageView_back1 = findViewById(R.id.rf_imageview_compare);
         ImageView imageView_back2 = findViewById(R.id.rb_imageview_compare);
 
-        Image[] carPhotos = new Image [7];
+        Image[] carPhotos = new Image [8];
         //이미지 넣기
 
         String imgname;
@@ -140,15 +139,15 @@ public class BeforePastHistory extends AppCompatActivity {
 
                                 JSONObject defectsJSONObject = defects.getJSONObject(i);
 
-                                Defects Defects = new Defects();
+                                Defect Defect = new Defect();
 
-                                Defects.setBtmy(defectsJSONObject.getString("btmy"));
-                                Defects.setBtmx(defectsJSONObject.getString("btmx"));
-                                Defects.setLabel(defectsJSONObject.getString("label"));
-                                Defects.setTopx(defectsJSONObject.getString("topx"));
-                                Defects.setTopy(defectsJSONObject.getString("topy"));
+                                Defect.setBtmy(defectsJSONObject.getString("btmy"));
+                                Defect.setBtmx(defectsJSONObject.getString("btmx"));
+                                Defect.setLabel(defectsJSONObject.getString("label"));
+                                Defect.setTopx(defectsJSONObject.getString("topx"));
+                                Defect.setTopy(defectsJSONObject.getString("topy"));
 
-                                defectsList.add(Defects);
+                                defectList.add(Defect);
 
                             }
                             predictionsList.add(Predictions);

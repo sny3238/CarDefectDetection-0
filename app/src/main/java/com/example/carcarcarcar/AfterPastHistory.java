@@ -1,10 +1,10 @@
 package com.example.carcarcarcar;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,7 +37,7 @@ public class AfterPastHistory extends AppCompatActivity {
     private JSONArray predictionsJSON,defects;
 
     ArrayList<predictions> predictionsList = new ArrayList<predictions>();
-    ArrayList<Defects> defectsList = new ArrayList<Defects>();
+    ArrayList<Defect> defectList = new ArrayList<Defect>();
 
 
     @Override
@@ -78,15 +78,15 @@ public class AfterPastHistory extends AppCompatActivity {
 
                                 JSONObject defectsJSONObject = defects.getJSONObject(i);
 
-                                Defects Defects = new Defects();
+                                Defect Defect = new Defect();
 
-                                Defects.setBtmy(defectsJSONObject.getString("btmy"));
-                                Defects.setBtmx(defectsJSONObject.getString("btmx"));
-                                Defects.setLabel(defectsJSONObject.getString("label"));
-                                Defects.setTopx(defectsJSONObject.getString("topx"));
-                                Defects.setTopy(defectsJSONObject.getString("topy"));
+                                Defect.setBtmy(defectsJSONObject.getString("btmy"));
+                                Defect.setBtmx(defectsJSONObject.getString("btmx"));
+                                Defect.setLabel(defectsJSONObject.getString("label"));
+                                Defect.setTopx(defectsJSONObject.getString("topx"));
+                                Defect.setTopy(defectsJSONObject.getString("topy"));
 
-                                defectsList.add(Defects);
+                                defectList.add(Defect);
 
                             }
                             predictionsList.add(Predictions);

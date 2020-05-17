@@ -7,6 +7,16 @@ public class History {
     private String rent_date;
     private String return_date;
 
+    private Boolean returned;
+
+    public Boolean getReturned() {
+        return returned;
+    }
+
+    public void setReturned(Boolean returned) {
+        this.returned = returned;
+    }
+
     public void setRent_id(String rent_id) {
         this.rent_id = rent_id;
     }

@@ -1,6 +1,6 @@
 package com.example.carcarcarcar;
 
-public class Defects {
+public class Defect {
 
     private String label;
 
