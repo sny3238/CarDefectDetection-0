@@ -2,11 +2,13 @@ package com.example.carcarcarcar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,13 +42,6 @@ public class AddnewActivity extends AppCompatActivity {
 
     private RequestQueue queue;
 
-    //private String carid;
-    //private String userid;
-    //private String rentid;
-
-
-    //private int state = 0; // 0: before   1 : after
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -71,12 +66,12 @@ public class AddnewActivity extends AppCompatActivity {
                 String url = Config.getUrl("/findCar");
                 JSONObject body = new JSONObject();
                 try{
-                    body.put("car_id",cartypetextview.getText().toString());
+                    body.put("car_id",carnumberEditText.getText().toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                final JsonObjectRequest jsonRequest1 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+                final JsonObjectRequest jsonRequest1 = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
