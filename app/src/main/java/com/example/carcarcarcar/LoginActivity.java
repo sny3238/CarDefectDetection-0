@@ -69,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Log.v("username", usernameEditText.getText().toString());
-                Log.v("password", passwordEditText.getText().toString());
+                //Log.v("username", usernameEditText.getText().toString());
+                //Log.v("password", passwordEditText.getText().toString());
                 String url = Config.getUrl("/login");
                 JSONObject body = new JSONObject();
 
