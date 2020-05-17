@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,81 +26,40 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 
 public class AddnewActivity extends AppCompatActivity {
+    private static final String TAG = "MAIN";
 
-    String carmodel; //carmodle 차량 종류 입력받음
-    String carnum; // carnum 차량 번호 입력받음
-
-    //현재 날짜를 string으로 처리 (임시)
-    Date date = new Date();
-    SimpleDateFormat forma = new SimpleDateFormat("yyyy-MM-dd");
-
-    String currentdate = forma.format(date); //currentdate에 yyyy-mm-dd 형식으로 날짜 저장
-
-    private TextView caridtextview,cameratextview;
+    private TextView cameratextview,cartypetextview;
     private EditText carnumberEditText;
-    private RequestQueue queue;
-
     private Button caridentifybtn;
     private ImageButton camerabtn;
-    private String carid;
 
-    private String cartype;
-    private Boolean result;
-    private String rentid;
-    private String userid;
+    private RequestQueue queue;
 
-    private int state = 0; // 0: before   1 : after
+    //private String carid;
+    //private String userid;
+    //private String rentid;
+
+
+    //private int state = 0; // 0: before   1 : after
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addnew);
+        //getSupportActionBar().hide();
 
-        getSupportActionBar().hide();
-        Intent getintent = getIntent();
-        userid = getintent.getStringExtra("user_id");
+        caridentifybtn = findViewById(R.id.caridentifybutton); //caridentifybtn.setVisibility(View.VISIBLE);
+        camerabtn = findViewById(R.id.camerabutton); camerabtn.setVisibility(View.INVISIBLE);
+        cameratextview = findViewById(R.id.textView7); cameratextview.setVisibility(View.INVISIBLE);
+        carnumberEditText = findViewById(R.id.carnumber);
+        cartypetextview=findViewById(R.id.cartypetextview);
 
-
-        //Spinner spinner = (Spinner) findViewById(R.id.);
-
-        caridentifybtn = findViewById(R.id.caridentifybutton);
-        caridentifybtn.setVisibility(View.VISIBLE);
-        //처음에는 카메라 버튼 숨김
-        camerabtn = findViewById(R.id.camerabutton);
-        camerabtn.setVisibility(View.INVISIBLE);
-
-        cameratextview = findViewById(R.id.textView7);
-        cameratextview.setVisibility(View.INVISIBLE);
-
-        caridtextview = findViewById(R.id.carnumber);
-        carid = caridtextview.getText().toString();
-
-        //스피너
-
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == 0) {
-//                    //Toast.makeText(AddnewActivity.this,"차량 종류를 선택해주세요",Toast.LENGTH_SHORT).show();
-//                }
-//
-//                //차량 종류는 일단 small, medium, large 세 가지로 구분
-//                else if (position == 1) {
-//                    carmodel = "small";
-//                } else if (position == 2) {
-//                    carmodel = "medium";
-//                } else if (position == 3) {
-//                    carmodel = "large";
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//            });
 
         queue = Volley.newRequestQueue(this);
 
@@ -107,24 +67,34 @@ public class AddnewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //서버
-                String url = "http://localhost:3000/findCar";
-                //차량 정보 확인
+
+                String url = Config.getUrl("/findCar");
+                JSONObject body = new JSONObject();
+                try{
+                    body.put("car_id",cartypetextview.getText().toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 final JsonObjectRequest jsonRequest1 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            result = response.getBoolean("result");
+                            Boolean result = response.getBoolean("result");
                             if (result) {
 
                                 //차량 정보 받아옴
-                                cartype = response.getString("car_type");
+                                String cartype = response.getString("car_type");
+                                cartypetextview.setText("차량 종류 : "+cartype);
 
-                                //차량 정보 확인 invisible 카메라 버튼 visible
+                                //차량 정보 확인 숨기고 카메라 버튼 visible
                                 caridentifybtn.setVisibility(View.INVISIBLE);
-
                                 camerabtn.setVisibility(View.VISIBLE);
                                 cameratextview.setVisibility(View.VISIBLE);
+
+
+                            }else{
+                                cartypetextview.setText("차량이 존재하지 않거나 대여중입니다.");
                             }
                         }
                         catch (JSONException e) {
@@ -136,25 +106,21 @@ public class AddnewActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("car_id", carid);
-                        params.put("user_id", userid);
-                        return params;
-                    }
-                };
+                }) ;
+                jsonRequest1.setTag(TAG);
                 queue.add(jsonRequest1);
             }
         });
 
-
+/*
         camerabtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(AddnewActivity.this, CameraActivity.class);
+                Intent getintent = getIntent();
+                userid = getintent.getStringExtra("user_id");
+                carid = caridtextview.getText().toString();
 
                 intent.putExtra("user_id",userid);
                 intent.putExtra("car_id",carid);
@@ -169,7 +135,7 @@ public class AddnewActivity extends AppCompatActivity {
 
             }
         });
-
+*/
 
     }
 

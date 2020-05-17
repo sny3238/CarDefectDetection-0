@@ -9,7 +9,7 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".AddnewActivity">
+    tools:context=".AddnewActivity">>
 
     <TextView
         android:id="@+id/maintext"
@@ -18,7 +18,6 @@
 
         android:layout_gravity="center"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="128dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:gravity="center"
@@ -37,9 +36,7 @@
 
         android:layout_gravity="center"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="32dp"
         android:ems="10"
         android:gravity="center"
         android:hint="차량 번호를 입력하세요"
@@ -57,27 +54,25 @@
         android:layout_height="49dp"
 
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="24dp"
         android:text="확 인"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/cartypetextview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/carnumber"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/cartypetextview"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="64dp"
+        android:layout_marginBottom="80dp"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/camerabutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caridentifybutton" />
+        app:layout_constraintTop_toBottomOf="@+id/caridentifybutton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/camerabutton"
