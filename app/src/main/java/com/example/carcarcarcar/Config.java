@@ -3,7 +3,7 @@ package com.example.carcarcarcar;
 public class Config {
 
     public static String getUrl(String path){
-        String ip="172.30.1.53";
+        String ip="10.200.150.178";
         String port="3000";
         return "http://"+ip+":"+port+path;
     }
