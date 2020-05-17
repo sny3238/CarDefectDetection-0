@@ -60,8 +60,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //getSupportActionBar().hide();
-        Intent intent = new Intent(this, LoadingActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, LoadingActivity.class);
+        //startActivity(intent);
 
         queue = Volley.newRequestQueue(this);
 

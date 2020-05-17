@@ -25,9 +25,6 @@
         <activity android:name=".AddnewActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".LoadingActivity"
-
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
 
         <activity
             android:name=".CameraActivity"
@@ -36,13 +33,20 @@
             android:name=".SaveImageActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/app_name">
+            android:name=".LoginActivity"/>
+        <activity
+            android:name=".LoadingActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
     </application>
 
 </manifest>
