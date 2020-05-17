@@ -53,7 +53,7 @@ public class BeforePastHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_past_history);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         Intent intent = getIntent();
         userid = intent.getStringExtra("user_id");
