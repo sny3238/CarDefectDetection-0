@@ -1,5 +1,6 @@
 package com.example.carcarcarcar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +30,6 @@ public class AddnewActivity extends AppCompatActivity {
     private EditText carnumberEditText;
     private Button caridentifybtn;
     private ImageButton camerabtn;
-
     private RequestQueue queue;
 
     @Override
@@ -50,7 +52,6 @@ public class AddnewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 String url = Config.getUrl("/findCar");
                 JSONObject body = new JSONObject();
                 try{
@@ -68,15 +69,21 @@ public class AddnewActivity extends AppCompatActivity {
 
                                 //차량 정보 받아옴
                                 String cartype = response.getString("car_type");
-                                cartypetextview.setText("차량 종류 : "+cartype);
+                                cartypetextview.setText("차량 대여가 가능합니다.\n차량 종류 : "+cartype);
 
                                 //차량 정보 확인 숨기고 카메라 버튼 visible
-                                caridentifybtn.setVisibility(View.INVISIBLE);
+                                //caridentifybtn.setVisibility(View.INVISIBLE);
                                 camerabtn.setVisibility(View.VISIBLE);
                                 cameratextview.setVisibility(View.VISIBLE);
 
                             }else{
-                                cartypetextview.setText("차량이 존재하지 않거나 대여중입니다.");
+
+                                Boolean renting=response.getBoolean("renting");
+                                if (renting){
+                                    cartypetextview.setText("대여중인 차량이 존재합니다.");
+                                }else{
+                                    cartypetextview.setText("차량이 존재하지 않거나 대여중입니다.");
+                                }
                             }
                         }
                         catch (JSONException e) {
@@ -94,30 +101,62 @@ public class AddnewActivity extends AppCompatActivity {
             }
         });
 
-/*
+
         camerabtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(AddnewActivity.this, CameraActivity.class);
+
                 Intent getintent = getIntent();
-                userid = getintent.getStringExtra("user_id");
-                carid = caridtextview.getText().toString();
+                String userid = getintent.getStringExtra("user_id");
+                String carid = carnumberEditText.getText().toString();
+                JSONObject body=new JSONObject();
+                try{
+                    body.put("user_id",userid);
+                    body.put("car_id",carid);
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+                String url=Config.getUrl("/startRent");
 
-                intent.putExtra("user_id",userid);
-                intent.putExtra("car_id",carid);
-                intent.putExtra("rent_id",rentid);
+                final JsonObjectRequest jsonRequest2=new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Boolean result=response.getBoolean("result");
+                            if (result){
 
-//                intent.putExtra("user_id","ewha");
-//                intent.putExtra("car_id","0000");
-//                intent.putExtra("rent_id","1234");
-//                intent.putExtra("state", state);
+                                Intent intent = new Intent(AddnewActivity.this, CameraActivity.class);
+                                Intent getintent = getIntent();
+                                String userid = getintent.getStringExtra("user_id");
+                                String carid = carnumberEditText.getText().toString();
+                                String rentid=response.getString("rent_id");
 
-                startActivity(intent);
+                                intent.putExtra("rent_id",rentid);
+                                intent.putExtra("user_id",userid);
+                                intent.putExtra("car_id",carid);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(getApplicationContext(), "차량을 대여할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) ;
+
+                jsonRequest2.setTag(TAG);
+                queue.add(jsonRequest2);
+
 
             }
         });
-*/
+
 
     }
 
