@@ -60,9 +60,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //getSupportActionBar().hide();
-        Intent intent = new Intent(this, LoadingActivity.class);
-        startActivity(intent);
-
+        //Intent intent = new Intent(this, LoadingActivity.class);
+        //startActivity(intent);
 
         queue = Volley.newRequestQueue(this);
 
@@ -114,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (error instanceof TimeoutError) {
                             Log.e(TAG,"Update Location Request timed out.");
                         }else if (error instanceof NoConnectionError){
-                            Log.e(TAG,"Update Location no connection.");
+                            Log.e(TAG,"Update Lo    cation no connection.");
                         } else if (error instanceof AuthFailureError) {
                             Log.e(TAG,"Auth failure");
                         } else if (error instanceof ServerError) {
@@ -126,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+
                 jsonRequest.setRetryPolicy(new RetryPolicy() {
                                                @Override
                                                public int getCurrentTimeout() {
