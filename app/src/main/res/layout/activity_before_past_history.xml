@@ -30,7 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
