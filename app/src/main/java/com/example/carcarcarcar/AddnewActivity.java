@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -177,7 +178,7 @@ public class AddnewActivity extends AppCompatActivity {
                                 Intent getintent = getIntent();
                                 String userid = getintent.getStringExtra("user_id");
                                 String carid = carnumberEditText.getText().toString();
-                                String rentid=response.getString("rent_id");
+                                String rentid = response.getString("rent_id");
 
                                 intent.putExtra("rent_id",rentid);
                                 intent.putExtra("user_id",userid);

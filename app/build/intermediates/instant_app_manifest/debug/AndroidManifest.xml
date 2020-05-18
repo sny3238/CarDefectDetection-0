@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.carcarcarcar"
+    android:targetSandboxVersion="2"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="28"
+        android:targetSdkVersion="28" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:extractNativeLibs="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:testOnly="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true" >
+        <activity android:name="com.example.carcarcarcar.ComparePopup" />
+        <activity android:name="com.example.carcarcarcar.CompareActivity" />
+        <activity android:name="com.example.carcarcarcar.AfterPastHistory" />
+        <activity android:name="com.example.carcarcarcar.BeforePastHistory" />
+        <activity android:name="com.example.carcarcarcar.AddnewActivity" />
+        <activity android:name="com.example.carcarcarcar.HistoryActivity" />
+        <activity android:name="com.example.carcarcarcar.MenuActivity" />
+        <activity
+            android:name="com.example.carcarcarcar.CameraActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.example.carcarcarcar.SaveImageActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="com.example.carcarcarcar.LoginActivity" />
+        <activity
+            android:name="com.example.carcarcarcar.LoadingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:authorities="com.example.carcarcarcar.lifecycle-process"
+            android:exported="false"
+            android:multiprocess="true" />
+    </application>
+
+</manifest>
