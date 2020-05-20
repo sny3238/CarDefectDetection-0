@@ -218,13 +218,13 @@ public class CameraActivity extends Activity {
         File storage = context.getCacheDir();
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String prepend = "IMAGE_" + timestamp + "_";
-        String fileName = prepend + ".png";
+        String fileName = prepend + ".jpg";
         File tempFile = new File(storage, fileName);
 
         try {
             tempFile.createNewFile();
             FileOutputStream out = new FileOutputStream(tempFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -664,7 +664,7 @@ public class CameraActivity extends Activity {
     private File createImageFileName() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String prepend = "IMAGE_" + timestamp + "_";
-        File imageFile = File.createTempFile(prepend, ".png", mImageFolder);
+        File imageFile = File.createTempFile(prepend, ".jpg", mImageFolder);
         mImageFileName = imageFile.getAbsolutePath();
         return imageFile;
     }

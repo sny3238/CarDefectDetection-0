@@ -76,7 +76,8 @@ public class SaveImageActivity extends Activity {
 
         userid = getIntent().getStringExtra("user_id");
         carid = getIntent().getStringExtra("car_id");
-        rentid = getIntent().getStringExtra("rent_id");
+        //rentid = getIntent().getStringExtra("rent_id");
+        rentid = "11";
         state = getIntent().getIntExtra("state", 0);
 
 
@@ -139,7 +140,8 @@ public class SaveImageActivity extends Activity {
 
                 task = new BackgroundTask();
                 task.execute(bitmap);
-                Toast.makeText(getApplicationContext(), "사진이 저장되었습니다. " + index, Toast.LENGTH_SHORT).show();
+                int number = index + 1;
+                Toast.makeText(getApplicationContext(), "사진이 저장되었습니다. (" + number +"/8)" , Toast.LENGTH_SHORT).show();
 
                 index++; // count the number of pics. All pics should be 8 pictures.
                 if (index == 8) {
@@ -222,7 +224,7 @@ public class SaveImageActivity extends Activity {
             else
                 car_state = "a";
 
-            String newname = rentid + "_"+ position + "_" + car_state +  ".png";
+            String newname = rentid + "_"+ position + "_" + car_state +  ".jpg";
             newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(),newname));
             final File newFile = new File(newPath);
 
@@ -233,7 +235,7 @@ public class SaveImageActivity extends Activity {
             try {//사진 저장
 
                 fileOutputStream = new FileOutputStream(newFile);
-                bitmaps[0].compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+                bitmaps[0].compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
                 fileOutputStream.flush();
                 fileOutputStream.close();
 

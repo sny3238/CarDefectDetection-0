@@ -8,6 +8,7 @@
         android:minSdkVersion="28"
         android:targetSdkVersion="28" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -29,13 +30,20 @@
         <activity android:name="com.example.carcarcarcar.ComparePopup" />
         <activity android:name="com.example.carcarcarcar.CompareActivity" />
         <activity android:name="com.example.carcarcarcar.AfterPastHistory" />
-        <activity android:name="com.example.carcarcarcar.BeforePastHistory" />
+        <activity android:name="com.example.carcarcarcar.BeforePastHistory" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.example.carcarcarcar.AddnewActivity" />
         <activity android:name="com.example.carcarcarcar.HistoryActivity" />
         <activity android:name="com.example.carcarcarcar.MenuActivity" />
         <activity
             android:name="com.example.carcarcarcar.CameraActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        </activity>
         <activity
             android:name="com.example.carcarcarcar.SaveImageActivity"
             android:screenOrientation="landscape" />
@@ -44,11 +52,6 @@
             android:name="com.example.carcarcarcar.LoadingActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <provider

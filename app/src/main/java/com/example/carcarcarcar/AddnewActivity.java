@@ -96,6 +96,10 @@ public class AddnewActivity extends AppCompatActivity {
                                         try {
 
                                             JSONObject user_info=response.getJSONObject("user_info");
+                                            Intent getintent = getIntent();
+                                            String userid = getintent.getStringExtra("user_id");
+                                            String rentid=user_info.getString("current_rent_id");
+
                                             if(user_info.getBoolean("renting")){
 
                                                 cartypetextview.setText("대여중인 차량이 존재합니다.");
@@ -106,10 +110,17 @@ public class AddnewActivity extends AppCompatActivity {
                                                 if(photos_state_before){
 
                                                     Intent intent=new Intent(AddnewActivity.this, BeforePastHistory.class);
+
+                                                    intent.putExtra("user_id",userid);
+                                                    intent.putExtra("rent_id",rentid);
+                                                    intent.putExtra("state",0);
                                                     startActivity(intent);
 
                                                 }else{
                                                     Intent intent=new Intent(AddnewActivity.this,CameraActivity.class);
+                                                    intent.putExtra("user_id",userid);
+                                                    intent.putExtra("rent_id",rentid);
+                                                    intent.putExtra("state",0);
                                                     startActivity(intent);
                                                 }
                                             }else{
@@ -178,11 +189,12 @@ public class AddnewActivity extends AppCompatActivity {
                                 Intent getintent = getIntent();
                                 String userid = getintent.getStringExtra("user_id");
                                 String carid = carnumberEditText.getText().toString();
-                                String rentid = response.getString("rent_id");
+                                String rentid=response.getString("rent_id");
 
                                 intent.putExtra("rent_id",rentid);
                                 intent.putExtra("user_id",userid);
                                 intent.putExtra("car_id",carid);
+                                intent.putExtra("state",0);
                                 startActivity(intent);
                             }else{
                                 Toast.makeText(getApplicationContext(), "차량을 대여할 수 없습니다.", Toast.LENGTH_SHORT).show();
