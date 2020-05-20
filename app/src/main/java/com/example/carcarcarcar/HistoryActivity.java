@@ -1,17 +1,16 @@
 package com.example.carcarcarcar;
 
-import android.app.ListActivity;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,18 +25,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HistoryActivity extends ListActivity {
+public class HistoryActivity extends Activity {
 
     private static final String TAG = "MAIN";
-
+    private int cnt = 0;
 
     private String url;
     private RequestQueue queue;
     private Boolean result;
-    private ListView lv;
+
+    RecyclerView recyclerView;
+    PersonAdapter adapter;
+
+    private Button returnbutton;
 
     private String currentrentId, userId, currentcarId, currentrentDate, selectedrentId;
-    private JSONArray historyArray, newDefects;
+    private JSONArray historyJSONArray, newDefects;
 
     private TextView currentinfo;
 
@@ -49,7 +52,14 @@ public class HistoryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        lv = (ListView) findViewById(android.R.id.list);
+        recyclerView = findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(recyclerView.getContext());
+        recyclerView.setLayoutManager(layoutManager1);
+        recyclerView.addItemDecoration( new DividerItemDecoration(getApplicationContext(),new LinearLayoutManager(this).getOrientation()));
+        adapter = new PersonAdapter();
+
+        returnbutton = findViewById(R.id.returnBtn);
+        returnbutton.setVisibility(View.INVISIBLE);
         currentinfo = findViewById(R.id.currentcarinfotextview);
 
         //Intent intent = getIntent();
@@ -75,43 +85,60 @@ public class HistoryActivity extends ListActivity {
 
                     Boolean result = response.getBoolean("result");
                     if (result) {
-
-
-                        historyArray = response.getJSONArray("history");
-
+                        historyJSONArray = response.getJSONArray("history");
                         //historyList : 사용자에게 보여지는 history 내역 arraylist (jsonarray파싱)
 
-                        for (int i = 0; i < historyArray.length(); i++) {
+                        for (int i = 0; i < historyJSONArray.length(); i++) {
 
-                            JSONObject historyObject = historyArray.getJSONObject(i);
-                            History history = new History();
-                            history.setCar_id(historyObject.getString("car_id"));
-                            history.setRent_date(historyObject.getString("rent_date"));
-                            history.setRent_id(historyObject.getString("rent_id"));
-                            history.setReturn_date(historyObject.getString("return_date"));
-                            history.setReturned(historyObject.getBoolean("returned"));
+                            JSONObject historyObject = (JSONObject) historyJSONArray.get(i);
+
+                            Log.i("history object", historyObject.toString());
+
+                            History history = new History(historyObject.getString("car_id"),historyObject.getString("rent_id"),
+                                    historyObject.getString("rent_date"),historyObject.getString("return_date"),historyObject.getBoolean("returned"));
+                            //history.setCar_id(historyObject.getString("car_id"));
+
+                            Log.i("history object string carid ", history.getCar_id());
+
+                            //history.setRent_date((String) historyObject.get("rent_date"));
+
+                            Log.i("history object setrentdate", history.getRent_date() + "");
+
+                            //history.setRent_id(historyObject.getString("rent_id"));
+                            //history.setReturn_date(historyObject.getString("return_date"));
+                            //history.setReturned(historyObject.getBoolean("returned"));
+
                             historyList.add(history);
+                            Log.i("history object add", history.toString());
                         }
+
+                        Log.i("historylist", historyList.toString());
 
                         //현재 이용중인 내역과 완료된 내역 구분
                         //returned 값 false인거(반납x) 찾아서 current_에 저장하고 historyList에서 삭제
                         for (int i = 0; i < historyList.size(); i++) {
                             if (historyList.get(i).getReturned() == false) {
+                                returnbutton.setVisibility(View.VISIBLE);
                                 currentrentId = historyList.get(i).getRent_id();
                                 currentcarId = historyList.get(i).getCar_id();
                                 currentrentDate = historyList.get(i).getRent_date();
                                 historyList.remove(i);
-
+                                Log.i("currentinfo", historyList.toString());
                                 //현재 이용중인 내역 텍스트 표시
-                                currentinfo.setText("대여 시작 날짜 : " + currentrentDate + "\n대여 차량 번호 : " + currentcarId);
-                            }
+                                currentinfo.setText("대여 시작 날짜 : " + currentrentDate + "\n" +
+                                        "대여 차량 번호 : " + currentcarId);
+                                cnt = 0;
+                            } else cnt++;
                         }
-
-
-                    } else {
-
-                        Toast.makeText(getApplicationContext(), "내역이 조회되지 않습니다.", Toast.LENGTH_LONG).show();
-
+                        Log.i("historylistsize",historyList.toString()+"");
+                        for(int i = 0; i<historyList.size();i++){
+                            adapter.addItem(new History(historyList.get(i).getCar_id(),historyList.get(i).getRent_id(),historyList.get(i).getRent_date().toString(),historyList.get(i).getReturn_date().toString(),historyList.get(i).getReturned()));
+                            Log.i("addItemToadapter",i+" done");
+                        }
+                        recyclerView.setAdapter(adapter);
+                        if (cnt == historyList.size()) {
+                            currentinfo.setText("대여중인 차량이 존재하지 않습니다.");
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -119,75 +146,39 @@ public class HistoryActivity extends ListActivity {
 
             }
         },
-        new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
 
         jsonRequest1.setTag(TAG);
         queue.add(jsonRequest1);
 
-        HistoryAdapter h_adapter = new HistoryAdapter(this, R.layout.row, historyList);
-        setListAdapter(h_adapter);
+/*
+        for(int i = 0; i<historyList.size();i++){
+            adapter.addItem(new History(historyList.get(i).getCar_id(),historyList.get(i).getRent_id(),historyList.get(i).getRent_date().toString(),historyList.get(i).getReturn_date().toString(),historyList.get(i).getReturned()));
+            Log.i("addItemToadapter",i+" done");
+        }
+*/
 
-        lv.setAdapter(h_adapter);
 
-        //리스트뷰 아이템 클릭시
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter.setOnItemClicklistener(new OnPersonItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(PersonAdapter.ViewHolder holder, View view, int position) {
 
-                Intent apintent = new Intent(HistoryActivity.this, AfterPastHistory.class);
-                apintent.putExtra("user_id",userId);
-                apintent.putExtra("selected_rentid",historyList.get(position).getRent_id());
-                startActivity(apintent);
+                History item = adapter.getItem(position);
+
+                Intent intent = new Intent(HistoryActivity.this, AfterPastHistory.class);
+                intent.putExtra("rent_id",item.getRent_id());
+                intent.putExtra("car_id",item.getCar_id());
+                intent.putExtra("rent_date",item.getRent_date());
+                intent.putExtra("return_date",item.getReturn_date());
+                startActivity(intent);
+
+                //Toast.makeText(getApplicationContext(), "차량 선택 " + item.getCar_id(), Toast.LENGTH_LONG).show();
             }
         });
-
-
-    }
-
-
-    //리스트뷰
-
-    class HistoryAdapter extends ArrayAdapter<History> {
-        private ArrayList<History> items;
-
-        public HistoryAdapter(Context context, int textViewResourceId, ArrayList<History> items) {
-            super(context, textViewResourceId, items);
-            this.items = items;
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.row, null);
-            }
-            History h = items.get(position);
-            if (h != null) {
-
-                TextView rentdtv = (TextView) v.findViewById(R.id.rentdatetext);
-                TextView returndtv = (TextView) v.findViewById(R.id.returndatetxt);
-                TextView caridtv = (TextView) v.findViewById(R.id.caridtext);
-
-                if (rentdtv != null) {
-                    rentdtv.setText("대여 시각 : " + h.getRent_id());
-                }
-                if (returndtv != null) {
-                    returndtv.setText("반납 시각 : " + h.getReturn_date());
-                }
-                if (caridtv != null) {
-                    caridtv.setText("차량 번호 : " + h.getCar_id());
-                }
-            }
-
-            return v;
-
-        }
-
     }
 
     public void onCameraButtonClicked(View v) {

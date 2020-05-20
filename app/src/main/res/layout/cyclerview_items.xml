@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/caridtext"
+        android:id="@+id/caridtext1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/returndatetxt"
@@ -20,7 +20,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/rentdatetext"
+        android:id="@+id/rentdatetext1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -32,7 +32,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/returndatetxt"
+        android:id="@+id/returndatetxt1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rentdatetext"

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,13 +32,15 @@ import java.util.Map;
 
 public class BeforePastHistory extends AppCompatActivity {
     private File mImageFolder;
-    private String carid,rentid,userid,rentdate;
+    private String carid,rentid,userid,rentdate, returndate;
 
     private String state = "b";
 
     private String label,part;
     private Integer topx, topy, btmx, btmy;
     private JSONArray predictionsJSON,defects;
+
+    private TextView carinfo;
 
     private Boolean result;
 
@@ -59,6 +62,12 @@ public class BeforePastHistory extends AppCompatActivity {
         userid = intent.getStringExtra("user_id");
         carid = intent.getStringExtra("car_id");
         rentid = intent.getStringExtra("rent_id");
+        rentdate = intent.getStringExtra("rent_date");
+        returndate = intent.getStringExtra("return_date");
+
+
+        carinfo = findViewById(R.id.carinfotextview);
+        carinfo.setText("차량 번호 : "+carid+"\n대여 날짜 : "+rentdate+"\n반납 날짜 : "+rentdate);
 
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");

@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/carnumtextview"
+        android:id="@+id/carinfotextview"
         android:layout_width="269dp"
         android:layout_height="84dp"
         android:layout_marginStart="24dp"
