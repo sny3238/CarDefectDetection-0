@@ -82,16 +82,16 @@ public class BeforePastHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_past_history);
-        text.findViewById(R.id.carnumtextview);
-        text.setText("");
+//        text.findViewById(R.id.carnumtextview);
+//        text.setText("");
 
 
         Intent intent = getIntent();
-//        userid = intent.getStringExtra("user_id");
-//        carid = intent.getStringExtra("car_id");
-//        rentid = intent.getStringExtra("rent_id");
+        userid = Config.user_id;
+        carid = Config.car_id;
+        rentid = Config.rent_id;
 
-        rentid = "11";
+
 
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");

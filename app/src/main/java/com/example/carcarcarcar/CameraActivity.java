@@ -260,10 +260,6 @@ public class CameraActivity extends Activity {
             Intent saveintent = new Intent(getApplicationContext(), SaveImageActivity.class);
             saveintent.setAction("load temp image");
             saveintent.putExtra("temppath", tempPath);
-            saveintent.putExtra("index", index);
-            saveintent.putExtra("user_id", userid);
-            saveintent.putExtra("car_id", carid);
-            saveintent.putExtra("rent_id", rentid);
             saveintent.putExtra("state", state);
 
             mImage.close();
@@ -331,9 +327,6 @@ public class CameraActivity extends Activity {
         index = intent.getIntExtra("index", 0);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        userid = getIntent().getStringExtra("user_id");
-        carid = getIntent().getStringExtra("car_id");
-        rentid = getIntent().getStringExtra("rent_id");
         state = getIntent().getIntExtra("state", 0);
 
         // 화면 켜진 상태를 유지

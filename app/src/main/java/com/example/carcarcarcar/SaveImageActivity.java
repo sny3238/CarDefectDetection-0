@@ -74,10 +74,9 @@ public class SaveImageActivity extends Activity {
 
         Intent intent = getIntent();
 
-        userid = getIntent().getStringExtra("user_id");
-        carid = getIntent().getStringExtra("car_id");
-        //rentid = getIntent().getStringExtra("rent_id");
-        rentid = "11";
+        userid = Config.user_id;
+        carid = Config.car_id;
+        rentid = Config.rent_id;
         state = getIntent().getIntExtra("state", 0);
 
 
@@ -149,17 +148,13 @@ public class SaveImageActivity extends Activity {
                         cameraintent = new Intent(getApplicationContext(), BeforePastHistory.class);
                     else
                         cameraintent = new Intent(getApplicationContext(), AfterPastHistory.class);
-                    cameraintent.putExtra("user_id",userid);
-                    cameraintent.putExtra("car_id",carid);
-                    cameraintent.putExtra("rent_id",rentid);
+
 
                 } else {
 
                     cameraintent = new Intent(getApplicationContext(), CameraActivity.class);
                     //cameraintent.putExtra("file path", f.getAbsolutePath());
                     cameraintent.putExtra("index", index);
-                    cameraintent.putExtra("user_id",userid);
-                    cameraintent.putExtra("rent_id",rentid);
 
 
 
