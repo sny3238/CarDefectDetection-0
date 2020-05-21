@@ -8,6 +8,7 @@
         android:minSdkVersion="28"
         android:targetSdkVersion="28" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -29,13 +30,9 @@
         android:usesCleartextTraffic="true" >
         <activity android:name="com.example.carcarcarcar.ComparePopup" />
         <activity android:name="com.example.carcarcarcar.CompareActivity" />
-        <activity android:name="com.example.carcarcarcar.AfterPastHistory" />
+        <activity android:name="com.example.carcarcarcar.AfterPastHistory" >
+        </activity>
         <activity android:name="com.example.carcarcarcar.BeforePastHistory" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.example.carcarcarcar.AddnewActivity" />
         <activity android:name="com.example.carcarcarcar.HistoryActivity" />
@@ -51,7 +48,16 @@
             android:name="com.example.carcarcarcar.LoadingActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <service
+            android:name="com.example.carcarcarcar.YOLOService"
+            android:enabled="true" />
 
         <provider
             android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"

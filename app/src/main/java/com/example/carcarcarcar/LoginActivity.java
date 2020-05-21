@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //이 아래로는 모두 퍼미션 관련 코드
     static final int PERMISSIONS_REQUEST_CODE = 1000;
-    String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.FOREGROUND_SERVICE, Manifest.permission.INTERNET };
 
     private boolean hasPermissions(String[] permissions) {
         int result;

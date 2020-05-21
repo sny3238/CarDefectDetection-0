@@ -48,120 +48,121 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_frontal1"
+                android:id="@+id/ff_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="전면 상단"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageview_frontal1"
+                android:id="@+id/ff_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/frontal1_pic" />
+                />
 
             <TextView
-                android:id="@+id/textview_frontal2"
+                android:id="@+id/ft_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="전면"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageview_frontal2"
+                android:id="@+id/ft_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/frontal2_pic" />
+                />
 
             <TextView
-                android:id="@+id/textview_profile1"
+                android:id="@+id/bf_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="운전자석 앞면"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageview_profile1"
+                android:id="@+id/bf_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/profile1_pic" />
+                />
             <TextView
-                android:id="@+id/textview_profile2"
+                android:id="@+id/bt_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="운전자석 뒷면"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageview_profile2"
+                android:id="@+id/bt_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/profile2_pic" />
+                />
             <TextView
-                android:id="@+id/textview_profile3"
+                android:id="@+id/lf_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="보조석 뒷면"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageview_profile3"
+                android:id="@+id/lf_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/profile3_pic" />
+                />
             <TextView
-                android:id="@+id/textview_profile4"
+                android:id="@+id/lb_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="보조석 앞면"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageview_profile4"
+                android:id="@+id/lb_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/profile4_pic" />
+                />
 
             <TextView
-                android:id="@+id/textview_back1"
+                android:id="@+id/rf_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="후면 상단"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                />
 
             <ImageView
-                android:id="@+id/imageview_back1"
+                android:id="@+id/rf_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/back1_pic" />
+                />
             <TextView
-                android:id="@+id/textview_back2"
+                android:id="@+id/rb_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="후면"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageview_back2"
+                android:id="@+id/rb_imageview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/back2_pic" />
+                />
 
 
 
@@ -169,6 +170,19 @@
         </LinearLayout>
     </ScrollView>
 
+    <Button
+        android:id="@+id/sendBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="onSendButtonClicked"
+        android:text="분석하기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/compareBtn"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"/>
 
     <Button
         android:id="@+id/compareBtn"
@@ -181,28 +195,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toEndOf="@id/yoloBtn"
+        app:layout_constraintStart_toEndOf="@id/sendBtn"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
-    <Button
-        android:id="@+id/yoloBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:onClick="onYOLOButtonClicked"
-        android:text="결함 탐지"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/compareBtn"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView"/>
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Switch"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

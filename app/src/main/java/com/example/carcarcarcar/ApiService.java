@@ -18,6 +18,8 @@ public interface ApiService {
     @Multipart
     @POST("/upload")
     Call<ResponseBody> uploadMultiple(
+            @Part("rent_id") RequestBody rent_id,
+            @Part("before_after") RequestBody state,
             @Part List<MultipartBody.Part> car_photos
     );
 

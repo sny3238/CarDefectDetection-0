@@ -1199,14 +1199,6 @@ id ifRoom
 id image
 id imageView
 id imageView2
-id imageview_back1
-id imageview_back2
-id imageview_frontal1
-id imageview_frontal2
-id imageview_profile1
-id imageview_profile2
-id imageview_profile3
-id imageview_profile4
 id info
 id invisible
 id italic
@@ -1327,7 +1319,6 @@ id status_bar_latest_event_content
 id stretch
 id submenuarrow
 id submit_area
-id switch1
 id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
@@ -1348,14 +1339,6 @@ id textinput_counter
 id textinput_error
 id textinput_helper_text
 id textureView
-id textview_back1
-id textview_back2
-id textview_frontal1
-id textview_frontal2
-id textview_profile1
-id textview_profile2
-id textview_profile3
-id textview_profile4
 id time
 id title
 id titleDividerNoCustom
@@ -1378,7 +1361,6 @@ id visible
 id withText
 id wrap
 id wrap_content
-id yoloBtn
 integer abc_config_activityDefaultDur
 integer abc_config_activityShortDur
 integer app_bar_elevation_anim_duration

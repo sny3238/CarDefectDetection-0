@@ -262,46 +262,10 @@ public class CameraActivity extends Activity {
             saveintent.putExtra("temppath", tempPath);
             saveintent.putExtra("index", index);
             saveintent.putExtra("state", state);
-
             mImage.close();
             startActivity(saveintent); // 사진
         }
     }
-    //    private class ImageSaver implements Runnable{
-//
-//        private final Image mImage;
-//
-//        private ImageSaver(Image image){
-//            mImage = image;
-//        }
-//
-//        @Override
-//        public void run() {
-//            ByteBuffer byteBuffer = mImage.getPlanes()[0].getBuffer();
-//            byte[] bytes = new byte[byteBuffer.remaining()];
-//            byteBuffer.get(bytes);
-//            FileOutputStream fileOutputStream = null;
-//
-//            try {
-//                fileOutputStream = new FileOutputStream(mImageFileName);
-//                fileOutputStream.write(bytes);  //사진 저장
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                mImage.close();
-//                Intent mediaStoreUpdateIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//                mediaStoreUpdateIntent.setData(Uri.fromFile(new File(mImageFileName)));
-//                sendBroadcast(mediaStoreUpdateIntent);
-//                if(fileOutputStream != null){
-//                    try {
-//                        fileOutputStream.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//    }
 
 
 

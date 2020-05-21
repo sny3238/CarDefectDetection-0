@@ -10,113 +10,124 @@
 9        android:targetSdkVersion="28" />
 9-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml
 10
-11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-11-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:5:5-79
-11-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:5:22-76
-12    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-12-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:5-81
-12-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:22-78
-13    <uses-permission android:name="android.permission.CAMERA" />
-13-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:7:5-65
-13-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:7:22-62
-14    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-14-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:8:5-80
-14-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:8:22-77
-15    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-15-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:5-81
-15-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:22-78
-16    <uses-permission android:name="android.permission.INTERNET" />
-16-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:10:5-67
-16-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:10:22-64
-17
-18    <application
-18-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:13:5-54:19
-19        android:allowBackup="true"
-19-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:14:9-35
-20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-20-->[androidx.core:core:1.0.1] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\51ec9767ead7a598d20dd24a7369e6f6\core-1.0.1\AndroidManifest.xml:22:18-86
-21        android:debuggable="true"
-22        android:extractNativeLibs="false"
-23        android:icon="@mipmap/ic_launcher"
-23-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:15:9-43
-24        android:label="@string/app_name"
-24-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:16:9-41
-25        android:roundIcon="@mipmap/ic_launcher_round"
-25-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:17:9-54
-26        android:supportsRtl="true"
-26-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:18:9-35
-27        android:testOnly="true"
-28        android:theme="@style/AppTheme.NoActionBar"
-28-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:19:9-52
-29        android:usesCleartextTraffic="true" >
-29-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:20:9-44
-30        <activity android:name="com.example.carcarcarcar.ComparePopup" />
-30-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:22:9-49
-30-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:22:19-47
-31        <activity android:name="com.example.carcarcarcar.CompareActivity" />
-31-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:23:9-53
-31-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:23:19-50
-32        <activity android:name="com.example.carcarcarcar.AfterPastHistory" />
-32-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:24:9-54
-32-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:24:19-51
-33        <activity android:name="com.example.carcarcarcar.BeforePastHistory" >
-33-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:25:9-31:20
-33-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:25:19-52
-34            <intent-filter>
-34-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:26:13-30:29
-35                <action android:name="android.intent.action.MAIN" />
-35-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:27:17-69
-35-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:27:25-66
-36
-37                <category android:name="android.intent.category.LAUNCHER" />
-37-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:29:17-77
-37-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:29:27-74
-38            </intent-filter>
-39        </activity>
-40        <activity android:name="com.example.carcarcarcar.AddnewActivity" />
-40-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:32:9-52
-40-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:32:19-49
-41        <activity android:name="com.example.carcarcarcar.HistoryActivity" />
-41-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:33:9-53
-41-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:33:19-50
-42        <activity android:name="com.example.carcarcarcar.MenuActivity" />
-42-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:34:9-50
-42-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:34:19-47
+11    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+11-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:4:5-77
+11-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:4:22-74
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:5:5-79
+12-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:5:22-76
+13    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+13-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:5-81
+13-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:22-78
+14    <uses-permission android:name="android.permission.CAMERA" />
+14-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:7:5-65
+14-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:7:22-62
+15    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+15-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:8:5-80
+15-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:8:22-77
+16    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+16-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:5-81
+16-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:6:22-78
+17    <uses-permission android:name="android.permission.INTERNET" />
+17-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:10:5-67
+17-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:10:22-64
+18
+19    <application
+19-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:13:5-60:19
+20        android:allowBackup="true"
+20-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:14:9-35
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.0.1] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\51ec9767ead7a598d20dd24a7369e6f6\core-1.0.1\AndroidManifest.xml:22:18-86
+22        android:debuggable="true"
+23        android:extractNativeLibs="false"
+24        android:icon="@mipmap/ic_launcher"
+24-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:15:9-43
+25        android:label="@string/app_name"
+25-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:16:9-41
+26        android:roundIcon="@mipmap/ic_launcher_round"
+26-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:17:9-54
+27        android:supportsRtl="true"
+27-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:18:9-35
+28        android:testOnly="true"
+29        android:theme="@style/AppTheme.NoActionBar"
+29-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:19:9-52
+30        android:usesCleartextTraffic="true" >
+30-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:20:9-44
+31        <activity android:name="com.example.carcarcarcar.ComparePopup" />
+31-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:22:9-49
+31-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:22:19-47
+32        <activity android:name="com.example.carcarcarcar.CompareActivity" />
+32-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:23:9-53
+32-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:23:19-50
+33        <activity android:name="com.example.carcarcarcar.AfterPastHistory" >
+33-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:24:9-27:20
+33-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:24:19-51
+34        </activity>
+35        <activity android:name="com.example.carcarcarcar.BeforePastHistory" >
+35-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:28:9-32:20
+35-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:28:19-52
+36        </activity>
+37        <activity android:name="com.example.carcarcarcar.AddnewActivity" />
+37-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:33:9-52
+37-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:33:19-49
+38        <activity android:name="com.example.carcarcarcar.HistoryActivity" />
+38-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:34:9-53
+38-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:34:19-50
+39        <activity android:name="com.example.carcarcarcar.MenuActivity" />
+39-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:35:9-50
+39-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:35:19-47
+40        <activity
+40-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:37:9-39:53
+41            android:name="com.example.carcarcarcar.CameraActivity"
+41-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:38:13-43
+42            android:screenOrientation="landscape" />
+42-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:39:13-50
 43        <activity
-43-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:36:9-38:53
-44            android:name="com.example.carcarcarcar.CameraActivity"
-44-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:37:13-43
+43-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:40:9-42:53
+44            android:name="com.example.carcarcarcar.SaveImageActivity"
+44-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:41:13-46
 45            android:screenOrientation="landscape" />
-45-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:38:13-50
-46        <activity
-46-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:39:9-41:53
-47            android:name="com.example.carcarcarcar.SaveImageActivity"
-47-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:40:13-46
-48            android:screenOrientation="landscape" />
-48-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:41:13-50
-49        <activity android:name="com.example.carcarcarcar.LoginActivity" />
-49-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:42:9-43:44
-49-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:43:13-42
-50        <activity
-50-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:44:9-50:20
-51            android:name="com.example.carcarcarcar.LoadingActivity"
-51-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:45:13-44
-52            android:label="@string/app_name"
-52-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:47:13-45
-53            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-53-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:46:13-71
-54        </activity>
-55
-56        <provider
-56-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:23:9-27:43
-57            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-57-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:24:13-79
-58            android:authorities="com.example.carcarcarcar.lifecycle-process"
-58-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:25:13-69
-59            android:exported="false"
-59-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:26:13-37
-60            android:multiprocess="true" />
-60-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:27:13-40
-61    </application>
-62
-63</manifest>
+45-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:42:13-50
+46        <activity android:name="com.example.carcarcarcar.LoginActivity" />
+46-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:43:9-44:44
+46-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:44:13-42
+47        <activity
+47-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:45:9-54:20
+48            android:name="com.example.carcarcarcar.LoadingActivity"
+48-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:46:13-44
+49            android:label="@string/app_name"
+49-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:48:13-45
+50            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+50-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:47:13-71
+51            <intent-filter>
+51-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:49:13-53:29
+52                <action android:name="android.intent.action.MAIN" />
+52-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:50:17-69
+52-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:50:25-66
+53
+54                <category android:name="android.intent.category.LAUNCHER" />
+54-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:52:17-77
+54-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:52:27-74
+55            </intent-filter>
+56        </activity>
+57
+58        <service
+58-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:55:9-56:37
+59            android:name="com.example.carcarcarcar.YOLOService"
+59-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:55:18-45
+60            android:enabled="true" />
+60-->C:\Users\YJ\Python code\Capstone design2\car_app0521\CarDefectDetection-0\app\src\main\AndroidManifest.xml:56:13-35
+61
+62        <provider
+62-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:23:9-27:43
+63            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+63-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:24:13-79
+64            android:authorities="com.example.carcarcarcar.lifecycle-process"
+64-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:25:13-69
+65            android:exported="false"
+65-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:26:13-37
+66            android:multiprocess="true" />
+66-->[androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\YJ\.gradle\caches\transforms-2\files-2.1\87ac5c9302d2cdd805e2f4717a5cf3a7\jetified-lifecycle-process-2.0.0\AndroidManifest.xml:27:13-40
+67    </application>
+68
+69</manifest>

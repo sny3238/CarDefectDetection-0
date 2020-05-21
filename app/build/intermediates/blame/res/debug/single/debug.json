@@ -4,12 +4,12 @@
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\drawable\\ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\drawable_frontal2.png.flat",
-        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\drawable\\frontal2.png"
-    },
-    {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_returninfo.xml.flat",
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\layout\\activity_returninfo.xml"
+    },
+    {
+        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\drawable_frontal2.png.flat",
+        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\drawable\\frontal2.png"
     },
     {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\drawable_back2.png.flat",
@@ -28,12 +28,12 @@
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\drawable\\profile2_pic.jpg"
     },
     {
-        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_compare.xml.flat",
-        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\layout\\activity_compare.xml"
-    },
-    {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\drawable_profile3.png.flat",
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\drawable\\profile3.png"
+    },
+    {
+        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_compare.xml.flat",
+        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\layout\\activity_compare.xml"
     },
     {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_frontal2.xml.flat",
@@ -52,12 +52,12 @@
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
-        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
-    },
-    {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_row.xml.flat",
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\layout\\row.xml"
+    },
+    {
+        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
     },
     {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0521\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_profile3.xml.flat",

@@ -110,32 +110,6 @@ public class SaveImageActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-//                FileOutputStream fileOutputStream = null;
-//
-//
-//                //File f =  new File(imagepath);
-//                String position;
-//
-//                if(index == 0) position = "ft";
-//                else if(index == 1) position = "ff";
-//                else if(index == 2) position = "rf";
-//                else if(index == 3)position = "rb";
-//                else if(index == 4) position = "bt";
-//                else if(index == 5) position = "bf";
-//                else if(index == 6) position = "lb";
-//                else position = "lf";
-//
-//                String car_state;
-//                if(state == 0)
-//                    car_state = "b";
-//                else
-//                    car_state = "a";
-//
-//                String newname = rentid + "_"+ position + "_" + car_state +  ".png";
-//                newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(),newname));
-//                final File newFile = new File(newPath);
-//                System.out.println("#################" + newPath);
-
 
                 task = new BackgroundTask();
                 task.execute(bitmap);
@@ -155,39 +129,12 @@ public class SaveImageActivity extends Activity {
                     cameraintent = new Intent(getApplicationContext(), CameraActivity.class);
                     //cameraintent.putExtra("file path", f.getAbsolutePath());
                     cameraintent.putExtra("index", index);
+                    cameraintent.putExtra("state", state);
 
 
 
                     startActivity(cameraintent);
                 }
-
-//                try {//사진 저장
-//                    fileOutputStream = new FileOutputStream(newFile);
-//                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
-//                    Toast.makeText(getApplicationContext(), "사진이 저장되었습니다.", Toast.LENGTH_SHORT).show();
-//                    index++; // count the number of pics. All pics should be 8 pictures.
-//                    fileOutputStream.flush();
-//                    fileOutputStream.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } finally {
-//
-//                    Intent mediaStoreUpdateIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//                    mediaStoreUpdateIntent.setData(Uri.fromFile(newFile));
-//                    sendBroadcast(mediaStoreUpdateIntent);
-//                    if (fileOutputStream != null) {
-//
-//                        try {
-//                            fileOutputStream.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-
-
-
-
 
 
             }

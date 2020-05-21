@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +75,7 @@ public class BeforePastHistory extends AppCompatActivity {
 
     private ArrayList<Uri> arrayList;
 
-    JSONArray imageArray;
+
 
     OkHttpClient okHttpClient;
 
@@ -86,7 +87,7 @@ public class BeforePastHistory extends AppCompatActivity {
 //        text.setText("");
 
 
-        Intent intent = getIntent();
+
         userid = Config.user_id;
         carid = Config.car_id;
         rentid = Config.rent_id;
@@ -159,9 +160,9 @@ public class BeforePastHistory extends AppCompatActivity {
         }
 
         okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.MINUTES)
-                .readTimeout(60, TimeUnit.MINUTES)
-                .writeTimeout(60, TimeUnit.MINUTES)
+                .connectTimeout(5, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.MINUTES)
+                .writeTimeout(10, TimeUnit.MINUTES)
                 .build();
 
 
@@ -172,13 +173,14 @@ public class BeforePastHistory extends AppCompatActivity {
 
 
 
-    public void onCameraButtonClicked(View v){
+    public void onCameraButtonClicked(View v){  // 반납을 위한 사진찍기
         Intent intent2 = new Intent(this, CameraActivity.class);
+        intent2.putExtra("state", 1);
         startActivity(intent2);
 
     }
 
-    public void onSendButtonClicked(View v){
+    public void onSendButtonClicked(View v){    // 사진을 서버로 전송하는 버튼
         uploadImagesToServer();
         Toast.makeText(BeforePastHistory.this, "Send complete", Toast.LENGTH_SHORT);
 
@@ -211,14 +213,18 @@ public class BeforePastHistory extends AppCompatActivity {
             }
 
             // create a map of data to pass along
+            RequestBody rent_id = createPartFromString(rentid);
+            RequestBody state = createPartFromString("b");
 
 
             // execute the request
-            Call<ResponseBody> call = service.uploadMultiple(parts);
+            Call<ResponseBody> call = service.uploadMultiple(rent_id, state, parts);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                    System.out.println("#################response###################");
+                    System.out.println(response);
                     if(response.isSuccessful()){
                         Log.v("Upload", "success");
                         Toast.makeText(BeforePastHistory.this,
