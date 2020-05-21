@@ -88,6 +88,46 @@ public class LoginActivity extends AppCompatActivity {
                             result = response.getBoolean("result");
 
                             if (result) {
+
+                                JSONObject body2=new JSONObject();
+                                try {
+                                    body2.put("user_id", usernameEditText.getText().toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                final JsonObjectRequest jsonRequest2=new JsonObjectRequest(Request.Method.POST, Config.getUrl("/checkUserInfo"), body2, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        if (result){
+                                            try {
+                                                JSONObject user_info=response.getJSONObject("user_info");
+
+                                                Config.user_id=user_info.getString("user_id");
+                                                Config.is_renting=user_info.getBoolean("renting");
+                                                if(Config.is_renting){
+                                                    Config.rent_id=user_info.getString("current_rent_id");
+                                                    Config.car_id=user_info.getString("current_car_id");
+                                                    JSONObject photos_state=user_info.getJSONObject("photos_state");
+                                                    Config.photos_state_before=photos_state.getBoolean("before");
+                                                    Config.photos_state_after=photos_state.getBoolean("after");
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                });
+                                jsonRequest2.setTag(TAG);
+                                queue.add(jsonRequest2);
+
                                 textView.setText("로그인 성공");
                                 Toast.makeText(getApplicationContext(), usernameEditText.getText().toString()+"님 환영합니다", Toast.LENGTH_SHORT).show();
 

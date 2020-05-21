@@ -95,7 +95,7 @@ public class BeforePastHistory extends AppCompatActivity {
 
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");
-        //sendBtn = findViewById(R.id.sendBtn);
+        sendBtn = findViewById(R.id.sendBtn);
 
 
         ImageView imageview_frontal1 = findViewById(R.id.ff_imageview_compare);
@@ -225,7 +225,7 @@ public class BeforePastHistory extends AppCompatActivity {
                                 "Images successfully uploaded!", Toast.LENGTH_SHORT).show();
 
 
-                        //sendBtn.setEnabled(false);
+                        sendBtn.setEnabled(false);
                     }
                     else {
                         Snackbar.make(findViewById(android.R.id.content),

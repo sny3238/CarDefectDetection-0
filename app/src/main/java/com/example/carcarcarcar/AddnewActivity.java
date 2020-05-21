@@ -64,6 +64,7 @@ public class AddnewActivity extends AppCompatActivity {
                 final JsonObjectRequest jsonRequest1 = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         try {
                             Boolean result = response.getBoolean("result");
 
@@ -79,70 +80,29 @@ public class AddnewActivity extends AppCompatActivity {
                                 cameratextview.setVisibility(View.VISIBLE);
 
                             }else{
+                                if(Config.is_renting){
 
+                                    cartypetextview.setText("대여중인 차량이 존재합니다.");
 
-                                JSONObject body=new JSONObject();
-                                try{
-                                    Intent getIntent=getIntent();
-                                    String userid=getIntent.getStringExtra("user_id");
-                                    body.put("user_id",userid);
+                                    if(Config.photos_state_before){
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                        Intent intent=new Intent(AddnewActivity.this, BeforePastHistory.class);
+
+                                        intent.putExtra("user_id",Config.user_id);
+                                        intent.putExtra("rent_id",Config.rent_id);
+                                        intent.putExtra("state",0);
+                                        startActivity(intent);
+
+                                    }else{
+                                        Intent intent=new Intent(AddnewActivity.this,CameraActivity.class);
+                                        intent.putExtra("user_id",Config.user_id);
+                                        intent.putExtra("rent_id",Config.rent_id);
+                                        intent.putExtra("state",0);
+                                        startActivity(intent);
+                                    }
+                                }else{
+                                    cartypetextview.setText("차량 존재하지 않거나 대여중입니다");
                                 }
-                                final JsonObjectRequest jsonRequest3=new JsonObjectRequest(Request.Method.POST, Config.getUrl("/checkUserInfo"), body, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-
-                                            JSONObject user_info=response.getJSONObject("user_info");
-                                            Intent getintent = getIntent();
-                                            String userid = getintent.getStringExtra("user_id");
-                                            String rentid=user_info.getString("current_rent_id");
-
-                                            if(user_info.getBoolean("renting")){
-
-                                                cartypetextview.setText("대여중인 차량이 존재합니다.");
-                                                JSONObject photos_state=user_info.getJSONObject("photos_state");
-                                                Boolean photos_state_before=photos_state.getBoolean("before");
-
-                                                //Toast.makeText(getApplicationContext(), photos_state.toString(), Toast.LENGTH_LONG).show();
-                                                if(photos_state_before){
-
-                                                    Intent intent=new Intent(AddnewActivity.this, BeforePastHistory.class);
-
-                                                    intent.putExtra("user_id",userid);
-                                                    intent.putExtra("rent_id",rentid);
-                                                    intent.putExtra("state",0);
-                                                    startActivity(intent);
-
-                                                }else{
-                                                    Intent intent=new Intent(AddnewActivity.this,CameraActivity.class);
-                                                    intent.putExtra("user_id",userid);
-                                                    intent.putExtra("rent_id",rentid);
-                                                    intent.putExtra("state",0);
-                                                    startActivity(intent);
-                                                }
-                                            }else{
-                                                cartypetextview.setText("차량 존재하지 않거나 대여중입니다");
-                                            }
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                    }
-                                });
-                                jsonRequest3.setTag(TAG);
-                                queue.add(jsonRequest3);
-
-
-
                             }
                         }
                         catch (JSONException e) {
