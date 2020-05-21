@@ -260,6 +260,7 @@ public class CameraActivity extends Activity {
             Intent saveintent = new Intent(getApplicationContext(), SaveImageActivity.class);
             saveintent.setAction("load temp image");
             saveintent.putExtra("temppath", tempPath);
+            saveintent.putExtra("index", index);
             saveintent.putExtra("state", state);
 
             mImage.close();
