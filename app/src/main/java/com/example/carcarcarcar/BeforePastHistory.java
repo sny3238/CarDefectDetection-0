@@ -11,23 +11,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class BeforePastHistory extends AppCompatActivity {
@@ -56,7 +46,7 @@ public class BeforePastHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_past_history);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         Intent intent = getIntent();
         userid = intent.getStringExtra("user_id");
@@ -121,7 +111,7 @@ public class BeforePastHistory extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+/*
         queue = Volley.newRequestQueue(this);
 
         String url = "http://localhost:3000/showResults/yolo";
@@ -189,7 +179,7 @@ public class BeforePastHistory extends AppCompatActivity {
 
         queue.add(jsonRequest);
 
-
+*/
 
     }
 
