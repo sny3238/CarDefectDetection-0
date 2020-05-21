@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -60,6 +61,8 @@ public class BeforePastHistory extends AppCompatActivity {
 
     private Boolean result;
 
+    private TextView text;
+
     private static final String TAG = "MAIN";
 
     private RequestQueue queue;
@@ -79,6 +82,8 @@ public class BeforePastHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_past_history);
+        text.findViewById(R.id.carnumtextview);
+        text.setText("");
 
 
         Intent intent = getIntent();
@@ -90,7 +95,7 @@ public class BeforePastHistory extends AppCompatActivity {
 
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");
-        sendBtn = findViewById(R.id.sendBtn);
+        //sendBtn = findViewById(R.id.sendBtn);
 
 
         ImageView imageview_frontal1 = findViewById(R.id.ff_imageview_compare);
@@ -220,7 +225,7 @@ public class BeforePastHistory extends AppCompatActivity {
                                 "Images successfully uploaded!", Toast.LENGTH_SHORT).show();
 
 
-                        sendBtn.setEnabled(false);
+                        //sendBtn.setEnabled(false);
                     }
                     else {
                         Snackbar.make(findViewById(android.R.id.content),

@@ -1128,8 +1128,10 @@ id buttonPanel
 id camerabutton
 id cameratext
 id cancel_action
+id caridText
 id caridentifybutton
 id caridtext
+id caridtext1
 id carnumber
 id carnumtextview
 id cartypetextview
@@ -1197,6 +1199,14 @@ id ifRoom
 id image
 id imageView
 id imageView2
+id imageview_back1
+id imageview_back2
+id imageview_frontal1
+id imageview_frontal2
+id imageview_profile1
+id imageview_profile2
+id imageview_profile3
+id imageview_profile4
 id info
 id invisible
 id italic
@@ -1257,9 +1267,14 @@ id radio
 id rb_button_compare
 id rb_imageview_compare
 id rb_textview_compare
+id recyclerView
+id rentdateText
 id rentdatetext
+id rentdatetext1
 id returnBtn
+id returndateText
 id returndatetxt
+id returndatetxt1
 id returnpicBtn
 id rf_button_compare
 id rf_imageview_compare
@@ -1288,7 +1303,6 @@ id search_src_text
 id search_voice_btn
 id select_dialog_listview
 id selected
-id sendBtn
 id shortcut
 id showCustom
 id showHome
@@ -1312,6 +1326,7 @@ id status_bar_latest_event_content
 id stretch
 id submenuarrow
 id submit_area
+id switch1
 id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
@@ -1332,6 +1347,14 @@ id textinput_counter
 id textinput_error
 id textinput_helper_text
 id textureView
+id textview_back1
+id textview_back2
+id textview_frontal1
+id textview_frontal2
+id textview_profile1
+id textview_profile2
+id textview_profile3
+id textview_profile4
 id time
 id title
 id titleDividerNoCustom
@@ -1354,6 +1377,7 @@ id visible
 id withText
 id wrap
 id wrap_content
+id yoloBtn
 integer abc_config_activityDefaultDur
 integer abc_config_activityShortDur
 integer app_bar_elevation_anim_duration
@@ -1417,6 +1441,7 @@ layout activity_saveimage
 layout back1
 layout back2
 layout custom_dialog
+layout cyclerview_items
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
 layout design_layout_snackbar
@@ -1451,6 +1476,7 @@ layout notification_template_media
 layout notification_template_media_custom
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout person_item
 layout profile1
 layout profile2
 layout profile3
