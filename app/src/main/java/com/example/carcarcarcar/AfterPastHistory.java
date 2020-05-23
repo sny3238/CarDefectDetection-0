@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,6 +43,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -68,6 +68,8 @@ public class AfterPastHistory extends AppCompatActivity {
     private boolean yolo_done = false;
 
     private Intent serviceIntent_compare;
+
+    ApiService service;
 
 
     @Override
@@ -156,9 +158,9 @@ public class AfterPastHistory extends AppCompatActivity {
         }
 
         okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.MINUTES)
-                .readTimeout(10, TimeUnit.MINUTES)
-                .writeTimeout(10, TimeUnit.MINUTES)
+                .connectTimeout(5, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.MINUTES)
+                .writeTimeout(30, TimeUnit.MINUTES)
                 .build();
 
 
@@ -199,7 +201,7 @@ public class AfterPastHistory extends AppCompatActivity {
 
             List<MultipartBody.Part> parts = new ArrayList<>();
 
-            ApiService service = retrofit.create(ApiService.class);
+            service = retrofit.create(ApiService.class);
 
             if(arrayList != null){
                 // create part for file
@@ -209,13 +211,11 @@ public class AfterPastHistory extends AppCompatActivity {
                 }
             }
 
-            // create a map of data to pass along
-            RequestBody rent_id = createPartFromString(rentid);
-            RequestBody state = createPartFromString("a");
 
 
-            // execute the request
-            Call<ResponseBody> call = service.uploadMultiple(rent_id, state, parts);
+
+            // execute the request 사진전송
+            Call<ResponseBody> call = service.uploadMultiple(parts);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -225,15 +225,45 @@ public class AfterPastHistory extends AppCompatActivity {
                         Toast.makeText(AfterPastHistory.this,
                                 "Images successfully uploaded!", Toast.LENGTH_SHORT).show();
 
-                        serviceIntent_compare.putExtra("YOLO_done", yolo_done); // send true
-                        startService(serviceIntent_compare);    // 사용자에게 YOLO가 완료됐음을 알림
+                        // create a map of data to pass along
+                        RequestBody rent_id = createPartFromString(rentid);
+                        RequestBody state = createPartFromString("a");
+                        RequestBody yolo_request = createPartFromString("true");
 
-                        sendBtn.setEnabled(false);
-                        compareBtn.setEnabled(true);
+                        //  YOLO 요청 전송
+                        Call<ResponseBody> yolo_call = service.requestYOLO(rent_id, state, yolo_request);
+                        Log.v("YOLO Request", "Request YOLO");
+
+                        yolo_call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if(response.isSuccessful()){
+                                    Log.v("YOLO server", "YOLO Complete");
+                                    // background service 전송
+                                    serviceIntent_compare.putExtra("YOLO_done", yolo_done); // send true
+                                    startService(serviceIntent_compare);    // 사용자에게 YOLO가 완료됐음을 알림
+
+                                    sendBtn.setEnabled(false);
+                                    compareBtn.setEnabled(true);
+
+                                }
+                                else {
+                                    Snackbar.make(findViewById(android.R.id.content),
+                                            "Something went wrong with YOLO.", Snackbar.LENGTH_LONG).show();
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.v("YOLO Server", "YOLO failed");
+                            }
+                        });
+
                     }
                     else {
                         Snackbar.make(findViewById(android.R.id.content),
-                                "Something went wrong.", Snackbar.LENGTH_LONG).show();
+                                "Something went wrong with Sending.", Snackbar.LENGTH_LONG).show();
                     }
                 }
 

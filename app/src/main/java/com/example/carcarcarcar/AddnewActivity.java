@@ -80,11 +80,17 @@ public class AddnewActivity extends AppCompatActivity {
                                 cameratextview.setVisibility(View.VISIBLE);
 
                             }else{
+
+
                                 if(Config.is_renting){
 
                                     cartypetextview.setText("대여중인 차량이 존재합니다.");
 
-                                    if(Config.photos_state_before){
+                                    if(Config.upload_before){
+                                        Intent intent=new Intent(AddnewActivity.this, CurrentStateActivity.class);
+                                        startActivity(intent);
+
+                                    } else if(Config.photos_before){
 
                                         Intent intent=new Intent(AddnewActivity.this, BeforePastHistory.class);
 
@@ -142,14 +148,15 @@ public class AddnewActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Boolean result=response.getBoolean("result");
+                            Boolean result = response.getBoolean("result");
                             if (result){
 
                                 Intent intent = new Intent(AddnewActivity.this, CameraActivity.class);
                                 Intent getintent = getIntent();
                                 String userid = getintent.getStringExtra("user_id");
                                 String carid = carnumberEditText.getText().toString();
-                                String rentid=response.getString("rent_id");
+                                String rentid = Config.rent_id;
+                                System.out.println("################## rentid" + rentid);
 
                                 intent.putExtra("rent_id",rentid);
                                 intent.putExtra("user_id",userid);

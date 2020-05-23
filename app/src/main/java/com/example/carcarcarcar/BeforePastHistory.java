@@ -22,7 +22,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -52,6 +51,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -74,6 +74,8 @@ public class BeforePastHistory extends AppCompatActivity {
     Button sendBtn;
 
     private ArrayList<Uri> arrayList;
+
+    ApiService service;
 
 
 
@@ -162,7 +164,7 @@ public class BeforePastHistory extends AppCompatActivity {
         okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(5, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.MINUTES)
-                .writeTimeout(10, TimeUnit.MINUTES)
+                .writeTimeout(30, TimeUnit.MINUTES)
                 .build();
 
 
@@ -202,7 +204,7 @@ public class BeforePastHistory extends AppCompatActivity {
 
             List<MultipartBody.Part> parts = new ArrayList<>();
 
-            ApiService service = retrofit.create(ApiService.class);
+            service = retrofit.create(ApiService.class);
 
             if(arrayList != null){
                 // create part for file
@@ -213,22 +215,39 @@ public class BeforePastHistory extends AppCompatActivity {
             }
 
             // create a map of data to pass along
-            RequestBody rent_id = createPartFromString(rentid);
-            RequestBody state = createPartFromString("b");
 
 
             // execute the request
-            Call<ResponseBody> call = service.uploadMultiple(rent_id, state, parts);
+            Call<ResponseBody> call = service.uploadMultiple(parts);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                    System.out.println("#################response###################");
-                    System.out.println(response);
+
                     if(response.isSuccessful()){
                         Log.v("Upload", "success");
                         Toast.makeText(BeforePastHistory.this,
                                 "Images successfully uploaded!", Toast.LENGTH_SHORT).show();
+
+
+                        RequestBody rent_id = createPartFromString(rentid);
+                        RequestBody state = createPartFromString("b");
+                        RequestBody yolo_request = createPartFromString("true");
+                        Call<ResponseBody> yolo_call = service.requestYOLO(rent_id, state, yolo_request);
+                        Log.v("YOLO Request", "Request YOLO");
+
+                        yolo_call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Log.v("YOLO server", "YOLO Complete");
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.v("YOLO Server", "YOLO failed");
+                            }
+                        });
 
 
                         sendBtn.setEnabled(false);

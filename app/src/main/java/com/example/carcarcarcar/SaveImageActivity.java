@@ -69,7 +69,7 @@ public class SaveImageActivity extends Activity {
     public void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //final LoadingDialog loadingDialog = new LoadingDialog(SaveImageActivity.this);
+
 
 
         Intent intent = getIntent();
@@ -118,8 +118,11 @@ public class SaveImageActivity extends Activity {
 
                 index++; // count the number of pics. All pics should be 8 pictures.
                 if (index == 8) {
-                    if  (state == 0)
+                    if  (state == 0){
+                        Config.photos_before = true;
                         cameraintent = new Intent(getApplicationContext(), BeforePastHistory.class);
+                    }
+
                     else
                         cameraintent = new Intent(getApplicationContext(), AfterPastHistory.class);
 

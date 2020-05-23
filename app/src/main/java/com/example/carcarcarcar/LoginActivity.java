@@ -109,8 +109,9 @@ public class LoginActivity extends AppCompatActivity {
                                                     Config.rent_id=user_info.getString("current_rent_id");
                                                     Config.car_id=user_info.getString("current_car_id");
                                                     JSONObject photos_state=user_info.getJSONObject("photos_state");
-                                                    Config.photos_state_before=photos_state.getBoolean("before");
-                                                    Config.photos_state_after=photos_state.getBoolean("after");
+//                                                    Config.photos_before=photos_state.getBoolean("photos_before");
+                                                    Config.upload_before=photos_state.getBoolean("before");
+                                                    //Config.photos_state_after=photos_state.getBoolean("after");
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -131,10 +132,18 @@ public class LoginActivity extends AppCompatActivity {
                                 textView.setText("로그인 성공");
                                 Toast.makeText(getApplicationContext(), usernameEditText.getText().toString()+"님 환영합니다", Toast.LENGTH_SHORT).show();
 
-                                //로그인 성공하면 Menu Activity로 전환
-                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                                intent.putExtra("user_id",usernameEditText.getText().toString());
-                                startActivity(intent);
+                                //로그인 성공하면
+                                if(Config.is_renting){ // 차를 대여중일 경우 history activity로
+                                    Intent intent = new Intent(LoginActivity.this, HistoryActivity.class);
+                                    intent.putExtra("user_id",usernameEditText.getText().toString());
+                                    startActivity(intent);
+
+                                } else{ // 차를 대여중이지 않을 경우 메뉴화면으로
+                                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                    intent.putExtra("user_id",usernameEditText.getText().toString());
+                                    startActivity(intent);
+                                }
+
 
                             } else {
                                 textView.setText("로그인 실패, 아이디와 비밀번호를 다시 입력하세요");

@@ -1,5 +1,7 @@
 package com.example.carcarcarcar;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -18,9 +20,16 @@ public interface ApiService {
     @Multipart
     @POST("/upload")
     Call<ResponseBody> uploadMultiple(
+            @Part List<MultipartBody.Part> car_photos
+    );
+
+    @Multipart
+    @POST("/test")
+    Call<ResponseBody> requestYOLO(
+
             @Part("rent_id") RequestBody rent_id,
             @Part("before_after") RequestBody state,
-            @Part List<MultipartBody.Part> car_photos
+            @Part("YOLO_request") RequestBody YOLO_request
     );
 
 

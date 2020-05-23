@@ -1414,6 +1414,7 @@ layout activity_before_past_history
 layout activity_camera
 layout activity_compare
 layout activity_compare_popup
+layout activity_currentstate
 layout activity_history
 layout activity_launch
 layout activity_loading
