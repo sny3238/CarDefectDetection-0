@@ -1,141 +1,776 @@
 package com.example.carcarcarcar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+
+import static java.lang.Integer.parseInt;
 
 public class CompareActivity extends AppCompatActivity {
 
+    private static final String TAG = "MAIN";
     private RequestQueue queue;
 
-    private String rentid;
+    //테스트, 클릭리스너로 보낸 rentid intent로 받아오는걸로 수정
+    private String rentid="1";
     private Boolean result;
 
-    private String label,part;
+    private File mImageFolder;
+    private Bitmap bt_ft, bt_ff, bt_rf, bt_rb, bt_bt, bt_bf, bt_lb, bt_lf;
+
+    private String label, part;
     private Integer topx, topy, btmx, btmy;
-    private JSONArray newDefects,defects;
+    private JSONArray newDefectsJSONArray, defects;
+
+    private Integer dent_count = 0, scratch_count = 0, glass_count = 0;
+
+    private TextView ft_compare_yolo, ff_compare_yolo, rf_compare_yolo, rb_compare_yolo, bt_compare_yolo, bf_compare_yolo, lb_compare_yolo, lf_compare_yolo;
 
     int index;
 
     ArrayList<NewDefect> newDefectsList = new ArrayList<NewDefect>();
     ArrayList<Defect> defectList = new ArrayList<Defect>();
 
+    protected void onDrawRectangle(Bitmap bm, int x1, int y1, int x2, int y2, String part, Integer color) {
+        Paint p = new Paint();
+        p.setColor(color);
+        p.setStyle(Paint.Style.FILL);
 
-    //부분별 결함 종류별로 카운트
+        p.setStrokeWidth(5);
+        p.setTextSize(100);
 
+        Canvas c = new Canvas(bm);
+
+        c.drawText(part, x1-20, y1-20, p);
+
+        p.setStrokeWidth(20);
+        p.setStyle(Paint.Style.STROKE);
+        c.drawColor(color);
+        c.drawRect(x1, y1, x2, y2, p);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
-        Intent getintent = getIntent();
+        ImageView imageView_ff = findViewById(R.id.ff_imageview_compare);
+        ImageView imageView_ft = findViewById(R.id.ft_imageview_compare);
+        ImageView imageView_bf = findViewById(R.id.bf_imageview_compare);
+        ImageView imageView_bt = findViewById(R.id.bt_imageview_compare);
+        ImageView imageView_lf = findViewById(R.id.lf_imageview_compare);
+        ImageView imageView_lb = findViewById(R.id.lb_imageview_compare);
+        ImageView imageView_rf = findViewById(R.id.rf_imageview_compare);
+        ImageView imageView_rb = findViewById(R.id.rb_imageview_compare);
 
-        //rentid= getintent.getDataString("rent_id");
+        ft_compare_yolo = findViewById(R.id.ft_textview_compare_yolo);
+        ff_compare_yolo = findViewById(R.id.ff_textview_compare_yolo);
+        rf_compare_yolo= findViewById(R.id.rf_textview_compare_yolo);
+        rb_compare_yolo=findViewById(R.id.rb_textview_compare_yolo);
+        bt_compare_yolo=findViewById(R.id.bt_textview_compare_yolo);
+        bf_compare_yolo=findViewById(R.id.bf_textview_compare_yolo);
+        lb_compare_yolo=findViewById(R.id.lb_textview_compare_yolo);
+        lf_compare_yolo=findViewById(R.id.lf_textview_compare_yolo);
 
-        String url = "http://localhost:3000/showResults/compare";
+        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        mImageFolder = new File(imageFile, "YOCO");
+        String newPath = (Paths.get(mImageFolder.getAbsolutePath())).toString() + "/";
 
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        Uri uri_ft = Uri.parse("file:///" + newPath + rentid + "_" + "ft_a.jpg");
+        try {
+            bt_ft = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_ft).copy(Bitmap.Config.ARGB_8888, true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        imageView_ft.setImageBitmap(bt_ft);
+
+        Uri uri_ff = Uri.parse("file:///" + newPath + rentid + "_" + "ff_a.jpg");
+        try {
+            bt_ff = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_ff).copy(Bitmap.Config.ARGB_8888, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageView_ff.setImageBitmap(bt_ff);
+
+        Uri uri_rf = Uri.parse("file:///" + newPath + rentid + "_" + "rf_a.jpg");
+
+        try {
+            bt_rf = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_rf).copy(Bitmap.Config.ARGB_8888, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageView_rf.setImageBitmap(bt_rf);
+
+
+        Uri uri_rb = Uri.parse("file:///" + newPath + rentid + "_" + "rb_a.jpg");
+        try {
+            bt_rb = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_rb).copy(Bitmap.Config.ARGB_8888, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageView_rb.setImageBitmap(bt_rb);
+
+
+        Uri uri_bt = Uri.parse("file:///" + newPath + rentid + "_" + "bt_a.jpg");
+        try {
+            bt_bt = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_bt).copy(Bitmap.Config.ARGB_8888, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageView_bt.setImageBitmap(bt_bt);
+
+
+        Uri uri_bf = Uri.parse("file:///" + newPath + rentid + "_" + "bf_a.jpg");
+        try {
+            bt_bf = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_bf).copy(Bitmap.Config.ARGB_8888, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+          imageView_bf.setImageBitmap(bt_bf);
+
+
+        Uri uri_lb = Uri.parse("file:///" + newPath + rentid + "_" + "lb_a.jpg");
+
+        try {
+            bt_lb = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_lb).copy(Bitmap.Config.ARGB_8888, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageView_lb.setImageBitmap(bt_lb);
+
+
+        Uri uri_lf = Uri.parse("file:///" + newPath + rentid + "_" + "lf_a.jpg");
+
+        try {
+            bt_lf = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri_lf).copy(Bitmap.Config.ARGB_8888, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageView_lf.setImageBitmap(bt_lf);
+
+
+       queue = Volley.newRequestQueue(this);
+        String url = Config.getUrl("/showResults/compare");
+        JSONObject body = new JSONObject();
+
+        try {
+            body.put("rent_id", rentid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final JsonObjectRequest jsonRequest1 = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    result = response.getBoolean("result");
+
+                    Boolean result = response.getBoolean("result");
                     if (result) {
 
-                        newDefects = response.getJSONArray("new_defects");
+                        newDefectsJSONArray = response.getJSONArray("new_defects");
 
-                        for (int i = 0 ; i<newDefects.length();i++){
-                            NewDefect newdefect = new NewDefect();
+                        for (int i = 0; i < 8; i++) {
+                            ArrayList<Defect> defectList = new ArrayList<Defect>();
+                            JSONObject newDefectObject = (JSONObject) newDefectsJSONArray.get(i);
+                            part = newDefectObject.getString("part");
+                            JSONArray defectsJSONArray = newDefectObject.getJSONArray("defects");
 
-                            JSONObject newDefect = (JSONObject) newDefects.getJSONObject(i);
-                            part = newDefect.getString("part");
-                            JSONArray defects = newDefects.getJSONArray(i);
+                            for (int j = 0; j < defectsJSONArray.length(); j++) {
 
-                            //new_defects newDefects = new new_defects(newDefectsJSONArray);
-                            //newDefects.setPart(newDefectsJSONObject.getString("part"));
+                                JSONObject defectsJSONObject = defectsJSONArray.getJSONObject(j);
 
-                            //defects = (newDefectsJSONObject.getJSONArray("defects"));
-
-                            for (int j = 0;j<defects.length();j++){
-
-                                JSONObject defectsJSONObject = defects.getJSONObject(j);
-
-                                Defect defect = new Defect();
-
-                                defect.setBtmy(defectsJSONObject.getString("btmy"));
-                                defect.setBtmx(defectsJSONObject.getString("btmx"));
-                                defect.setLabel(defectsJSONObject.getString("label"));
-                                defect.setTopx(defectsJSONObject.getString("topx"));
-                                defect.setTopy(defectsJSONObject.getString("topy"));
+                                Defect defect = new Defect(defectsJSONObject.getString("label"),defectsJSONObject.getString("topx")
+                                ,defectsJSONObject.getString("topy"),defectsJSONObject.getString("btmx"),defectsJSONObject.getString("btmy"));
 
                                 defectList.add(defect);
-                            }
-                            newdefect.setDefectArrayList(defectList);
-                            newdefect.setPart(part);
 
+                            }
+
+                            NewDefect newdefect = new NewDefect(part, defectList);
 
                             newDefectsList.add(newdefect);
 
                         }
+                        //사진에 drawrect *8
+                        for (int j = 0; j < 8; j++) {
+
+
+                            //ft
+                            if (newDefectsList.get(j).getPart().equals("ft")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_ft, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                        Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("dentcount", String.valueOf(dent_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_ft, topx, topy, btmx, btmy,"glass",Color.GREEN);
+                                        Log.i("glassxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("glasscount", String.valueOf(glass_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_ft, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+                                        Log.i("scratchxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("scratchcount", String.valueOf(scratch_count));
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    ft_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    ft_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
 
 
 
-                    } else {
-                        return;
+
+                            //ff
+                            if (newDefectsList.get(j).getPart().equals("ff")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_ff, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                        Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("dentcount", String.valueOf(dent_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_ff, topx, topy, btmx, btmy,"glass",Color.GREEN);
+                                        Log.i("glassxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("glasscount", String.valueOf(glass_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_ff, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+                                        Log.i("scratchxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("scratchcount", String.valueOf(scratch_count));
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    ff_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    ff_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
+
+
+
+
+
+
+                            //rf
+                            if (newDefectsList.get(j).getPart().equals("rf")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_rf, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                        Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("dentcount", String.valueOf(dent_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_rf, topx, topy, btmx, btmy,"glass",Color.GREEN);
+                                        Log.i("glassxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("glasscount", String.valueOf(glass_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_rf, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+                                        Log.i("scratchxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("scratchcount", String.valueOf(scratch_count));
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    rf_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    rf_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
+
+
+
+
+                            //rb
+                            if (newDefectsList.get(j).getPart().equals("rb")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_rb, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                        Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("dentcount", String.valueOf(dent_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_rb, topx, topy, btmx, btmy,"glass",Color.GREEN);
+                                        Log.i("glassxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("glasscount", String.valueOf(glass_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_rb, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+                                        Log.i("scratchxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("scratchcount", String.valueOf(scratch_count));
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    rb_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    rb_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
+
+
+
+
+
+                            //bt
+                            if (newDefectsList.get(j).getPart().equals("bt")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_bt, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                        Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("dentcount", String.valueOf(dent_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_bt, topx, topy, btmx, btmy,"glass",Color.GREEN);
+                                        Log.i("glassxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("glasscount", String.valueOf(glass_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_bt, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+                                        Log.i("scratchxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("scratchcount", String.valueOf(scratch_count));
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    bt_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    bt_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
+
+
+
+
+
+                            //bf
+                            if (newDefectsList.get(j).getPart().equals("bf")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_bf, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                        Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("dentcount", String.valueOf(dent_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_bf, topx, topy, btmx, btmy,"glass",Color.GREEN);
+                                        Log.i("glassxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("glasscount", String.valueOf(glass_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_bf, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+                                        Log.i("scratchxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("scratchcount", String.valueOf(scratch_count));
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    bf_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    bf_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
+
+
+
+
+
+
+
+                            //lb
+                            if (newDefectsList.get(j).getPart().equals("lb")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_lb, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                        Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("dentcount", String.valueOf(dent_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_lb, topx, topy, btmx, btmy,"glass",Color.GREEN);
+                                        Log.i("glassxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("glasscount", String.valueOf(glass_count));
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_lb, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+                                        Log.i("scratchxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
+                                        Log.i("scratchcount", String.valueOf(scratch_count));
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    lb_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    lb_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
+
+
+
+
+
+                            //lf
+                            if (newDefectsList.get(j).getPart().equals("lf")) {
+                                Log.i("newdefectlistgetsize", String.valueOf(newDefectsList.get(j).getDefectArrayList().size()));
+                                for (int k = 0; k < newDefectsList.get(j).getDefectArrayList().size(); k++) {
+                                    Log.i("getlabel",newDefectsList.get(j).getDefectArrayList().get(k).getLabel());
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                        dent_count++;
+
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_lf, topx, topy, btmx, btmy,"dent", Color.RED);
+
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("glass")) {
+                                        glass_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_lf, topx, topy, btmx, btmy,"glass",Color.GREEN);
+
+                                    }
+
+                                    if (newDefectsList.get(j).getDefectArrayList().get(k).getLabel().equals("scratch")) {
+                                        scratch_count++;
+                                        topx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopx());
+                                        topy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getTopy());
+                                        btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
+                                        btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
+                                        //draw rectangle on bitmap
+                                        onDrawRectangle(bt_lf, topx, topy, btmx, btmy,"scratch",Color.BLUE);
+
+                                    }
+                                }
+
+                                if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
+                                    lf_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
+                                } else {
+                                    lf_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    dent_count = 0;
+                                    scratch_count = 0;
+                                    glass_count = 0;
+                                }
+                            }
+
+
+
+
+
+
+
+                        }
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
 
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("rent_id", rentid);
-                return params;
-            }
-        };
+        jsonRequest1.setTag(TAG);
+        queue.add(jsonRequest1);
 
-        queue.add(jsonRequest);
-
-        Collections.sort(newDefectsList);
     }
 
 
     //상세 내역 확인 버튼 클릭하면 part별로 팝업 호출
 
-    public void onffButtonClicked (View v) {
-
+    public void onftButtonClicked(View v) {
         Intent ffIntent = new Intent(this, ComparePopup.class);
-        NewDefect nd1 = newDefectsList.get(0);
-
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","ft");
+        ffIntent.putExtra("parttext","전면 상단");
     }
 
+    public void onffButtonClicked(View v) {
+        Intent ffIntent = new Intent(this, ComparePopup.class);
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","ff");
+        ffIntent.putExtra("parttext","전면");
+    }
+
+    public void onrfButtonClicked(View v) {
+        Intent ffIntent = new Intent(this, ComparePopup.class);
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","rf");
+        ffIntent.putExtra("parttext","운전자석 앞면");
+    }
+
+    public void onrbButtonClicked(View v) {
+        Intent ffIntent = new Intent(this, ComparePopup.class);
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","rb");
+        ffIntent.putExtra("parttext","운전자석 뒷면");
+    }
+
+
+
+    public void onbtButtonClicked(View v) {
+        Intent ffIntent = new Intent(this, ComparePopup.class);
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","bt");
+        ffIntent.putExtra("parttext","보조석 뒷면");
+    }
+
+    public void onbfButtonClicked(View v) {
+        Intent ffIntent = new Intent(this, ComparePopup.class);
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","bf");
+        ffIntent.putExtra("parttext","보조석 앞면");
+    }
+
+    public void onlbButtonClicked(View v) {
+        Intent ffIntent = new Intent(this, ComparePopup.class);
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","lb");
+        ffIntent.putExtra("parttext","후면 상단");
+    }
+
+    public void onlfButtonClicked(View v) {
+        Intent ffIntent = new Intent(this, ComparePopup.class);
+        ffIntent.putExtra("rentid",rentid);
+        ffIntent.putExtra("part","lf");
+        ffIntent.putExtra("parttext","후면");
+    }
 
 
 }
