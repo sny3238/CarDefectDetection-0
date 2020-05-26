@@ -4,7 +4,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class NewDefect implements Comparable<NewDefect>{
+public class Predictions implements Comparable<NewDefect>{
 
     private  String part;
     private ArrayList<Defect> defectArrayList;
@@ -25,17 +25,14 @@ public class NewDefect implements Comparable<NewDefect>{
         return defectArrayList;
     }
 
-    public NewDefect(String part, ArrayList<Defect> defectArrayList) {
+    public Predictions(String part, ArrayList<Defect> defectArrayList) {
         this.part = part;
         this.defectArrayList = defectArrayList;
 
     }
+
     @Override
     public int compareTo(NewDefect o) {
-        if(this.part.compareTo(o.part) > 0){
-            return 1;
-        } else if(this.part.compareTo(o.part) < 0)
-            return -1;
         return 0;
     }
 }

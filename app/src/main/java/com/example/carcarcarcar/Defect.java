@@ -49,5 +49,13 @@ public class Defect {
         return btmy;
     }
 
+    public Defect(String label, String topx, String topy, String btmx, String btmy ){
+        this.label = label;
+        this.topx = topx;
+        this.topy = topy;
+        this.btmx = btmx;
+        this.btmy = btmy;
+    }
+
 
 }
