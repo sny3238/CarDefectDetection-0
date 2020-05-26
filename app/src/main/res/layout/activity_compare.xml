@@ -12,19 +12,29 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:textSize="30sp"
+
+        android:layout_marginTop="22dp"
         android:text="대여 전/후 상태 비교 결과"
+        android:textColor="#333333"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_centerInParent="true"
+        android:background="#DFDFDF"
+        app:layout_constraintTop_toTopOf="@id/scrollView"
+        tools:ignore="MissingConstraints" />
+
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="70dp"
         android:fillViewport="true"
         android:gravity="center"
         android:orientation="vertical"
@@ -42,41 +52,73 @@
                 android:id="@+id/ff_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="전면 상단"
-                android:textSize="30sp" />
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
             <ImageView
                 android:id="@+id/ff_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/ff_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/ff_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:text="상세 내역 확인" />
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
 
+            <Button
+                android:id="@+id/ff_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:onClick="onffButtonClicked"
+                android:text="상세 내역 확인" />
             <!-- ft -->
+
             <TextView
                 android:id="@+id/ft_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="전면"
-                android:textSize="30sp" />
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
             <ImageView
                 android:id="@+id/ft_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/ft_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/ft_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/ft_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
+                android:onClick="onftButtonClicked"
                 android:text="상세 내역 확인" />
 
             <!-- bf -->
@@ -84,64 +126,110 @@
                 android:id="@+id/bf_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="운전자석 앞면"
-                android:textSize="30sp" />
+                android:textColor="#333333"
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/bf_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/bf_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/bf_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/bf_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
-                android:text="상세 내역 확인"/>
+                android:onClick="onbfButtonClicked"
+                android:text="상세 내역 확인" />
 
             <!-- bt -->
             <TextView
                 android:id="@+id/bt_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="운전자석 뒷면"
-                android:textSize="30sp" />
+                android:textColor="#333333"
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/bt_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/bt_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/bt_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/bt_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
-                android:text="상세 내역 확인"/>
+                android:onClick="onbtButtonClicked"
+                android:text="상세 내역 확인" />
 
             <!-- lf -->
             <TextView
                 android:id="@+id/lf_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="보조석 뒷면"
-                android:textSize="30sp" />
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
             <ImageView
                 android:id="@+id/lf_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/lf_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/lf_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/lf_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
+                android:onClick="onlfButtonClicked"
                 android:text="상세 내역 확인" />
 
             <!-- lb -->
@@ -149,20 +237,36 @@
                 android:id="@+id/lb_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="보조석 앞면"
-                android:textSize="30sp" />
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
             <ImageView
                 android:id="@+id/lb_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/lb_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/lb_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/lb_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
+                android:onClick="onlbButtonClicked"
                 android:text="상세 내역 확인" />
 
             <!-- rf -->
@@ -170,21 +274,36 @@
                 android:id="@+id/rf_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="후면 상단"
-                android:textSize="30sp"
-                />
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
             <ImageView
                 android:id="@+id/rf_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/rf_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/rf_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/rf_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
+                android:onClick="onrfButtonClicked"
                 android:text="상세 내역 확인" />
 
             <!-- rb -->
@@ -192,20 +311,36 @@
                 android:id="@+id/rb_textview_compare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="후면"
-                android:textSize="30sp" />
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
             <ImageView
                 android:id="@+id/rb_imageview_compare"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                />
-            <Button
-                android:id="@+id/rb_button_compare"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/rb_textview_compare_yolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="새로 탐지된 결함이 없습니다."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/rb_button_compare"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
+                android:onClick="onrbButtonClicked"
                 android:text="상세 내역 확인" />
 
 
