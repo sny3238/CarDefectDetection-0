@@ -31,6 +31,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,18 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginBtn);
 
 
-        //getSupportActionBar().hide();
-        //Intent intent = new Intent(this, LoadingActivity.class);
-        //startActivity(intent);
-
         queue = Volley.newRequestQueue(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //Log.v("username", usernameEditText.getText().toString());
-                //Log.v("password", passwordEditText.getText().toString());
                 String url = Config.getUrl("/login");
                 JSONObject body = new JSONObject();
 
@@ -88,66 +83,75 @@ public class LoginActivity extends AppCompatActivity {
                             result = response.getBoolean("result");
 
                             if (result) {
+                                textView.setText("로그인 성공");
+                                Toast.makeText(getApplicationContext(), usernameEditText.getText().toString()+"님 환영합니다", Toast.LENGTH_SHORT).show();
+                                Config.user_id=usernameEditText.getText().toString();
 
-                                JSONObject body2=new JSONObject();
-                                try {
-                                    body2.put("user_id", usernameEditText.getText().toString());
+                                JSONObject body = new JSONObject();
+                                try{
+                                    body.put("user_id",Config.user_id);
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-                                final JsonObjectRequest jsonRequest2=new JsonObjectRequest(Request.Method.POST, Config.getUrl("/checkUserInfo"), body2, new Response.Listener<JSONObject>() {
+                                final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.POST, Config.getUrl("/checkUserInfo"), body, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        if (result){
-                                            try {
+
+                                        try {
+                                            Boolean result = response.getBoolean("result");
+
+                                            if (result) {
+
                                                 JSONObject user_info=response.getJSONObject("user_info");
+                                                JSONObject photos_state=user_info.getJSONObject("photos_state");
 
-                                                Config.user_id=user_info.getString("user_id");
+                                                Config.rent_id=user_info.getString("current_rent_id");
+                                                Config.car_id=user_info.getString("current_car_id");
                                                 Config.is_renting=user_info.getBoolean("renting");
-                                                if(Config.is_renting){
-                                                    Config.rent_id=user_info.getString("current_rent_id");
-                                                    Config.car_id=user_info.getString("current_car_id");
-                                                    JSONObject photos_state=user_info.getJSONObject("photos_state");
-//                                                    Config.photos_before=photos_state.getBoolean("photos_before");
-                                                    Config.upload_before=photos_state.getBoolean("before");
-                                                    //Config.photos_state_after=photos_state.getBoolean("after");
+                                                Config.upload_before=photos_state.getBoolean("before");
+
+                                                //textView.setText(Config.printUserInfo());
+                                                //textView.setText(Config.rent_id);
+
+                                                if(Config.is_renting){ // 차를 대여중일 경우 history activity로
+
+                                                    if(Config.upload_before){
+                                                        Intent intent = new Intent(LoginActivity.this, HistoryActivity.class);
+                                                        startActivity(intent);
+                                                    }else if(Config.photos_before){
+                                                        Intent intent = new Intent(LoginActivity.this, BeforePastHistory.class);
+                                                        startActivity(intent);
+                                                    }else{
+                                                        Intent intent = new Intent(LoginActivity.this, CameraActivity.class);
+                                                        intent.putExtra("state",0);
+                                                        startActivity(intent);
+                                                    }
+                                                } else{ // 차를 대여중이지 않을 경우 메뉴화면으로
+                                                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                                    startActivity(intent);
                                                 }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
+
+
+
                                             }
-
                                         }
-
+                                        catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
 
                                     }
-                                });
-                                jsonRequest2.setTag(TAG);
+                                }) ;
+
                                 queue.add(jsonRequest2);
-
-                                textView.setText("로그인 성공");
-                                Toast.makeText(getApplicationContext(), usernameEditText.getText().toString()+"님 환영합니다", Toast.LENGTH_SHORT).show();
-
-                                //로그인 성공하면
-                                if(Config.is_renting){ // 차를 대여중일 경우 history activity로
-                                    Intent intent = new Intent(LoginActivity.this, HistoryActivity.class);
-                                    intent.putExtra("user_id",usernameEditText.getText().toString());
-                                    startActivity(intent);
-
-                                } else{ // 차를 대여중이지 않을 경우 메뉴화면으로
-                                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                                    intent.putExtra("user_id",usernameEditText.getText().toString());
-                                    startActivity(intent);
-                                }
 
 
                             } else {
                                 textView.setText("로그인 실패, 아이디와 비밀번호를 다시 입력하세요");
-                                //Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -209,6 +213,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         }
+
+
 
     }
 

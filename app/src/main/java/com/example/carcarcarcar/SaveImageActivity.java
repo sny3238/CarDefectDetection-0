@@ -169,7 +169,8 @@ public class SaveImageActivity extends Activity {
             else
                 car_state = "a";
 
-            String newname = rentid + "_"+ position + "_" + car_state +  ".jpg";
+            String rentid=Config.rent_id;
+            String newname = Config.rent_id + "_"+ position + "_" + car_state +  ".jpg";
             newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath(),newname));
             final File newFile = new File(newPath);
 

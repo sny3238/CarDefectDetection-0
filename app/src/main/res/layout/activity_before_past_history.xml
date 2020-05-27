@@ -26,7 +26,6 @@
         android:layout_height="84dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:text=" : 2019년 2월 3일\n사용시간 : 3시간\n기종 : 티볼리\n번호 12가1234  "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 

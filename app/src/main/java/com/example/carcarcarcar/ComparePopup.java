@@ -85,7 +85,8 @@ public class ComparePopup extends AppCompatActivity {
         Intent intent = getIntent();
         selectedpart= intent.getStringExtra("part");
         parttotext = intent.getStringExtra("parttext");
-        rentid = intent.getStringExtra("rentid");
+        //rentid = intent.getStringExtra("rentid");
+        rentid=Config.rent_id;
 
         parttxt.setText(parttotext);
 

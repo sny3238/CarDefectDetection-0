@@ -24,7 +24,7 @@ public interface ApiService {
     );
 
     @Multipart
-    @POST("/test")
+    @POST("/python/yolo")
     Call<ResponseBody> requestYOLO(
 
             @Part("rent_id") RequestBody rent_id,

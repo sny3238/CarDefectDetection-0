@@ -32,9 +32,7 @@ public class Config {
         Config.upload_before=false;
     }
 
-    public static void updateUerInfo(RequestQueue queue){
-//        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Config.getUrl("/findUserInfo");
+    public static void updateUserInfo(RequestQueue queue){
         JSONObject body = new JSONObject();
         try{
             body.put("user_id",Config.user_id);
@@ -42,7 +40,7 @@ public class Config {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.POST, Config.getUrl("/checkUserInfo"), body, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -50,6 +48,7 @@ public class Config {
                     Boolean result = response.getBoolean("result");
 
                     if (result) {
+
                         JSONObject user_info=response.getJSONObject("user_info");
 
                         Config.user_id=user_info.getString("user_id");
@@ -71,7 +70,19 @@ public class Config {
             }
         }) ;
 
-        queue.add(jsonRequest);
+        queue.add(jsonRequest2);
+    }
+
+    public static String printUserInfo(){
+        StringBuilder sb=new StringBuilder();
+        sb.append("user_id:"+Config.user_id+"\n");
+        sb.append("rent_id:"+Config.rent_id+"\n");
+        sb.append("car_id:"+Config.car_id+"\n");
+        sb.append("renting:"+Config.is_renting.toString()+"\n");
+        sb.append("photos.taken:"+Config.photos_before.toString()+"\n");
+        sb.append("photos_uploaded:"+Config.upload_before.toString());
+
+        return sb.toString();
     }
 
 }

@@ -1,7 +1,5 @@
 package com.example.carcarcarcar;
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 
 public class Predictions implements Comparable<NewDefect>{

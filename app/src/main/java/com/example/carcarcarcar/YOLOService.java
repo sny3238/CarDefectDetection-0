@@ -36,14 +36,14 @@ public class YOLOService extends Service {
                 .setContentTitle("YOCO : You Only Check Once")
                 .setContentText("결함 비교분석 중...")
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(android.R.drawable.btn_star)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 
         Notification notification2 = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("YOCO : You Only Check Once")
                 .setContentText("분석이 완료되었습니다!")
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(android.R.drawable.btn_star)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 
         //채널등록

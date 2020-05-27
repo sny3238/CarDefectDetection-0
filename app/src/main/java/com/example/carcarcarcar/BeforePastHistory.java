@@ -22,12 +22,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +51,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -61,8 +62,6 @@ public class BeforePastHistory extends AppCompatActivity {
 
     private Boolean result;
 
-    private TextView text;
-
     private static final String TAG = "MAIN";
 
     private RequestQueue queue;
@@ -70,11 +69,13 @@ public class BeforePastHistory extends AppCompatActivity {
 
     String[] imagelist;
 
+    TextView info;
+    Button returnBtn;
     Button sendBtn;
 
     private ArrayList<Uri> arrayList;
 
-    JSONArray imageArray;
+    ApiService service;
 
     OkHttpClient okHttpClient;
 
@@ -82,19 +83,25 @@ public class BeforePastHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_past_history);
-        text.findViewById(R.id.carnumtextview);
-        text.setText("");
 
-        Intent intent = getIntent();
-//        userid = intent.getStringExtra("user_id");
-//        carid = intent.getStringExtra("car_id");
-//        rentid = intent.getStringExtra("rent_id");
+        info=findViewById(R.id.carnumtextview);
+        returnBtn=findViewById(R.id.returnpicBtn);
 
-        rentid = "11";
+        userid = Config.user_id;
+        carid = Config.car_id;
+        rentid = Config.rent_id;
+
+        info.append("차량번호 : "+carid+"\n");
+        if(carid.charAt(0)=='c') info.append("차량종류 : compact\n");
+        if(carid.charAt(0)=='m') info.append("차량종류 : midsize\n");
+        if(carid.charAt(0)=='f') info.append("차량종류 : fullsize\n");
+
+        returnBtn.setEnabled(false);
+
 
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");
-        //sendBtn = findViewById(R.id.sendBtn);
+        sendBtn = findViewById(R.id.sendBtn);
 
 
         ImageView imageview_frontal1 = findViewById(R.id.ff_imageview_compare);
@@ -119,37 +126,36 @@ public class BeforePastHistory extends AppCompatActivity {
             String newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath())) + "/";
 
 
-
-            Uri uri1 = Uri.parse("file:///" + newPath + rentid +"_" + "ft_b.jpg");
+            Uri uri1 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "ft_b.jpg");
             imageview_frontal1.setImageURI(uri1);
             arrayList.add(uri1);
 
 
-            Uri uri2 = Uri.parse("file:///" + newPath + rentid +"_" + "ff_b.jpg");
+            Uri uri2 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "ff_b.jpg");
             imageview_frontal2.setImageURI(uri2);
             arrayList.add(uri2);
 
-            Uri uri3 = Uri.parse("file:///" + newPath + rentid +"_" + "rf_b.jpg");
+            Uri uri3 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "rf_b.jpg");
             imageView_profile1.setImageURI(uri3);
             arrayList.add(uri3);
 
-            Uri uri4 = Uri.parse("file:///" + newPath + rentid +"_" + "rb_b.jpg");
+            Uri uri4 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "rb_b.jpg");
             imageView_profile2.setImageURI(uri4);
             arrayList.add(uri4);
 
-            Uri uri5 = Uri.parse("file:///"+ newPath + rentid +"_" + "bt_b.jpg");
+            Uri uri5 = Uri.parse("file:///"+ newPath + Config.rent_id +"_" + "bt_b.jpg");
             imageView_profile3.setImageURI(uri5);
             arrayList.add(uri5);
 
-            Uri uri6 = Uri.parse("file:///" + newPath + rentid +"_" + "bf_b.jpg");
+            Uri uri6 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "bf_b.jpg");
             imageView_profile4.setImageURI(uri6);
             arrayList.add(uri6);
 
-            Uri uri7 = Uri.parse("file:///" + newPath + rentid +"_" + "lb_b.jpg");
+            Uri uri7 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "lb_b.jpg");
             imageView_back1.setImageURI(uri7);
             arrayList.add(uri7);
 
-            Uri uri8 = Uri.parse("file:///" + newPath + rentid +"_" + "lf_b.jpg");
+            Uri uri8 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "lf_b.jpg");
             imageView_back2.setImageURI(uri8);
             arrayList.add(uri8);
 
@@ -158,9 +164,9 @@ public class BeforePastHistory extends AppCompatActivity {
         }
 
         okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.MINUTES)
-                .readTimeout(60, TimeUnit.MINUTES)
-                .writeTimeout(60, TimeUnit.MINUTES)
+                .connectTimeout(5, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.MINUTES)
+                .writeTimeout(30, TimeUnit.MINUTES)
                 .build();
 
 
@@ -170,19 +176,24 @@ public class BeforePastHistory extends AppCompatActivity {
 
 
 
-
-    public void onCameraButtonClicked(View v){
+    public void onCameraButtonClicked(View v){  // 반납을 위한 사진찍기
         Intent intent2 = new Intent(this, CameraActivity.class);
+        intent2.putExtra("state", 1);
         startActivity(intent2);
 
     }
-/*
-    public void onSendButtonClicked(View v){
+
+    public void onSendButtonClicked(View v){    // 사진을 서버로 전송하는 버튼
+        returnBtn.setEnabled(true);
+        sendBtn.setEnabled(false);
+        Intent serviceIntent_yolo = new Intent(this, YOLOService.class);
+        serviceIntent_yolo.putExtra("YOLO_done", false); // send false
+        startService(serviceIntent_yolo);   // 사용자에게 "YOLO 분석중"을 알림
         uploadImagesToServer();
         Toast.makeText(BeforePastHistory.this, "Send complete", Toast.LENGTH_SHORT);
 
     }
-/*
+
 
     private void uploadImagesToServer(){
         //Internet connection check
@@ -199,7 +210,7 @@ public class BeforePastHistory extends AppCompatActivity {
 
             List<MultipartBody.Part> parts = new ArrayList<>();
 
-            ApiService service = retrofit.create(ApiService.class);
+            service = retrofit.create(ApiService.class);
 
             if(arrayList != null){
                 // create part for file
@@ -209,23 +220,42 @@ public class BeforePastHistory extends AppCompatActivity {
                 }
             }
 
-            // create a map of data to pass along
-
-
-            // execute the request
             Call<ResponseBody> call = service.uploadMultiple(parts);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
                     if(response.isSuccessful()){
                         Log.v("Upload", "success");
                         Toast.makeText(BeforePastHistory.this,
                                 "Images successfully uploaded!", Toast.LENGTH_SHORT).show();
 
-                        //sendBtn.setEnabled(false);
+                        RequestBody rent_id = createPartFromString(rentid);
+                        RequestBody state = createPartFromString("b");
+                        RequestBody yolo_request = createPartFromString("true");
+                        Call<ResponseBody> yolo_call = service.requestYOLO(rent_id, state, yolo_request);
+                        Log.v("YOLO Request", "Request YOLO");
+
+                        yolo_call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Log.v("YOLO server", "YOLO Complete");
+                                Intent serviceIntent_yoloDone = new Intent(BeforePastHistory.this, YOLOService.class);
+                                serviceIntent_yoloDone.putExtra("YOLO_done", true); // send true
+                                startService(serviceIntent_yoloDone);    // 사용자에게 YOLO가 완료됐음을 알림
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.v("YOLO Server", "YOLO failed");
+                            }
+                        });
+
+                        sendBtn.setEnabled(false);
                     }
                     else {
+                        sendBtn.setEnabled(true);
                         Snackbar.make(findViewById(android.R.id.content),
                                 "Something went wrong.", Snackbar.LENGTH_LONG).show();
                     }
@@ -242,8 +272,6 @@ public class BeforePastHistory extends AppCompatActivity {
 
         }
     }
-
- */
 
     @NonNull
     private RequestBody createPartFromString(String string) {

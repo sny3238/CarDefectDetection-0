@@ -58,6 +58,7 @@ public class AddnewActivity extends AppCompatActivity {
                 try{
                     body.put("car_id",carnumberEditText.getText().toString());
 
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -75,39 +76,31 @@ public class AddnewActivity extends AppCompatActivity {
                                 cartypetextview.setText("차량 대여가 가능합니다.\n차량 종류 : "+cartype);
 
                                 //차량 정보 확인 숨기고 카메라 버튼 visible
-
                                 camerabtn.setVisibility(View.VISIBLE);
                                 cameratextview.setVisibility(View.VISIBLE);
 
                             }else{
 
-
                                 if(Config.is_renting){
-
                                     cartypetextview.setText("대여중인 차량이 존재합니다.");
 
                                     if(Config.upload_before){
-                                        Intent intent=new Intent(AddnewActivity.this, CurrentStateActivity.class);
+                                        Intent intent=new Intent(AddnewActivity.this, HistoryActivity.class);
                                         startActivity(intent);
 
                                     } else if(Config.photos_before){
-
+                                        Toast.makeText(getApplicationContext(),"차량 이용 전 사진을 전송하십시오",Toast.LENGTH_SHORT);
                                         Intent intent=new Intent(AddnewActivity.this, BeforePastHistory.class);
-
-                                        intent.putExtra("user_id",Config.user_id);
-                                        intent.putExtra("rent_id",Config.rent_id);
-                                        intent.putExtra("state",0);
                                         startActivity(intent);
 
                                     }else{
+                                        Toast.makeText(getApplicationContext(),"차량 이용 전 사진을 촬영하십시오",Toast.LENGTH_SHORT);
                                         Intent intent=new Intent(AddnewActivity.this,CameraActivity.class);
-                                        intent.putExtra("user_id",Config.user_id);
-                                        intent.putExtra("rent_id",Config.rent_id);
                                         intent.putExtra("state",0);
                                         startActivity(intent);
                                     }
                                 }else{
-                                    cartypetextview.setText("차량 존재하지 않거나 대여중입니다");
+                                    cartypetextview.setText("선택하신 차량을 이용할 수 없습니다");
                                 }
                             }
                         }
@@ -131,9 +124,7 @@ public class AddnewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                Intent getintent = getIntent();
-                String userid = getintent.getStringExtra("user_id");
+                String userid = Config.user_id;
                 String carid = carnumberEditText.getText().toString();
                 JSONObject body=new JSONObject();
                 try{
@@ -150,18 +141,11 @@ public class AddnewActivity extends AppCompatActivity {
                         try {
                             Boolean result = response.getBoolean("result");
                             if (result){
-
                                 Intent intent = new Intent(AddnewActivity.this, CameraActivity.class);
-                                Intent getintent = getIntent();
-                                String userid = getintent.getStringExtra("user_id");
-                                String carid = carnumberEditText.getText().toString();
-                                String rentid = Config.rent_id;
-                                System.out.println("################## rentid" + rentid);
-
-                                intent.putExtra("rent_id",rentid);
-                                intent.putExtra("user_id",userid);
-                                intent.putExtra("car_id",carid);
                                 intent.putExtra("state",0);
+                                Config.car_id=carnumberEditText.getText().toString();
+                                Config.rent_id=response.getString("rent_id");
+                                Toast.makeText(getApplicationContext(),Config.printUserInfo(),Toast.LENGTH_LONG);
                                 startActivity(intent);
                             }else{
                                 Toast.makeText(getApplicationContext(), "차량을 대여할 수 없습니다.", Toast.LENGTH_SHORT).show();

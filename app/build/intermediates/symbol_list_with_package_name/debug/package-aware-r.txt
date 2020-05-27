@@ -1104,6 +1104,7 @@ id activity_chooser_view_content
 id add
 id addnewBtn
 id after
+id aftertextView
 id alertTitle
 id all
 id always
@@ -1114,15 +1115,18 @@ id back2
 id backButton
 id barrier
 id before
+id beforetextView
 id beginning
 id bf_button_compare
 id bf_imageview_compare
 id bf_textview_compare
+id bf_textview_compare_yolo
 id blocking
 id bottom
 id bt_button_compare
 id bt_imageview_compare
 id bt_textview_compare
+id bt_textview_compare_yolo
 id button
 id buttonPanel
 id camerabutton
@@ -1146,7 +1150,6 @@ id clip_vertical
 id close
 id collapseActionView
 id compareBtn
-id comparetextView
 id container
 id content
 id contentPanel
@@ -1175,6 +1178,7 @@ id expanded_menu
 id ff_button_compare
 id ff_imageview_compare
 id ff_textview_compare
+id ff_textview_compare_yolo
 id fill
 id fill_horizontal
 id fill_vertical
@@ -1187,6 +1191,7 @@ id frontal2
 id ft_button_compare
 id ft_imageview_compare
 id ft_textview_compare
+id ft_textview_compare_yolo
 id ghost_view
 id gone
 id group_divider
@@ -1209,10 +1214,12 @@ id layout
 id lb_button_compare
 id lb_imageview_compare
 id lb_textview_compare
+id lb_textview_compare_yolo
 id left
 id lf_button_compare
 id lf_imageview_compare
 id lf_textview_compare
+id lf_textview_compare_yolo
 id line1
 id line3
 id linearLayout
@@ -1244,6 +1251,7 @@ id parallax
 id parent
 id parentPanel
 id parent_matrix
+id partextView
 id password
 id percent
 id pin
@@ -1259,6 +1267,7 @@ id radio
 id rb_button_compare
 id rb_imageview_compare
 id rb_textview_compare
+id rb_textview_compare_yolo
 id recyclerView
 id rentdateText
 id rentdatetext
@@ -1271,6 +1280,7 @@ id returnpicBtn
 id rf_button_compare
 id rf_imageview_compare
 id rf_textview_compare
+id rf_textview_compare_yolo
 id right
 id right_icon
 id right_side
@@ -1329,6 +1339,8 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textView
+id textView10
+id textView11
 id textView2
 id textView3
 id textView4
@@ -1414,7 +1426,6 @@ layout activity_before_past_history
 layout activity_camera
 layout activity_compare
 layout activity_compare_popup
-layout activity_currentstate
 layout activity_history
 layout activity_launch
 layout activity_loading
@@ -1471,6 +1482,7 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 mipmap ic_launcher
+mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 string abc_action_bar_home_description
 string abc_action_bar_up_description
