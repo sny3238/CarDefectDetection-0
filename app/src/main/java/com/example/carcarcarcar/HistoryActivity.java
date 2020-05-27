@@ -175,9 +175,6 @@ public class HistoryActivity extends Activity {
 
     public void onCameraButtonClicked(View v) {
         Intent intent = new Intent(HistoryActivity.this, CameraActivity.class);
-        //intent.putExtra("rent_id", currentrentId);
-        //intent.putExtra("user_id", userId);
-        //intent.putExtra("car_id", currentcarId);
         intent.putExtra("state",1);
         startActivity(intent);
     }

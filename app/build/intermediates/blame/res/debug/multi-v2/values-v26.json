@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\DASOM\\Desktop\\YOCO\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v26\\values-v26.xml",
+            "outputFile": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v26\\values-v26.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\DASOM\\.gradle\\caches\\transforms-2\\files-2.1\\7805427e3445d32c2ff10acb510a061d\\appcompat-1.0.2\\res\\values-v26\\values-v26.xml",
+                    "source": "C:\\Users\\YJ\\.gradle\\caches\\transforms-2\\files-2.1\\7805427e3445d32c2ff10acb510a061d\\appcompat-1.0.2\\res\\values-v26\\values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",

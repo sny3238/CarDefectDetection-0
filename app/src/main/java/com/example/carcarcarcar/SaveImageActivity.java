@@ -181,7 +181,7 @@ public class SaveImageActivity extends Activity {
             try {//사진 저장
 
                 fileOutputStream = new FileOutputStream(newFile);
-                bitmaps[0].compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
+                bitmaps[0].compress(Bitmap.CompressFormat.JPEG, 80, fileOutputStream);
                 fileOutputStream.flush();
                 fileOutputStream.close();
 
@@ -213,10 +213,6 @@ public class SaveImageActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if(index == 7){
-                loadingDialog = new LoadingDialog(SaveImageActivity.this);
-                loadingDialog.startLoadingDialog();
-            }
 
         }
         // 해당 task에서 수행되던 작업 종료되었을때
@@ -224,8 +220,6 @@ public class SaveImageActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
 
             if(index==8){
-                loadingDialog.dismissDialog();
-                loadingDialog = null;
                 startActivity(cameraintent);
             }
 
