@@ -165,9 +165,10 @@ public class HistoryActivity extends Activity {
 
                 History item = adapter.getItem(position);
 
-                Intent intent = new Intent(HistoryActivity.this, AfterPastHistory.class);
-                intent.putExtra("rent_date",item.getRent_date());
-                intent.putExtra("return_date",item.getReturn_date());
+                Intent intent = new Intent(HistoryActivity.this, CompareActivity.class);
+                intent.putExtra("rent_id",item.getRent_id());
+                //intent.putExtra("rent_date",item.getRent_date());
+                //intent.putExtra("return_date",item.getReturn_date());
                 startActivity(intent);
             }
         });

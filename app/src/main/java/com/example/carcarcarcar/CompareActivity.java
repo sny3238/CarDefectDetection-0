@@ -40,7 +40,7 @@ public class CompareActivity extends AppCompatActivity {
     private RequestQueue queue;
 
     //테스트, 클릭리스너로 보낸 rentid intent로 받아오는걸로 수정
-    private String rentid="1";
+    private String rentid;
     private Boolean result;
 
     private File mImageFolder;
@@ -73,7 +73,6 @@ public class CompareActivity extends AppCompatActivity {
 
         p.setStrokeWidth(20);
         p.setStyle(Paint.Style.STROKE);
-        c.drawColor(color);
         c.drawRect(x1, y1, x2, y2, p);
 
     }
@@ -105,6 +104,8 @@ public class CompareActivity extends AppCompatActivity {
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");
         String newPath = (Paths.get(mImageFolder.getAbsolutePath())).toString() + "/";
+
+        rentid = getIntent().getStringExtra("rent_id");
 
         Uri uri_ft = Uri.parse("file:///" + newPath + rentid + "_" + "ft_a.jpg");
         try {
@@ -181,7 +182,7 @@ public class CompareActivity extends AppCompatActivity {
         imageView_lf.setImageBitmap(bt_lf);
 
 
-       queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(this);
         String url = Config.getUrl("/showResults/compare");
         JSONObject body = new JSONObject();
 
@@ -719,6 +720,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","ft");
         ffIntent.putExtra("parttext","전면 상단");
+        startActivity(ffIntent);
     }
 
     public void onffButtonClicked(View v) {
@@ -726,6 +728,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","ff");
         ffIntent.putExtra("parttext","전면");
+        startActivity(ffIntent);
     }
 
     public void onrfButtonClicked(View v) {
@@ -733,6 +736,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","rf");
         ffIntent.putExtra("parttext","운전자석 앞면");
+        startActivity(ffIntent);
     }
 
     public void onrbButtonClicked(View v) {
@@ -740,6 +744,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","rb");
         ffIntent.putExtra("parttext","운전자석 뒷면");
+        startActivity(ffIntent);
     }
 
 
@@ -749,6 +754,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","bt");
         ffIntent.putExtra("parttext","보조석 뒷면");
+        startActivity(ffIntent);
     }
 
     public void onbfButtonClicked(View v) {
@@ -756,6 +762,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","bf");
         ffIntent.putExtra("parttext","보조석 앞면");
+        startActivity(ffIntent);
     }
 
     public void onlbButtonClicked(View v) {
@@ -763,6 +770,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","lb");
         ffIntent.putExtra("parttext","후면 상단");
+        startActivity(ffIntent);
     }
 
     public void onlfButtonClicked(View v) {
@@ -770,6 +778,7 @@ public class CompareActivity extends AppCompatActivity {
         ffIntent.putExtra("rentid",rentid);
         ffIntent.putExtra("part","lf");
         ffIntent.putExtra("parttext","후면");
+        startActivity(ffIntent);
     }
 
 

@@ -164,9 +164,10 @@ public class BeforePastHistory extends AppCompatActivity {
         }
 
         okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.MINUTES)
-                .writeTimeout(30, TimeUnit.MINUTES)
+                .connectTimeout(600, TimeUnit.SECONDS)
+                .readTimeout(600, TimeUnit.SECONDS)
+                .writeTimeout(600, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(false)
                 .build();
 
 
@@ -186,9 +187,7 @@ public class BeforePastHistory extends AppCompatActivity {
     public void onSendButtonClicked(View v){    // 사진을 서버로 전송하는 버튼
         returnBtn.setEnabled(true);
         sendBtn.setEnabled(false);
-        Intent serviceIntent_yolo = new Intent(this, YOLOService.class);
-        serviceIntent_yolo.putExtra("YOLO_done", false); // send false
-        startService(serviceIntent_yolo);   // 사용자에게 "YOLO 분석중"을 알림
+
         uploadImagesToServer();
         Toast.makeText(BeforePastHistory.this, "Send complete", Toast.LENGTH_SHORT);
 
@@ -241,9 +240,7 @@ public class BeforePastHistory extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 Log.v("YOLO server", "YOLO Complete");
-                                Intent serviceIntent_yoloDone = new Intent(BeforePastHistory.this, YOLOService.class);
-                                serviceIntent_yoloDone.putExtra("YOLO_done", true); // send true
-                                startService(serviceIntent_yoloDone);    // 사용자에게 YOLO가 완료됐음을 알림
+
                             }
 
                             @Override

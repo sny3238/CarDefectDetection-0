@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.Interceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,6 +79,7 @@ public class AfterPastHistory extends AppCompatActivity {
     ApiService service;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +93,13 @@ public class AfterPastHistory extends AppCompatActivity {
         sendBtn = findViewById(R.id.sendBtn);
         info=findViewById(R.id.carnumtextview);
 
-        compareBtn.setEnabled(false);
+        compareBtn.setEnabled(true);
         info.append("차량번호 : "+carid+"\n");
         if(carid.charAt(0)=='c') info.append("차량종류 : compact\n");
         if(carid.charAt(0)=='m') info.append("차량종류 : midsize\n");
         if(carid.charAt(0)=='f') info.append("차량종류 : fullsize\n");
+
+        queue = Volley.newRequestQueue(this);
 
 
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
@@ -156,10 +163,13 @@ public class AfterPastHistory extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+
         okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.MINUTES)
-                .writeTimeout(30, TimeUnit.MINUTES)
+                .connectTimeout(600, TimeUnit.SECONDS)
+                .readTimeout(600, TimeUnit.SECONDS)
+                .writeTimeout(600, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(false)
                 .build();
 
 
@@ -181,7 +191,7 @@ public class AfterPastHistory extends AppCompatActivity {
 
 
     public void onCompareButtonClicked(View v) throws JSONException {
-        final RequestQueue queue = Volley.newRequestQueue(this);
+
         JSONObject body=new JSONObject();
         body.put("rent_id",rentid);
         JsonObjectRequest request=new JsonObjectRequest(Request.Method.POST, Config.getUrl("/python/compare"), body, new com.android.volley.Response.Listener<JSONObject>() {
@@ -190,33 +200,10 @@ public class AfterPastHistory extends AppCompatActivity {
                 try {
                     Boolean result=response.getBoolean("result");
                     if(result){
-                        JSONObject body=new JSONObject();
-                        body.put("rent_id",rentid);
-                        JsonObjectRequest request2=new JsonObjectRequest(Request.Method.POST, Config.getUrl("completeReturn"), body, new com.android.volley.Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    Boolean result=response.getBoolean("result");
-                                    if(result){
-                                        Toast.makeText(getApplicationContext(),"차량" +Config.car_id+" 반납되었습니다",Toast.LENGTH_SHORT);
-                                        Config.initUserInfo();
-
-                                        stopService(new Intent(AfterPastHistory.this, YOLOService.class));
-                                        Intent intent2 = new Intent(AfterPastHistory.this, CompareActivity.class);
-                                        intent2.putExtra("state", state);
-                                        startActivity(intent2);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new com.android.volley.Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                            }
-                        });
-                        queue.add(request2);
+                        Intent intent2 = new Intent(AfterPastHistory.this, CompareActivity.class);
+                        intent2.putExtra("rent_id", rentid);
+                        Config.initUserInfo();
+                        startActivity(intent2);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -274,34 +261,101 @@ public class AfterPastHistory extends AppCompatActivity {
                         RequestBody state = createPartFromString("a");
                         RequestBody yolo_request = createPartFromString("true");
 
+
+
+
+
+
+                        JSONObject body=new JSONObject();
+                        try {
+                            body.put("rent_id",rentid);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        JsonObjectRequest request2=new JsonObjectRequest(Request.Method.POST, Config.getUrl("/completeReturn"), body, new com.android.volley.Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    Boolean result=response.getBoolean("result");
+                                    if(result){
+                                        Toast.makeText(getApplicationContext(),"차량" +Config.car_id+" 반납되었습니다",Toast.LENGTH_SHORT);
+
+                                        stopService(new Intent(AfterPastHistory.this, YOLOService.class));
+
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.v("Volley", "VolleyError : " + error.toString());
+
+                            }
+                        });
+                        request2.setRetryPolicy(
+                                new DefaultRetryPolicy(
+                                        500000,
+                                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                                )
+                        );
+                        queue.add(request2);
+
                         //  YOLO 요청 전송
                         Call<ResponseBody> yolo_call = service.requestYOLO(rent_id, state, yolo_request);
                         Log.v("YOLO Request", "Request YOLO");
 
+                        Handler delayHandler = new Handler();
+                        delayHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO
+
+                                Intent serviceIntent_compare = new Intent(AfterPastHistory.this, YOLOService.class);
+                                serviceIntent_compare.putExtra("YOLO_done", true); // send true
+                                startService(serviceIntent_compare);    // 사용자에게 YOLO가 완료됐음을 알림
+                                sendBtn.setEnabled(false);
+                                compareBtn.setEnabled(true);
+                            }
+                        }, 240000);
+
+
+
                         yolo_call.enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                                System.out.println("########response : " + response);
                                 if(response.isSuccessful()){
                                     Log.v("YOLO server", "YOLO Complete");
                                     // background service 전송
-                                    Intent serviceIntent_compare = new Intent(AfterPastHistory.this, YOLOService.class);
-                                    serviceIntent_compare.putExtra("YOLO_done", true); // send true
-                                    startService(serviceIntent_compare);    // 사용자에게 YOLO가 완료됐음을 알림
-
-                                    sendBtn.setEnabled(false);
-                                    compareBtn.setEnabled(true);
 
                                 }
                                 else {
-                                    Snackbar.make(findViewById(android.R.id.content),
-                                            "Something went wrong with YOLO.", Snackbar.LENGTH_LONG).show();
+//                                    Snackbar.make(findViewById(android.R.id.content),
+//                                            "Something went wrong with YOLO.", Snackbar.LENGTH_LONG).show();
+                                    sendBtn.setEnabled(true);
                                 }
 
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e(TAG, t.toString());
+                                if (t instanceof IOException) {
+//                                    Toast.makeText(AfterPastHistory.this, "this is an actual network failure :( inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+                                    // logging probably not necessary
+                                }
+                                else {
+//                                    Toast.makeText(AfterPastHistory.this, "conversion issue! big problems :(", Toast.LENGTH_SHORT).show();
+                                    // todo log to some central bug tracking service
+                                }
                                 Log.v("YOLO Server", "YOLO failed");
+//                                Toast.makeText(AfterPastHistory.this,
+//                                        "사진을 다시 전송해주세요", Toast.LENGTH_SHORT).show();
+                                sendBtn.setEnabled(true);
+
                             }
                         });
 

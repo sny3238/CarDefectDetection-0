@@ -85,8 +85,8 @@ public class ComparePopup extends AppCompatActivity {
         Intent intent = getIntent();
         selectedpart= intent.getStringExtra("part");
         parttotext = intent.getStringExtra("parttext");
-        //rentid = intent.getStringExtra("rentid");
-        rentid=Config.rent_id;
+        rentid = intent.getStringExtra("rentid");
+        //rentid=Config.rent_id;
 
         parttxt.setText(parttotext);
 
@@ -124,7 +124,7 @@ public class ComparePopup extends AppCompatActivity {
 
         try {
             body.put("rent_id", rentid);
-            body.put("before_after","before");
+            body.put("before_after","b");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -246,7 +246,7 @@ public class ComparePopup extends AppCompatActivity {
 //after
         try {
             body.put("rent_id", rentid);
-            body.put("before_after","after");
+            body.put("before_after","a");
         } catch (JSONException e) {
             e.printStackTrace();
         }
