@@ -44,12 +44,12 @@
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_foreground.png"
     },
     {
-        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_returninfo.xml.flat",
-        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\src\\main\\res\\layout\\activity_returninfo.xml"
-    },
-    {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_launcher_foreground.xml.flat",
         "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\src\\main\\res\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_returninfo.xml.flat",
+        "source": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\src\\main\\res\\layout\\activity_returninfo.xml"
     },
     {
         "merged": "C:\\Users\\YJ\\Python code\\Capstone design2\\car_app0527\\CarDefectDetection-0\\app\\build\\intermediates\\res\\merged\\debug\\layout_back2.xml.flat",

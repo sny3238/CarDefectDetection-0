@@ -203,6 +203,7 @@ public class AfterPastHistory extends AppCompatActivity {
                         Intent intent2 = new Intent(AfterPastHistory.this, CompareActivity.class);
                         intent2.putExtra("rent_id", rentid);
                         Config.initUserInfo();
+                        stopService(new Intent(AfterPastHistory.this, YOLOService.class));
                         startActivity(intent2);
                     }
                 } catch (JSONException e) {
@@ -316,6 +317,7 @@ public class AfterPastHistory extends AppCompatActivity {
                                 Intent serviceIntent_compare = new Intent(AfterPastHistory.this, YOLOService.class);
                                 serviceIntent_compare.putExtra("YOLO_done", true); // send true
                                 startService(serviceIntent_compare);    // 사용자에게 YOLO가 완료됐음을 알림
+
                                 sendBtn.setEnabled(false);
                                 compareBtn.setEnabled(true);
                             }
