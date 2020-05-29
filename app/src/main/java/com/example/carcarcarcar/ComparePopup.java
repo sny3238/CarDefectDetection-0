@@ -65,7 +65,6 @@ public class ComparePopup extends AppCompatActivity {
 
         p.setStrokeWidth(20);
         p.setStyle(Paint.Style.STROKE);
-        c.drawColor(color);
         c.drawRect(x1, y1, x2, y2, p);
 
     }
@@ -114,8 +113,7 @@ public class ComparePopup extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        afterimage.setImageBitmap(before_bt);
-
+        beforeimage.setImageBitmap(before_bt);
 
 
         queue = Volley.newRequestQueue(this);
@@ -135,15 +133,13 @@ public class ComparePopup extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
 
-
-
                     Boolean result = response.getBoolean("result");
+                    Log.i("result", result.toString());
                     if (result) {
 
-
-                        JSONArray newPredictionssJSONArray = response.getJSONArray("new_defects");
+                        JSONArray newPredictionssJSONArray = response.getJSONArray("predictions");
                         ArrayList<Predictions> newPredictionsList = new ArrayList<Predictions>();
-
+                        Log.i("predictionsJSONARRAY",newPredictionssJSONArray.toString());
 
                         for (int i = 0; i < 8; i++) {
                             ArrayList<Defect> defectList = new ArrayList<Defect>();
@@ -242,7 +238,6 @@ public class ComparePopup extends AppCompatActivity {
         scratch_count=0;
 
 
-
 //after
         try {
             body.put("rent_id", rentid);
@@ -259,7 +254,7 @@ public class ComparePopup extends AppCompatActivity {
 
                     Boolean result = response.getBoolean("result");
                     if (result) {
-                        JSONArray newPredictionssJSONArray = response.getJSONArray("new_defects");
+                        JSONArray newPredictionssJSONArray = response.getJSONArray("predictions");
                         ArrayList<Predictions> newPredictionsList = new ArrayList<Predictions>();
 
                         for (int i = 0; i < 8; i++) {
@@ -354,6 +349,7 @@ public class ComparePopup extends AppCompatActivity {
 
         jsonRequest2.setTag(TAG);
         queue.add(jsonRequest2);
+
 
     }
 

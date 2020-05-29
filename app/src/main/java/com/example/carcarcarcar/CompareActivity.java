@@ -39,7 +39,6 @@ public class CompareActivity extends AppCompatActivity {
     private static final String TAG = "MAIN";
     private RequestQueue queue;
 
-    //테스트, 클릭리스너로 보낸 rentid intent로 받아오는걸로 수정
     private String rentid;
     private Boolean result;
 
@@ -105,7 +104,8 @@ public class CompareActivity extends AppCompatActivity {
         mImageFolder = new File(imageFile, "YOCO");
         String newPath = (Paths.get(mImageFolder.getAbsolutePath())).toString() + "/";
 
-        rentid = getIntent().getStringExtra("rent_id");
+        //rentid = getIntent().getStringExtra("rent_id");
+        rentid = "14";
 
         Uri uri_ft = Uri.parse("file:///" + newPath + rentid + "_" + "ft_a.jpg");
         try {
