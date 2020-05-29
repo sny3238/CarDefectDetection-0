@@ -137,7 +137,7 @@ public class ComparePopup extends AppCompatActivity {
                     Log.i("result", result.toString());
                     if (result) {
 
-                        JSONArray newPredictionssJSONArray = response.getJSONArray("predictions");
+                        JSONArray newPredictionssJSONArray = response.getJSONArray("detections");
                         ArrayList<Predictions> newPredictionsList = new ArrayList<Predictions>();
                         Log.i("predictionsJSONARRAY",newPredictionssJSONArray.toString());
 
@@ -254,7 +254,7 @@ public class ComparePopup extends AppCompatActivity {
 
                     Boolean result = response.getBoolean("result");
                     if (result) {
-                        JSONArray newPredictionssJSONArray = response.getJSONArray("predictions");
+                        JSONArray newPredictionssJSONArray = response.getJSONArray("detections");
                         ArrayList<Predictions> newPredictionsList = new ArrayList<Predictions>();
 
                         for (int i = 0; i < 8; i++) {
