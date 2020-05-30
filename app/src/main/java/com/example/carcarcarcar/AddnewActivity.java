@@ -1,6 +1,7 @@
 package com.example.carcarcarcar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +10,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,7 +33,7 @@ public class AddnewActivity extends AppCompatActivity {
     private TextView cameratextview,cartypetextview;
     private EditText carnumberEditText;
     private Button caridentifybtn;
-    private ImageButton camerabtn;
+    private Button camerabtn;
     private RequestQueue queue;
 
     @Override
@@ -38,11 +41,18 @@ public class AddnewActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addnew);
-        //getSupportActionBar().hide();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+
 
         caridentifybtn = findViewById(R.id.caridentifybutton); //caridentifybtn.setVisibility(View.VISIBLE);
         camerabtn = findViewById(R.id.camerabutton); camerabtn.setVisibility(View.INVISIBLE);
-        cameratextview = findViewById(R.id.textView7); cameratextview.setVisibility(View.INVISIBLE);
+        //cameratextview = findViewById(R.id.textView7); cameratextview.setVisibility(View.INVISIBLE);
         carnumberEditText = findViewById(R.id.carnumber);
         cartypetextview=findViewById(R.id.cartypetextview);
 
@@ -73,15 +83,17 @@ public class AddnewActivity extends AppCompatActivity {
 
                                 //차량 정보 받아옴
                                 String cartype = response.getString("car_type");
+                                cartypetextview.setTextColor(Color.BLUE);
                                 cartypetextview.setText("차량 대여가 가능합니다.\n차량 종류 : "+cartype);
 
                                 //차량 정보 확인 숨기고 카메라 버튼 visible
                                 camerabtn.setVisibility(View.VISIBLE);
-                                cameratextview.setVisibility(View.VISIBLE);
+                                //cameratextview.setVisibility(View.VISIBLE);
 
                             }else{
 
                                 if(Config.is_renting){
+                                    cartypetextview.setTextColor(Color.RED);
                                     cartypetextview.setText("대여중인 차량이 존재합니다.");
 
                                     if(Config.upload_before){
@@ -100,6 +112,7 @@ public class AddnewActivity extends AppCompatActivity {
                                         startActivity(intent);
                                     }
                                 }else{
+                                    cartypetextview.setTextColor(Color.RED);
                                     cartypetextview.setText("선택하신 차량을 이용할 수 없습니다");
                                 }
                             }

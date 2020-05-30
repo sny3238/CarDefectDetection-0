@@ -1,7 +1,10 @@
 package com.example.carcarcarcar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -71,6 +74,7 @@ public class AfterPastHistory extends AppCompatActivity {
     private Button compareBtn;
     private Button sendBtn;
     private TextView info;
+    Context context;
 
     private boolean yolo_done = false;
 
@@ -84,6 +88,13 @@ public class AfterPastHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_past_history);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
         rentid=Config.rent_id;
         userid = Config.user_id;
@@ -319,7 +330,9 @@ public class AfterPastHistory extends AppCompatActivity {
                                 startService(serviceIntent_compare);    // 사용자에게 YOLO가 완료됐음을 알림
 
                                 sendBtn.setEnabled(false);
+                                sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
                                 compareBtn.setEnabled(true);
+                                compareBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
                             }
                         }, 240000);
 
@@ -338,6 +351,7 @@ public class AfterPastHistory extends AppCompatActivity {
 //                                    Snackbar.make(findViewById(android.R.id.content),
 //                                            "Something went wrong with YOLO.", Snackbar.LENGTH_LONG).show();
                                     sendBtn.setEnabled(true);
+                                    sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
                                 }
 
                             }
@@ -357,6 +371,7 @@ public class AfterPastHistory extends AppCompatActivity {
 //                                Toast.makeText(AfterPastHistory.this,
 //                                        "사진을 다시 전송해주세요", Toast.LENGTH_SHORT).show();
                                 sendBtn.setEnabled(true);
+                                sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
 
                             }
                         });
@@ -364,6 +379,7 @@ public class AfterPastHistory extends AppCompatActivity {
                     }
                     else {
                         sendBtn.setEnabled(true);
+                        sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
                         Snackbar.make(findViewById(android.R.id.content),
                                 "Something went wrong with Sending.", Snackbar.LENGTH_LONG).show();
                     }

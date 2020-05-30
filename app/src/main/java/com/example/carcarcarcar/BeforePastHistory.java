@@ -1,107 +1,67 @@
 package com.example.carcarcarcar;
 
-import androidx.annotation.NonNull;
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-
-import android.net.Uri;
-import android.os.Environment;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class BeforePastHistory extends AppCompatActivity {
     private File mImageFolder;
-    private String carid,rentid,userid,rentdate;
+    private String carid,rentid,userid,rentdate, returndate;
+
+    private String state = "b";
+
+    private String label,part;
+    private Integer topx, topy, btmx, btmy;
+    private JSONArray predictionsJSON,defects;
+
+    private TextView carinfo;
 
     private Boolean result;
 
-    private static final String TAG = "MAIN";
-
     private RequestQueue queue;
 
+    ArrayList<predictions> predictionsList = new ArrayList<predictions>();
+    ArrayList<Defect> defectList = new ArrayList<Defect>();
 
-    String[] imagelist;
 
-    TextView info;
-    Button returnBtn;
-    Button sendBtn;
 
-    private ArrayList<Uri> arrayList;
-
-    ApiService service;
-
-    OkHttpClient okHttpClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_before_past_history);
+        //getSupportActionBar().hide();
 
-        info=findViewById(R.id.carnumtextview);
-        returnBtn=findViewById(R.id.returnpicBtn);
+        Intent intent = getIntent();
+        userid = intent.getStringExtra("user_id");
+        carid = intent.getStringExtra("car_id");
+        rentid = intent.getStringExtra("rent_id");
+        rentdate = intent.getStringExtra("rent_date");
+        returndate = intent.getStringExtra("return_date");
 
-        userid = Config.user_id;
-        carid = Config.car_id;
-        rentid = Config.rent_id;
 
-        info.append("차량번호 : "+carid+"\n");
-        if(carid.charAt(0)=='c') info.append("차량종류 : compact\n");
-        if(carid.charAt(0)=='m') info.append("차량종류 : midsize\n");
-        if(carid.charAt(0)=='f') info.append("차량종류 : fullsize\n");
-
-        returnBtn.setEnabled(false);
-
+        carinfo = findViewById(R.id.carinfotextview);
+        carinfo.setText("차량 번호 : "+carid+"\n대여 날짜 : "+rentdate+"\n반납 날짜 : "+rentdate);
 
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");
-        sendBtn = findViewById(R.id.sendBtn);
+
 
 
         ImageView imageview_frontal1 = findViewById(R.id.ff_imageview_compare);
@@ -113,180 +73,119 @@ public class BeforePastHistory extends AppCompatActivity {
         ImageView imageView_back1 = findViewById(R.id.rf_imageview_compare);
         ImageView imageView_back2 = findViewById(R.id.rb_imageview_compare);
 
-        imagelist = new String[8];
+        Image[] carPhotos = new Image [8];
         //이미지 넣기
 
-
-
+        String imgname;
         try { //uri 경로의 이미지 파일을 로드
-
-            arrayList = new ArrayList<>();
 
 
             String newPath = String.valueOf(Paths.get(mImageFolder.getAbsolutePath())) + "/";
 
 
-            Uri uri1 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "ft_b.jpg");
+
+            Uri uri1 = Uri.parse("file:///" + newPath + rentid +"_" + "ft_b.png");
             imageview_frontal1.setImageURI(uri1);
-            arrayList.add(uri1);
 
-
-            Uri uri2 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "ff_b.jpg");
+            Uri uri2 = Uri.parse("file:///" + newPath + rentid +"_" + "ff_b.png");
             imageview_frontal2.setImageURI(uri2);
-            arrayList.add(uri2);
 
-            Uri uri3 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "rf_b.jpg");
+            Uri uri3 = Uri.parse("file:///" + newPath + rentid +"_" + "rf_b.png");
             imageView_profile1.setImageURI(uri3);
-            arrayList.add(uri3);
 
-            Uri uri4 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "rb_b.jpg");
+            Uri uri4 = Uri.parse("file:///" + newPath + rentid +"_" + "rb_b.png");
             imageView_profile2.setImageURI(uri4);
-            arrayList.add(uri4);
 
-            Uri uri5 = Uri.parse("file:///"+ newPath + Config.rent_id +"_" + "bt_b.jpg");
+            Uri uri5 = Uri.parse("file:///"+ newPath + rentid +"_" + "bt_b.png");
             imageView_profile3.setImageURI(uri5);
-            arrayList.add(uri5);
 
-            Uri uri6 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "bf_b.jpg");
+            Uri uri6 = Uri.parse("file:///" + newPath + rentid +"_" + "bf_b.png");
             imageView_profile4.setImageURI(uri6);
-            arrayList.add(uri6);
 
-            Uri uri7 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "lb_b.jpg");
+            Uri uri7 = Uri.parse("file:///" + newPath + rentid +"_" + "lb_b.png");
             imageView_back1.setImageURI(uri7);
-            arrayList.add(uri7);
 
-            Uri uri8 = Uri.parse("file:///" + newPath + Config.rent_id +"_" + "lf_b.jpg");
+            Uri uri8 = Uri.parse("file:///" + newPath + rentid +"_" + "lf_b.png");
             imageView_back2.setImageURI(uri8);
-            arrayList.add(uri8);
 
         }catch (Exception e){
             e.printStackTrace();
         }
+/*
+        queue = Volley.newRequestQueue(this);
 
-        okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(600, TimeUnit.SECONDS)
-                .readTimeout(600, TimeUnit.SECONDS)
-                .writeTimeout(600, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(false)
-                .build();
+        String url = "http://localhost:3000/showResults/yolo";
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    result = response.getBoolean("result");
+                    if (result) {
+
+                        predictionsJSON = response.getJSONArray("predictions");
 
 
+                        for (int i = 0 ; i<predictionsJSON.length();i++){
 
+                            JSONObject predictionsObject = predictionsJSON.getJSONObject(i);
+                            predictions Predictions = new predictions();
+                            Predictions.setPart(predictionsObject.getString("part"));
+
+                            defects = (predictionsObject.getJSONArray("defects"));
+
+                               for (int j = 0;j<defects.length();j++){
+
+                                JSONObject defectsJSONObject = defects.getJSONObject(i);
+
+                                Defect Defect = new Defect();
+
+                                Defect.setBtmy(defectsJSONObject.getString("btmy"));
+                                Defect.setBtmx(defectsJSONObject.getString("btmx"));
+                                Defect.setLabel(defectsJSONObject.getString("label"));
+                                Defect.setTopx(defectsJSONObject.getString("topx"));
+                                Defect.setTopy(defectsJSONObject.getString("topy"));
+
+                                defectList.add(Defect);
+
+                            }
+                            predictionsList.add(Predictions);
+
+                        }
+
+                    } else {
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("rent_id", rentid);
+                params.put("before_After",state);
+                return params;
+            }
+        };
+
+        queue.add(jsonRequest);
+
+*/
 
     }
 
-
-
-    public void onCameraButtonClicked(View v){  // 반납을 위한 사진찍기
+    public void onCameraButtonClicked(View v){
         Intent intent2 = new Intent(this, CameraActivity.class);
-        intent2.putExtra("state", 1);
         startActivity(intent2);
 
     }
-
-    public void onSendButtonClicked(View v){    // 사진을 서버로 전송하는 버튼
-        returnBtn.setEnabled(true);
-        sendBtn.setEnabled(false);
-
-        uploadImagesToServer();
-        Toast.makeText(BeforePastHistory.this, "Send complete", Toast.LENGTH_SHORT);
-
-    }
-
-
-    private void uploadImagesToServer(){
-        //Internet connection check
-        if(((ConnectivityManager) Objects.requireNonNull(BeforePastHistory.this.getSystemService
-                (Context.CONNECTIVITY_SERVICE))).getActiveNetworkInfo() != null){
-
-
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(ApiService.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okHttpClient)
-                    .build();
-
-            List<MultipartBody.Part> parts = new ArrayList<>();
-
-            service = retrofit.create(ApiService.class);
-
-            if(arrayList != null){
-                // create part for file
-                for(int i=0; i < arrayList.size(); i++){
-                    System.out.println(arrayList.get(i));
-                    parts.add(prepareFilePart("image" + i, arrayList.get(i)));
-                }
-            }
-
-            Call<ResponseBody> call = service.uploadMultiple(parts);
-
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-
-                    if(response.isSuccessful()){
-                        Log.v("Upload", "success");
-                        Toast.makeText(BeforePastHistory.this,
-                                "Images successfully uploaded!", Toast.LENGTH_SHORT).show();
-
-                        RequestBody rent_id = createPartFromString(rentid);
-                        RequestBody state = createPartFromString("b");
-                        RequestBody yolo_request = createPartFromString("true");
-                        Call<ResponseBody> yolo_call = service.requestYOLO(rent_id, state, yolo_request);
-                        Log.v("YOLO Request", "Request YOLO");
-
-                        yolo_call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                Log.v("YOLO server", "YOLO Complete");
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Log.v("YOLO Server", "YOLO failed");
-                            }
-                        });
-
-                        sendBtn.setEnabled(false);
-                    }
-                    else {
-                        sendBtn.setEnabled(true);
-                        Snackbar.make(findViewById(android.R.id.content),
-                                "Something went wrong.", Snackbar.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Log.e(TAG, "Image upload failed!", t);
-                    Snackbar.make(findViewById(android.R.id.content),
-                            "Image upload failed!", Snackbar.LENGTH_LONG).show();
-
-                }
-            });
-
-        }
-    }
-
-    @NonNull
-    private RequestBody createPartFromString(String string) {
-        return RequestBody.create(MultipartBody.FORM, string);
-    }
-
-    @NonNull
-    private MultipartBody.Part prepareFilePart(String partName, Uri fileUri) {
-        // use the FileUtils to get the actual file by uri
-        File file = FileUtils.getFile(this, fileUri);
-
-
-        // create RequestBody instance from file
-
-        RequestBody requestFile = RequestBody.create(MediaType.parse(FileUtils.MIME_TYPE_IMAGE), file);
-
-        // MultipartBody.Part is used to send also the actual file name
-        return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
-    }
-
 }

@@ -51,7 +51,7 @@ public class History {
         return return_date;
     }
 
-    public History (String car_id, String rent_id, String rent_date, String return_date, Boolean returned ){
+    public History (String car_id, String rent_id,String rent_date, String return_date, Boolean returned ){
         this.car_id = car_id;
         this.rent_id = rent_id;
         this.rent_date = rent_date;

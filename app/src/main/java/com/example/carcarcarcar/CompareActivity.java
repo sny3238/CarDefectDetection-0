@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +83,13 @@ public class CompareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compare);
-        //getSupportActionBar().hide();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
         ImageView imageView_ff = findViewById(R.id.ff_imageview_compare);
         ImageView imageView_ft = findViewById(R.id.ft_imageview_compare);
@@ -100,12 +109,21 @@ public class CompareActivity extends AppCompatActivity {
         lb_compare_yolo=findViewById(R.id.lb_textview_compare_yolo);
         lf_compare_yolo=findViewById(R.id.lf_textview_compare_yolo);
 
+        final TextView ft_o = findViewById(R.id.ft_roundicon);
+        final TextView ff_o = findViewById(R.id.ff_roundicon);
+        final TextView rf_o = findViewById(R.id.ff_roundicon);
+        final TextView rb_o = findViewById(R.id.ff_roundicon);
+        final TextView bt_o = findViewById(R.id.ff_roundicon);
+        final TextView bf_o = findViewById(R.id.ff_roundicon);
+        final TextView lb_o = findViewById(R.id.ff_roundicon);
+        final TextView lf_o = findViewById(R.id.ff_roundicon);
+
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         mImageFolder = new File(imageFile, "YOCO");
         String newPath = (Paths.get(mImageFolder.getAbsolutePath())).toString() + "/";
 
-        //rentid = getIntent().getStringExtra("rent_id");
-        rentid = "14";
+        rentid = getIntent().getStringExtra("rent_id");
+        //rentid = "14";
 
         Uri uri_ft = Uri.parse("file:///" + newPath + rentid + "_" + "ft_a.jpg");
         try {
@@ -242,7 +260,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_ft, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_ft, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                         Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
                                         Log.i("dentcount", String.valueOf(dent_count));
@@ -276,7 +294,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     ft_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    ft_o.setVisibility(View.VISIBLE);
                                     ft_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    ft_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -299,7 +319,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_ff, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_ff, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                         Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
                                         Log.i("dentcount", String.valueOf(dent_count));
@@ -333,7 +353,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     ff_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    ff_o.setVisibility(View.VISIBLE);
                                     ff_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    ff_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -358,7 +380,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_rf, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_rf, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                         Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
                                         Log.i("dentcount", String.valueOf(dent_count));
@@ -392,7 +414,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     rf_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    rf_o.setVisibility(View.VISIBLE);
                                     rf_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    rf_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -415,7 +439,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_rb, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_rb, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                         Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
                                         Log.i("dentcount", String.valueOf(dent_count));
@@ -449,7 +473,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     rb_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    rb_o.setVisibility(View.VISIBLE);
                                     rb_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    rb_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -473,7 +499,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_bt, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_bt, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                         Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
                                         Log.i("dentcount", String.valueOf(dent_count));
@@ -507,7 +533,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     bt_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    bt_o.setVisibility(View.VISIBLE);
                                     bt_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    bt_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -531,7 +559,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_bf, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_bf, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                         Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
                                         Log.i("dentcount", String.valueOf(dent_count));
@@ -565,7 +593,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     bf_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    bf_o.setVisibility(View.VISIBLE);
                                     bf_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    bf_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -591,7 +621,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_lb, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_lb, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                         Log.i("dentxy",topx+"   "+topy+"   "+btmx+"   "+btmy);
                                         Log.i("dentcount", String.valueOf(dent_count));
@@ -625,7 +655,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     lb_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    lb_o.setVisibility(View.VISIBLE);
                                     lb_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    lb_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -649,7 +681,7 @@ public class CompareActivity extends AppCompatActivity {
                                         btmx = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newDefectsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(bt_lf, topx, topy, btmx, btmy,"dent", Color.RED);
+                                        onDrawRectangle(bt_lf, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
 
                                     }
 
@@ -679,7 +711,9 @@ public class CompareActivity extends AppCompatActivity {
                                 if (dent_count == 0 && glass_count == 0 && scratch_count == 0) {
                                     lf_compare_yolo.setText("새로 탐지된 결함이 없습니다.");
                                 } else {
+                                    lf_o.setVisibility(View.VISIBLE);
                                     lf_compare_yolo.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
+                                    lf_compare_yolo.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
