@@ -33,11 +33,6 @@
         <activity
             android:name="com.example.carcarcarcar.AfterPastHistory"
             android:launchMode="singleTop" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.example.carcarcarcar.BeforePastHistory" >
         </activity>
@@ -55,6 +50,11 @@
             android:name="com.example.carcarcarcar.LoadingActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <service
