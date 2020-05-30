@@ -1,4 +1,4 @@
-#Sat May 30 20:54:26 KST 2020
+#Sun May 31 02:13:46 KST 2020
 base.0=C\:\\Users\\YJ\\Python code\\Capstone design2\\car_app0530\\CarDefectDetection-0\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex

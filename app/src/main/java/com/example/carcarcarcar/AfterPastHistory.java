@@ -93,8 +93,8 @@ public class AfterPastHistory extends AppCompatActivity {
         sendBtn = findViewById(R.id.sendBtn);
         info=findViewById(R.id.carnumtextview);
 
-        compareBtn.setEnabled(true);
-        compareBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
+        compareBtn.setEnabled(false);
+        compareBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
         info.append("차량번호 : "+carid+"\n");
         if(carid.charAt(0)=='c') info.append("차량종류 : compact\n");
         if(carid.charAt(0)=='m') info.append("차량종류 : midsize\n");
@@ -176,6 +176,21 @@ public class AfterPastHistory extends AppCompatActivity {
 
 
 
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+
+        Log.d("intent","onNewIntent");
+        setIntent(intent);
+        sendBtn.setEnabled(false);
+        sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
+
+        compareBtn.setEnabled(true);
+        compareBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
+        super.onNewIntent(intent);
 
     }
 
@@ -283,7 +298,7 @@ public class AfterPastHistory extends AppCompatActivity {
                                     if(result){
                                         Toast.makeText(getApplicationContext(),"차량" +Config.car_id+" 반납되었습니다",Toast.LENGTH_SHORT);
 
-                                        stopService(new Intent(AfterPastHistory.this, YOLOService.class));
+
 
                                     }
                                 } catch (JSONException e) {
@@ -306,6 +321,7 @@ public class AfterPastHistory extends AppCompatActivity {
                         );
                         queue.add(request2);
 
+
                         //  YOLO 요청 전송
                         Call<ResponseBody> yolo_call = service.requestYOLO(rent_id, state, yolo_request);
                         Log.v("YOLO Request", "Request YOLO");
@@ -316,12 +332,15 @@ public class AfterPastHistory extends AppCompatActivity {
                             public void run() {
                                 // TODO
 
+                                stopService(new Intent(AfterPastHistory.this, YOLOService.class));
                                 Intent serviceIntent_compare = new Intent(AfterPastHistory.this, YOLOService.class);
                                 serviceIntent_compare.putExtra("YOLO_done", true); // send true
                                 startService(serviceIntent_compare);    // 사용자에게 YOLO가 완료됐음을 알림
 
-                                sendBtn.setEnabled(false);
+
+
                                 compareBtn.setEnabled(true);
+                                compareBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
                             }
                         }, 240000);
 
@@ -340,6 +359,7 @@ public class AfterPastHistory extends AppCompatActivity {
 //                                    Snackbar.make(findViewById(android.R.id.content),
 //                                            "Something went wrong with YOLO.", Snackbar.LENGTH_LONG).show();
                                     sendBtn.setEnabled(true);
+                                    sendBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
                                 }
 
                             }
@@ -358,7 +378,9 @@ public class AfterPastHistory extends AppCompatActivity {
                                 Log.v("YOLO Server", "YOLO failed");
 //                                Toast.makeText(AfterPastHistory.this,
 //                                        "사진을 다시 전송해주세요", Toast.LENGTH_SHORT).show();
-                                sendBtn.setEnabled(true);
+//                                sendBtn.setEnabled(true);
+//                                sendBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
+
 
                             }
                         });
@@ -366,6 +388,7 @@ public class AfterPastHistory extends AppCompatActivity {
                     }
                     else {
                         sendBtn.setEnabled(true);
+                        sendBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
                         Snackbar.make(findViewById(android.R.id.content),
                                 "Something went wrong with Sending.", Snackbar.LENGTH_LONG).show();
                     }

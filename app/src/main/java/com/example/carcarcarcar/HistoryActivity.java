@@ -191,6 +191,7 @@ public class HistoryActivity extends AppCompatActivity {
         intent.putExtra("rent_id", currentrentId);
         intent.putExtra("user_id", userId);
         intent.putExtra("car_id", currentcarId);
+        intent.putExtra("state", 1);
         startActivity(intent);
     }
 

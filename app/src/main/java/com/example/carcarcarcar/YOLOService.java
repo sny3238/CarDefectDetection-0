@@ -10,6 +10,9 @@ import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 public class YOLOService extends Service {
 
     private static final String CHANNEL_ID = "MyNotificationChannelID";
@@ -28,8 +31,10 @@ public class YOLOService extends Service {
         boolean message = intent.getBooleanExtra("YOLO_done", true);
 
 
-        Intent notificationIntent = new Intent(this, AfterPastHistory.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, notificationIntent, 0);
+        Intent notificationIntent = new Intent(getApplicationContext(), AfterPastHistory.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
 
 
         Notification notification1 = new NotificationCompat.Builder(this, CHANNEL_ID)

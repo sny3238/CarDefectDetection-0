@@ -1239,6 +1239,7 @@ id lf_textview_compare_yolo
 id line1
 id line3
 id linearLayout
+id linearlayout
 id listMode
 id list_item
 id loading
@@ -1450,7 +1451,6 @@ layout activity_launch
 layout activity_loading
 layout activity_login
 layout activity_menu
-layout activity_returninfo
 layout activity_saveimage
 layout back1
 layout back2

@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class Config {
 
     public static String user_id;
-    public static String rent_id;
+    public static String rent_id="19";
     public static String car_id;
     public static Boolean is_renting;
     public static Boolean photos_before = false; // before photos taken
