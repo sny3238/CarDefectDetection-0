@@ -194,7 +194,9 @@ public class BeforePastHistory extends AppCompatActivity {
 
     public void onSendButtonClicked(View v){    // 사진을 서버로 전송하는 버튼
         returnBtn.setEnabled(true);
+        returnBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
         sendBtn.setEnabled(false);
+        sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
 
         uploadImagesToServer();
         Toast.makeText(BeforePastHistory.this, "Send complete", Toast.LENGTH_SHORT);
@@ -258,9 +260,11 @@ public class BeforePastHistory extends AppCompatActivity {
                         });
 
                         sendBtn.setEnabled(false);
+                        sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
                     }
                     else {
                         sendBtn.setEnabled(true);
+                        sendBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
                         Snackbar.make(findViewById(android.R.id.content),
                                 "Something went wrong.", Snackbar.LENGTH_LONG).show();
                     }
