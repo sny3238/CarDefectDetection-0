@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ComparePopup">
 
+
     <TextView
         android:id="@+id/partextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:text="TextView"
         android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/before"
@@ -21,11 +22,12 @@
 
     <ImageView
         android:id="@+id/before"
-        android:layout_width="250dp"
-        android:layout_height="180dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -42,21 +44,22 @@
         android:id="@+id/beforetextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:text="TextView"
-        android:textSize="20dp"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/after"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/after"
-        android:layout_width="250dp"
-        android:layout_height="180dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -73,23 +76,27 @@
         android:id="@+id/aftertextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:text="TextView"
-        android:textSize="20dp"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
         android:onClick="mOnClose"
         android:text="닫기"
+        android:background="@color/newblue"
+        android:textSize="20dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
