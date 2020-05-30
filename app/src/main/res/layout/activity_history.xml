@@ -8,61 +8,88 @@
     android:layout_height="match_parent"
     tools:context=".HistoryActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/newgrey"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="차량 대여 내역"
+            android:textSize="20dp">
+
+        </TextView>
+
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-
-        android:layout_marginBottom="41dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="이용 중인 내역"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/carnumtextview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="24dp" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:text="지난 이용 내역"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/returnBtn"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/currentcarinfotextview"
-        android:layout_width="262dp"
-        android:layout_height="55dp"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="32dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/returnBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="200dp"
         android:layout_marginBottom="5dp"
+        android:background="@color/newblue"
+        android:gravity="center"
         android:onClick="onCameraButtonClicked"
         android:text="반납하기"
-        app:layout_constraintBottom_toBottomOf="@+id/carnumtextview"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/carnumtextview"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentcarinfotextview"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="414dp"
-        android:layout_height="510dp"
-        android:layout_marginTop="220dp"
+        android:layout_height="440dp"
+        android:layout_marginTop="290dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -71,6 +98,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            android:layout_marginLeft="24dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
