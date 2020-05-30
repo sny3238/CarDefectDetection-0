@@ -105,6 +105,7 @@ public class AfterPastHistory extends AppCompatActivity {
         info=findViewById(R.id.carnumtextview);
 
         compareBtn.setEnabled(true);
+        compareBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
         info.append("차량번호 : "+carid+"\n");
         if(carid.charAt(0)=='c') info.append("차량종류 : compact\n");
         if(carid.charAt(0)=='m') info.append("차량종류 : midsize\n");
@@ -191,6 +192,7 @@ public class AfterPastHistory extends AppCompatActivity {
 
     public void onSendButtonClicked(View v){
         sendBtn.setEnabled(false);
+        sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
         Intent serviceIntent_yolo = new Intent(this, YOLOService.class);
         serviceIntent_yolo.putExtra("YOLO_done", false); // send false
         startService(serviceIntent_yolo);   // 사용자에게 "YOLO 분석중"을 알림
