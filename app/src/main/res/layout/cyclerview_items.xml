@@ -4,6 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginLeft="24dp"
+    tools:layout_editor_absoluteX="24dp"
     android:layout_height="wrap_content">
 
 
@@ -15,8 +17,10 @@
         android:layout_marginBottom="6dp"
         android:includeFontPadding="false"
         android:text="대여 차량 번호 : "
+        android:paddingLeft="24dp"
         android:textColor="@android:color/black"
         android:textSize="13sp"
+
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -27,6 +31,7 @@
         android:layout_alignParentBottom="true"
         android:includeFontPadding="false"
         android:text="대여 시작 날짜"
+        android:paddingLeft="24dp"
         android:textColor="@android:color/darker_gray"
         android:textSize="13sp"
         tools:ignore="MissingConstraints" />
@@ -40,6 +45,7 @@
         android:layout_marginBottom="7dp"
         android:includeFontPadding="false"
         android:text="대여 종료 날짜"
+        android:paddingLeft="24dp"
         android:textColor="@android:color/darker_gray"
         android:textSize="13sp"
         tools:ignore="MissingConstraints" />
