@@ -589,7 +589,7 @@ bool abc_allow_stacked_button_bar
 bool abc_config_actionMenuItemAllCaps
 bool mtrl_btn_textappearance_all_caps
 color YOCObackground
-color YOCOgray
+color YOCOgrey
 color abc_background_cache_hint_selector_material_dark
 color abc_background_cache_hint_selector_material_light
 color abc_btn_colored_borderless_text_material
@@ -620,6 +620,7 @@ color background_floating_material_dark
 color background_floating_material_light
 color background_material_dark
 color background_material_light
+color black
 color black_overlay
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
@@ -636,6 +637,7 @@ color cardview_shadow_start_color
 color colorAccent
 color colorPrimary
 color colorPrimaryDark
+color darkgrey
 color design_bottom_navigation_shadow_color
 color design_default_color_primary
 color design_default_color_primary_dark
@@ -698,9 +700,12 @@ color mtrl_textinput_default_box_stroke_color
 color mtrl_textinput_disabled_color
 color mtrl_textinput_filled_box_default_background_color
 color mtrl_textinput_hovered_box_stroke_color
+color newblue
+color newgrey
 color notification_action_color_filter
 color notification_icon_bg_color
 color notification_material_background_media_default_color
+color pink
 color primary_dark_material_dark
 color primary_dark_material_light
 color primary_material_dark
@@ -709,6 +714,7 @@ color primary_text_default_material_dark
 color primary_text_default_material_light
 color primary_text_disabled_material_dark
 color primary_text_disabled_material_light
+color red
 color ripple_material_dark
 color ripple_material_light
 color secondary_text_default_material_dark
@@ -723,6 +729,7 @@ color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
 color tooltip_background_dark
 color tooltip_background_light
+color white
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -1041,6 +1048,7 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable edittext
 drawable frontal1
 drawable frontal1_pic
 drawable frontal2
@@ -1074,6 +1082,7 @@ drawable profile3
 drawable profile3_pic
 drawable profile4
 drawable profile4_pic
+drawable roundshape
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
@@ -1120,12 +1129,14 @@ id beforetextView
 id beginning
 id bf_button_compare
 id bf_imageview_compare
+id bf_roundicon
 id bf_textview_compare
 id bf_textview_compare_yolo
 id blocking
 id bottom
 id bt_button_compare
 id bt_imageview_compare
+id bt_roundicon
 id bt_textview_compare
 id bt_textview_compare_yolo
 id button
@@ -1178,6 +1189,7 @@ id expand_activities_button
 id expanded_menu
 id ff_button_compare
 id ff_imageview_compare
+id ff_roundicon
 id ff_textview_compare
 id ff_textview_compare_yolo
 id fill
@@ -1191,6 +1203,7 @@ id frontal1
 id frontal2
 id ft_button_compare
 id ft_imageview_compare
+id ft_roundicon
 id ft_textview_compare
 id ft_textview_compare_yolo
 id ghost_view
@@ -1214,11 +1227,13 @@ id largeLabel
 id layout
 id lb_button_compare
 id lb_imageview_compare
+id lb_roundicon
 id lb_textview_compare
 id lb_textview_compare_yolo
 id left
 id lf_button_compare
 id lf_imageview_compare
+id lf_roundicon
 id lf_textview_compare
 id lf_textview_compare_yolo
 id line1
@@ -1267,6 +1282,7 @@ id progress_horizontal
 id radio
 id rb_button_compare
 id rb_imageview_compare
+id rb_roundicon
 id rb_textview_compare
 id rb_textview_compare_yolo
 id recyclerView
@@ -1280,6 +1296,7 @@ id returndatetxt1
 id returnpicBtn
 id rf_button_compare
 id rf_imageview_compare
+id rf_roundicon
 id rf_textview_compare
 id rf_textview_compare_yolo
 id right
@@ -1343,9 +1360,9 @@ id textView
 id textView10
 id textView11
 id textView2
-id textView3
 id textView4
-id textView7
+id textView5
+id textView6
 id textView8
 id text_input_password_toggle
 id textinput_counter
@@ -1356,6 +1373,7 @@ id time
 id title
 id titleDividerNoCustom
 id title_template
+id toolbar
 id top
 id topPanel
 id touch_outside

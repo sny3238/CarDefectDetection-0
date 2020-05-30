@@ -170,14 +170,14 @@ public class ComparePopup extends AppCompatActivity {
                             if (newPredictionsList.get(j).getPart().equals(selectedpart)) {
 
                                 for (int k = 0; k < newPredictionsList.get(j).getDefectArrayList().size(); k++) {
-                                                          if (newPredictionsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                    if (newPredictionsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
                                         dent_count++;
                                         topx = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getTopx());
                                         topy = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getTopy());
                                         btmx = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(before_bt, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
+                                        onDrawRectangle(before_bt, topx, topy, btmx, btmy,"dent", Color.RED);
 
                                     }
 
@@ -208,7 +208,6 @@ public class ComparePopup extends AppCompatActivity {
                                     beforetxt.setText("탐지된 결함이 없습니다.");
                                 } else {
                                     beforetxt.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
-                                    beforetxt.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;
@@ -287,14 +286,14 @@ public class ComparePopup extends AppCompatActivity {
                             if (newPredictionsList.get(j).getPart().equals(selectedpart)) {
 
                                 for (int k = 0; k < newPredictionsList.get(j).getDefectArrayList().size(); k++) {
-                                     if (newPredictionsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
+                                    if (newPredictionsList.get(j).getDefectArrayList().get(k).getLabel().equals("dent")) {
                                         dent_count++;
                                         topx = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getTopx());
                                         topy = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getTopy());
                                         btmx = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getBtmx());
                                         btmy = parseInt(newPredictionsList.get(j).getDefectArrayList().get(k).getBtmy());
                                         //draw rectangle on bitmap
-                                        onDrawRectangle(after_bt, topx, topy, btmx, btmy,"dent", Color.MAGENTA);
+                                        onDrawRectangle(after_bt, topx, topy, btmx, btmy,"dent", Color.RED);
 
 
                                     }
@@ -326,7 +325,6 @@ public class ComparePopup extends AppCompatActivity {
                                     aftertxt.setText("탐지된 결함이 없습니다.");
                                 } else {
                                     aftertxt.setText("찌그러짐 : " + dent_count + "개, 스크래치 : " + scratch_count + "개, 유리 파손 : " + glass_count + "개가 새로 탐지되었습니다.");
-                                    aftertxt.setTextColor(Color.RED);
                                     dent_count = 0;
                                     scratch_count = 0;
                                     glass_count = 0;

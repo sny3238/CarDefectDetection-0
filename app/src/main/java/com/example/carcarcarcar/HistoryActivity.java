@@ -52,13 +52,6 @@ public class HistoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager1);
@@ -172,11 +165,11 @@ public class HistoryActivity extends Activity {
 
                 History item = adapter.getItem(position);
 
-                Intent intent = new Intent(HistoryActivity.this, AfterPastHistory.class);
+                Intent intent = new Intent(HistoryActivity.this, CompareActivity.class);
                 intent.putExtra("rent_id",item.getRent_id());
+                //intent.putExtra("rent_date",item.getRent_date());
+                //intent.putExtra("return_date",item.getReturn_date());
                 startActivity(intent);
-
-                //Toast.makeText(getApplicationContext(), "차량 선택 " + item.getCar_id(), Toast.LENGTH_LONG).show();
             }
         });
     }
