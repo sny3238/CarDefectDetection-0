@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         Intent intent = new Intent(LoginActivity.this, BeforePastHistory.class);
                                                         startActivity(intent);
                                                     }else{
-                                                        Intent intent = new Intent(LoginActivity.this, CameraActivity.class);
+                                                        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                                         intent.putExtra("state",0);
                                                         startActivity(intent);
                                                     }

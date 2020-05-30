@@ -52,6 +52,13 @@ public class HistoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager1);
@@ -61,12 +68,8 @@ public class HistoryActivity extends Activity {
         returnbutton = findViewById(R.id.returnBtn);
         returnbutton.setVisibility(View.INVISIBLE);
         currentinfo = findViewById(R.id.currentcarinfotextview);
+        userId=Config.user_id;
 
-        //Intent intent = getIntent();
-        userId = getIntent().getStringExtra("user_id");
-        //currentrentId = getIntent().getStringExtra("rent_id");
-
-        //서버
         queue = Volley.newRequestQueue(this);
         String url = Config.getUrl("/viewHistory");
         JSONObject body = new JSONObject();
@@ -171,9 +174,6 @@ public class HistoryActivity extends Activity {
 
                 Intent intent = new Intent(HistoryActivity.this, AfterPastHistory.class);
                 intent.putExtra("rent_id",item.getRent_id());
-                intent.putExtra("car_id",item.getCar_id());
-                intent.putExtra("rent_date",item.getRent_date());
-                intent.putExtra("return_date",item.getReturn_date());
                 startActivity(intent);
 
                 //Toast.makeText(getApplicationContext(), "차량 선택 " + item.getCar_id(), Toast.LENGTH_LONG).show();
@@ -183,9 +183,7 @@ public class HistoryActivity extends Activity {
 
     public void onCameraButtonClicked(View v) {
         Intent intent = new Intent(HistoryActivity.this, CameraActivity.class);
-        intent.putExtra("rent_id", currentrentId);
-        intent.putExtra("user_id", userId);
-        intent.putExtra("car_id", currentcarId);
+        intent.putExtra("state",1);
         startActivity(intent);
     }
 
