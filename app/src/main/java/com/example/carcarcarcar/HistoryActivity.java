@@ -1,13 +1,17 @@
 package com.example.carcarcarcar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HistoryActivity extends Activity {
+public class HistoryActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
     private int cnt = 0;
@@ -51,8 +55,16 @@ public class HistoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
         recyclerView = findViewById(R.id.recyclerView);
+
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager1);
         recyclerView.addItemDecoration( new DividerItemDecoration(getApplicationContext(),new LinearLayoutManager(this).getOrientation()));
@@ -167,16 +179,18 @@ public class HistoryActivity extends Activity {
 
                 Intent intent = new Intent(HistoryActivity.this, CompareActivity.class);
                 intent.putExtra("rent_id",item.getRent_id());
-                //intent.putExtra("rent_date",item.getRent_date());
-                //intent.putExtra("return_date",item.getReturn_date());
-                startActivity(intent);
+                 startActivity(intent);
+
+                //Toast.makeText(getApplicationContext(), "차량 선택 " + item.getCar_id(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     public void onCameraButtonClicked(View v) {
         Intent intent = new Intent(HistoryActivity.this, CameraActivity.class);
-        intent.putExtra("state",1);
+        intent.putExtra("rent_id", currentrentId);
+        intent.putExtra("user_id", userId);
+        intent.putExtra("car_id", currentcarId);
         startActivity(intent);
     }
 
