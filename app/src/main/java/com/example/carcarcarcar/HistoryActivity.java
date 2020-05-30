@@ -1,6 +1,7 @@
 package com.example.carcarcarcar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +64,7 @@ public class HistoryActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(false);
 
         recyclerView = findViewById(R.id.recyclerView);
+
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager1);
         recyclerView.addItemDecoration( new DividerItemDecoration(getApplicationContext(),new LinearLayoutManager(this).getOrientation()));
@@ -175,7 +177,7 @@ public class HistoryActivity extends AppCompatActivity {
 
                 History item = adapter.getItem(position);
 
-                Intent intent = new Intent(HistoryActivity.this, AfterPastHistory.class);
+                Intent intent = new Intent(HistoryActivity.this, CompareActivity.class);
                 intent.putExtra("rent_id",item.getRent_id());
                  startActivity(intent);
 

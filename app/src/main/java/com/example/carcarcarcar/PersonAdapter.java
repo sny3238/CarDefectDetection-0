@@ -71,9 +71,9 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         }
 
         public void setItem(History item) {
-            caridtxt.setText(item.getCar_id());
-            rentdatetxt.setText(item.getRent_date());
-            returndatetxt.setText(item.getReturn_date());
+            caridtxt.setText("차량 번호 : "+ item.getCar_id());
+            rentdatetxt.setText("대여 일시 : "+item.getRent_date());
+            returndatetxt.setText("반납 일시 : "+item.getReturn_date());
 
         }
     }
