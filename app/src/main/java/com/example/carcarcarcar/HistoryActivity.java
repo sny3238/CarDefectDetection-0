@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HistoryActivity extends Activity {
+public class HistoryActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
     private int cnt = 0;
@@ -51,8 +54,8 @@ public class HistoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
@@ -174,7 +177,7 @@ public class HistoryActivity extends Activity {
 
                 Intent intent = new Intent(HistoryActivity.this, AfterPastHistory.class);
                 intent.putExtra("rent_id",item.getRent_id());
-                startActivity(intent);
+                 startActivity(intent);
 
                 //Toast.makeText(getApplicationContext(), "차량 선택 " + item.getCar_id(), Toast.LENGTH_LONG).show();
             }
@@ -183,7 +186,9 @@ public class HistoryActivity extends Activity {
 
     public void onCameraButtonClicked(View v) {
         Intent intent = new Intent(HistoryActivity.this, CameraActivity.class);
-        intent.putExtra("state",1);
+        intent.putExtra("rent_id", currentrentId);
+        intent.putExtra("user_id", userId);
+        intent.putExtra("car_id", currentcarId);
         startActivity(intent);
     }
 
