@@ -107,14 +107,14 @@ public class AfterPastHistory extends AppCompatActivity {
         mImageFolder = new File(imageFile, "YOCO");
 
 
-        ImageView imageView_frontal1 = findViewById(R.id.ff_imageview_compare);
-        ImageView imageView_frontal2 = findViewById(R.id.ft_imageview_compare);
-        ImageView imageView_profile1 = findViewById(R.id.bf_imageview_compare);
-        ImageView imageView_profile2 = findViewById(R.id.bt_imageview_compare);
-        ImageView imageView_profile3 = findViewById(R.id.lf_imageview_compare);
-        ImageView imageView_profile4 = findViewById(R.id.lb_imageview_compare);
-        ImageView imageView_back1 = findViewById(R.id.rf_imageview_compare);
-        ImageView imageView_back2 = findViewById(R.id.rb_imageview_compare);
+        ImageView imageView_frontal1 = findViewById(R.id.ft_imageview_compare);
+        ImageView imageView_frontal2 = findViewById(R.id.ff_imageview_compare);
+        ImageView imageView_profile1 = findViewById(R.id.rf_imageview_compare);
+        ImageView imageView_profile2 = findViewById(R.id.rb_imageview_compare);
+        ImageView imageView_profile3 = findViewById(R.id.bt_imageview_compare);
+        ImageView imageView_profile4 = findViewById(R.id.bf_imageview_compare);
+        ImageView imageView_back1 = findViewById(R.id.lb_imageview_compare);
+        ImageView imageView_back2 = findViewById(R.id.lf_imageview_compare);
 
         imagelist = new String[8];
         //이미지 넣기
@@ -197,6 +197,7 @@ public class AfterPastHistory extends AppCompatActivity {
     public void onSendButtonClicked(View v){
         sendBtn.setEnabled(false);
         sendBtn.setBackgroundColor(getResources().getColor(R.color.darkgrey));
+        sendBtn.setText("사진 전송 중..");
         Intent serviceIntent_yolo = new Intent(this, YOLOService.class);
         serviceIntent_yolo.putExtra("YOLO_done", false); // send false
         startService(serviceIntent_yolo);   // 사용자에게 "YOLO 분석중"을 알림
@@ -342,7 +343,7 @@ public class AfterPastHistory extends AppCompatActivity {
                                 compareBtn.setEnabled(true);
                                 compareBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
                             }
-                        }, 240000);
+                        }, 180000);
 
 
 
@@ -360,6 +361,7 @@ public class AfterPastHistory extends AppCompatActivity {
 //                                            "Something went wrong with YOLO.", Snackbar.LENGTH_LONG).show();
                                     sendBtn.setEnabled(true);
                                     sendBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
+                                    sendBtn.setText("사진 전송");
                                 }
 
                             }
@@ -389,6 +391,7 @@ public class AfterPastHistory extends AppCompatActivity {
                     else {
                         sendBtn.setEnabled(true);
                         sendBtn.setBackgroundColor(getResources().getColor(R.color.newblue));
+                        sendBtn.setText("사진 전송");
                         Snackbar.make(findViewById(android.R.id.content),
                                 "Something went wrong with Sending.", Snackbar.LENGTH_LONG).show();
                     }

@@ -112,14 +112,14 @@ public class BeforePastHistory extends AppCompatActivity {
         sendBtn = findViewById(R.id.sendBtn);
 
 
-        ImageView imageview_frontal1 = findViewById(R.id.ff_imageview_compare);
-        ImageView imageview_frontal2 = findViewById(R.id.ft_imageview_compare);
-        ImageView imageView_profile1 = findViewById(R.id.bf_imageview_compare);
-        ImageView imageView_profile2 = findViewById(R.id.bt_imageview_compare);
-        ImageView imageView_profile3 = findViewById(R.id.lf_imageview_compare);
-        ImageView imageView_profile4 = findViewById(R.id.lb_imageview_compare);
-        ImageView imageView_back1 = findViewById(R.id.rf_imageview_compare);
-        ImageView imageView_back2 = findViewById(R.id.rb_imageview_compare);
+        ImageView imageview_frontal1 = findViewById(R.id.ft_imageview_compare);
+        ImageView imageview_frontal2 = findViewById(R.id.ff_imageview_compare);
+        ImageView imageView_profile1 = findViewById(R.id.rf_imageview_compare);
+        ImageView imageView_profile2 = findViewById(R.id.rb_imageview_compare);
+        ImageView imageView_profile3 = findViewById(R.id.bt_imageview_compare);
+        ImageView imageView_profile4 = findViewById(R.id.bf_imageview_compare);
+        ImageView imageView_back1 = findViewById(R.id.lb_imageview_compare);
+        ImageView imageView_back2 = findViewById(R.id.lf_imageview_compare);
 
         imagelist = new String[8];
         //이미지 넣기
