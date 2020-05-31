@@ -56,7 +56,6 @@
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/roundshape"
                 android:text=""
                 tools:visibility="invisible"/>
 
@@ -103,7 +102,7 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/roundshape"
+
                 android:text=""
                 tools:visibility="invisible"/>
 
@@ -149,7 +148,7 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/roundshape"
+
                 android:text=""
                 tools:visibility="invisible"/>
             <TextView
@@ -194,7 +193,7 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/roundshape"
+
                 android:text=""
                 tools:visibility="invisible"/>
             <TextView
@@ -240,7 +239,7 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/roundshape"
+
                 android:text=""
                 tools:visibility="invisible"/>
             <TextView
@@ -285,7 +284,7 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/roundshape"
+
                 android:text=""
                 tools:visibility="invisible"/>
             <TextView
@@ -330,7 +329,7 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/roundshape"
+
                 android:text=""
                 tools:visibility="invisible"/>
             <TextView
@@ -375,7 +374,6 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/roundshape"
                 android:text=""
                 tools:visibility="invisible" />
             <TextView
